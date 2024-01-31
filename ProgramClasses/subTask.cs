@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace HonorsApplication.ProgramClasses
 {
-    class subTask
+     public class subTask
     {
 
         //subTask Details
 
         //subTask Unquie Identifiyer
-        public String subTaskID { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int subTaskID { get; set; }
 
         //subTask Title
         public String subTaskName { get; set; } = null!;
@@ -39,6 +41,9 @@ namespace HonorsApplication.ProgramClasses
         public DateTime subTaskStartDate { get; set; }
         public DateTime subTaskDeadline { get; set; }
         public DateTime subTaskEndDate { get; set; }
+
+        [Indexed]
+        public int taskID { get; set; }
 
     }
 }
