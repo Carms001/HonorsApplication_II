@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using HonorsApplication.Data;
+using HonorsApplication.Pages;
+using HonorsApplication.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace HonorsApplication
 {
@@ -18,6 +21,17 @@ namespace HonorsApplication
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+
+            builder.Services.AddTransient<ProjectsPage>();
+            builder.Services.AddTransient<ProjectsPageViewModel>();
+
+            builder.Services.AddTransient<UserSetupPage>();
+            builder.Services.AddTransient<UserSetupViewModel>();
+
+            builder.Services.AddSingleton<DataBaseService>();
+
+            
 
             return builder.Build();
         }

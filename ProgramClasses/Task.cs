@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace HonorsApplication.ProgramClasses
 {
-    class Task
+    public class Task
     {
         //Task Details
 
-        //Task Unquie Identifiyer
-        public String taskID {  get; set; }
+        //Task Unquie Indetifier
+
+        [PrimaryKey, AutoIncrement]
+        public int taskID { get; set; }
 
         //Task Title
-        public String taskName { get; set; } = null!;
+        public String taskName { get; set; } 
 
         //Very Brief description of the Task
-        public String taskGoal { get; set; } = null!;
+        public String taskGoal { get; set; }
 
         //Optional** More in depth description of the task
         public String taskDescription { get; set; }
@@ -44,6 +47,9 @@ namespace HonorsApplication.ProgramClasses
 
         //Task - Subtask Structure
 
-        public List<subTask> subTasks { get; set; }
+        //public List<subTask> subTasks { get; set; }
+
+        [Indexed]
+        public int projectID { get; set; }
     }
 }

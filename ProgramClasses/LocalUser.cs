@@ -1,4 +1,5 @@
 ﻿using HonorsApplication.ProgramClasses;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,19 @@ namespace HonorsApplication.ProgramClasses
 {
 
 
-    internal class LocalUser
+    public class LocalUser
     {
+
+        public LocalUser()
+        {
+            
+        }
         //Local User details
-        
+        [PrimaryKey, AutoIncrement]
+        public int userID { get; set; }
+
         //Users Name
-        public string username { get; set; } = null!;
+        public string username { get; set; }
 
         //Users Setup Date
         public DateTime signUpDate { get; set; }
@@ -27,14 +35,10 @@ namespace HonorsApplication.ProgramClasses
         //User - Project struture
 
         //List of current Users Projects
-        public List<Project> currentProjects { get; set; }
+        //public List<Project> currentProjects { get; set; }
 
         //List of Users Complete Projects
-        public List<Project> completedProjects { get; set; }
-
-
-
-
+        //public List<Project> completedProjects { get; set; }
 
     }
 }

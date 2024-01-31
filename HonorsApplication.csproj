@@ -49,17 +49,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Remove="Pages\AccountSetupPage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="Pages\AccountSetupPage.xaml">
-	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="Microsoft.Build" Version="17.8.3" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\ProjectsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\UserSetupPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
