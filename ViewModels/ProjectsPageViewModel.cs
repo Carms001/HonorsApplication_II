@@ -11,13 +11,16 @@ using Task = System.Threading.Tasks.Task;
 
 namespace HonorsApplication_II.ViewModels
 {
-    [QueryProperty("Thingy", "key")]
+    [QueryProperty("User", "key")]
+    [QueryProperty("Projects", "key2")]
+
+    //[QueryProperty("Thingy", "key")]
 
 
     public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
-        [ObservableProperty]
-        public (LocalUser user2, List<Project> projects2) thingy;
+        //[ObservableProperty]
+        //public (LocalUser user2, List<Project> projects2) thingy;
 
         [ObservableProperty]
         bool isBusy = false;
@@ -26,15 +29,13 @@ namespace HonorsApplication_II.ViewModels
         LocalUser user;
 
         [ObservableProperty]
-        ObservableRangeCollection<Project> projects;
+        ObservableCollection<Project> projects;
 
         private readonly DataBaseService dbContext;
 
         public ProjectsPageViewModel(DataBaseService context)
         {
             dbContext = context;
-
-            projects = new ObservableRangeCollection<Project>();
 
         }
 
@@ -48,7 +49,7 @@ namespace HonorsApplication_II.ViewModels
 
             var pro = await dbContext.GetProjectsByUserIdAsync(User.userID);
 
-            Projects.AddRange(pro);
+            //Projects.AddRange(pro);
 
             IsBusy = false;
 

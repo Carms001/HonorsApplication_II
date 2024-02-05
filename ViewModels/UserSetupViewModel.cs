@@ -4,6 +4,7 @@ using HonorsApplication_II.ProgramClasses;
 using HonorsApplication_II.Pages;
 using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 using HonorsApplication_II.Data;
+using System.Collections.ObjectModel;
 
 namespace HonorsApplication_II.ViewModels
 {
@@ -94,9 +95,13 @@ namespace HonorsApplication_II.ViewModels
 
                 var userProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
 
+                ObservableCollection<Project> userProjects2 = new ObservableCollection<Project>(userProjects);
+
                 //await Shell.Current.GoToAsync($"{nameof(ProjectsPage)}?name={newuser.username}", new Dictionary<string, object> { ["projects"] = userProjects });
 
-                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = (newuser, userProjects) });
+                //await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = (newuser, userProjects) });
+
+                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = newuser, ["key2"] = userProjects2 });
 
 
             }

@@ -4,7 +4,7 @@
              x:Class="HonorsApplication_II.Pages.ProjectsPage"
              xmlns:viewmodel="clr-namespace:HonorsApplication_II.ViewModels"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:project="clr-namespace:HonorsApplication_II.ProgramClasses"
+             xmlns:models="clr-namespace:HonorsApplication_II.ProgramClasses"
              x:DataType="viewmodel:ProjectsPageViewModel"
              Title="Projects"
              >
@@ -16,47 +16,42 @@
     RowSpacing="10"
     ColumnSpacing="10">
 
-        <Label Grid.Column="1"  Text="{Binding Thingy.Item1.username , StringFormat='{}{0}s Projects'}" HorizontalOptions="Center" FontSize="24" HorizontalTextAlignment="Center"/>
+        <Label Grid.Column="1"  Text="{Binding User.username , StringFormat='{}{0}s Projects'}" HorizontalOptions="Center" FontSize="24" HorizontalTextAlignment="Center"/>
 
         <ScrollView Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
 
-            <ListView ItemsSource="{Binding Thingy.Item2}" SelectionMode="None">
+            <CollectionView ItemsSource="{Binding Projects}" SelectionMode="None">
 
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
 
-                    <DataTemplate x:DataType="project:Project">
+                    <DataTemplate x:DataType="models:Project">
 
-                        <Grid Padding="0,5" >
+                        <Frame Padding="0,5">
 
-                            <Frame>
-
-                                <Grid 
+                            <Grid 
                                 RowDefinitions="Auto,Auto,15,15,20"
                                 ColumnDefinitions=".35*,.30*,.35*"
                                 Padding="10"
                                 RowSpacing="10"
                                 ColumnSpacing="10">
 
-
-                                    <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
-
+                                <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold" TextColor="White"/>
+                                   
                                     <Label Text="{Binding projectAssingedTasks, StringFormat='{}{0}. Assgined Tasks:'}" Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="End"/>
 
                                     <Label Text="{Binding projectAssingedTasks}" Grid.Row="2"/>
-
+                                 
                                     <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="0.3" ProgressColor="Green" HeightRequest="10"/>
 
                                 </Grid>
 
-                            </Frame>
-
-                        </Grid>
+                        </Frame>
 
                     </DataTemplate>
 
-                </ListView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
-            </ListView>
+            </CollectionView>
 
         </ScrollView>
 
