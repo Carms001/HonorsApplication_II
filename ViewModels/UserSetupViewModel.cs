@@ -20,14 +20,6 @@ namespace HonorsApplication.ViewModels
         [ObservableProperty]
         string name;
 
-        [ObservableProperty]
-
-        private LocalUser user;
-
-        [ObservableProperty]
-
-        private Project dummyProject;
-
 
         [RelayCommand]
         async System.Threading.Tasks.Task Create()
@@ -39,66 +31,75 @@ namespace HonorsApplication.ViewModels
             else
             {
 
+                //Creating the new user and assiging them some data
+                LocalUser newuser = new()
+                {
+                    username = Name,
+                    signUpDate = DateTime.Now,
+                    lastActive = DateTime.Now
+                };
 
-                User.username = Name;
-                User.signUpDate = DateTime.Now;
-                User.lastActive = DateTime.Now;
+                //Adding the new user to the database
+                await dbContext.AddUserAsync(newuser);
 
-                //await dbContext.AddUserAsync<LocalUser>(User);
+                //Creating an Example Project as a sample
 
-                
+                Project exampleProject = new()
+                {
+                        projectName = "Example Project",
+                        projectStartDate = DateTime.Now,
+                        projectLastUsed = DateTime.Now,
+                        userID = newuser.userID
+                };
 
+                ///
+                //Project exampleProject2 = new()
+                //{
+                    //projectName = "Example Project 2",
+                    //projectStartDate = DateTime.Now,
+                    //projectLastUsed = DateTime.Now,
+                    //userID = newuser.userID
+                //};
+                //
+                await dbContext.AddProjectAsync(exampleProject);
+               // await dbContext.AddProjectAsync(exampleProject2);
 
-                //LocalUser newUser = new LocalUser(); //Creates a new LocalUser called newUser
-
-
-                //Sets the Propertys of newUser
-                //newUser.username = Name;
-                //newUser.signUpDate = DateTime.Now;
-                //newUser.lastActive = DateTime.Now;
-                //newUser.currentProjects = new List<Project>();//Creates a new list of Projects for currectProjects
-
-                //Project dummyProject = new Project();//Creates a new DummyProject as DummyData
-
-                //Assinges the dummy data attributes 
-                DummyProject.projectName = "DummyProject";
-                DummyProject.projectStartDate = DateTime.Now;
-                DummyProject.projectLastUsed = DateTime.Now;
-               // DummyProject.completedTasksCount = 4;
-
-                //Creates and Assigned Values to a DummyTask
-
-               // DummyProject.assginedTasks = new List<TaskClass>();
-
-                TaskClass dummyTask = new TaskClass();
+                TaskClass exampleTask = new TaskClass();
 
                 int x = 0;
 
                 while (x != 5)
                 {
-                    dummyTask.taskName = "DummyTask" + x;
-                    dummyTask.taskStartDate = DateTime.Now;
-               //     DummyProject.assginedTasks.Add(dummyTask);
+                    exampleTask.taskName = "Example Task " + x;
+                    exampleTask.taskStartDate = DateTime.Now;
+                    exampleTask.projectID = exampleProject.projectID;
+                    exampleTask.taskComplete = false;
+
+                    //Adding the Example Task to the Database
+                    await dbContext.AddTaskAsync(exampleTask);
+
                     x++;
                 }
 
-                TaskClass dummyCompleteTask = new TaskClass();
+                    //Creating an example Task that is complete
 
-                dummyCompleteTask.taskName = "DummyTask" + x;
-                dummyCompleteTask.taskStartDate = DateTime.Now;
+                    //to be properly Implemented Later
+                TaskClass exampleCompleteTask = new TaskClass
+                {
+                    taskName = "DummyTask",
+                    taskStartDate = DateTime.Now,
+                    projectID = exampleProject.projectID,
+                    taskComplete = true
+                };
 
-               // DummyProject.completedTasks = new List<TaskClass>();
+                var userProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
 
-              //  DummyProject.completedTasks.Add(dummyCompleteTask);
+                //await Shell.Current.GoToAsync($"{nameof(ProjectsPage)}?name={newuser.username}", new Dictionary<string, object> { ["projects"] = userProjects });
 
-                //adds the dummyProject to the currentProjects
-                //newUser.currentProjects.Add(dummyProject);
+                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = newuser});
 
-                string outString = User.userID.ToString();
 
-                await Shell.Current.GoToAsync($"{nameof(ProjectsPage)}?userID={outString}");
-                //await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["newUser"] = newUser });//Passing though newUser Object usign the newUser Key
-                //await Shell.Current.GoToAsync(nameof(ProjectsPage));
+
 
             }
 

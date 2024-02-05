@@ -13,20 +13,24 @@ namespace HonorsApplication.Data
     public class DataBaseService
     {
         static SQLiteAsyncConnection db;
+
         static async Task Init()
         {
-            if (db != null) { return; } else //If database already created dont create it again
+            if (db != null) { return; }
+            else //If database already created dont create it again
             {
 
                 var databasePath = Path.Combine(FileSystem.AppDataDirectory, "MyData.db");
                 db = new SQLiteAsyncConnection(databasePath);
 
-                await db.CreateTablesAsync<LocalUser, Project, TaskClass, subTask>();
-
+                await db.CreateTableAsync<LocalUser>();
+                await db.CreateTableAsync<Project>();
+                await db.CreateTableAsync<TaskClass>();
+                await db.CreateTableAsync<subTask>();
 
             }
 
-            
+
         }
 
         //=================================================================================
@@ -41,7 +45,7 @@ namespace HonorsApplication.Data
         }
 
         // Retrieve a user by ID asynchronously
-        public static async Task<LocalUser> GetUserAsync(int userId)
+        public async Task<LocalUser> GetUserAsync(int userId)
         {
             await Init();
 
@@ -49,7 +53,7 @@ namespace HonorsApplication.Data
         }
 
         // Update a user asynchronously
-        public static async Task UpdateUserAsync(LocalUser user)
+        public  async Task UpdateUserAsync(LocalUser user)
         {
             await Init();
 
@@ -57,7 +61,7 @@ namespace HonorsApplication.Data
         }
 
         // Delete a user by ID asynchronously
-        public static async Task DeleteUserAsync(int userId)
+        public  async Task DeleteUserAsync(int userId)
         {
             await Init();
 
@@ -70,7 +74,7 @@ namespace HonorsApplication.Data
         //Projects
 
         // Create a new project asynchronously
-        public static async Task AddProjectAsync(Project project)
+        public async Task AddProjectAsync(Project project)
         {
             await Init();
 
@@ -86,7 +90,7 @@ namespace HonorsApplication.Data
         }
 
         // Retrieve all projects for a specific user asynchronously
-        public static async Task<List<Project>> GetProjectsByUserIdAsync(int userId)
+        public async Task<List<Project>> GetProjectsByUserIdAsync(int userId)
         {
             await Init();
 
@@ -94,7 +98,7 @@ namespace HonorsApplication.Data
         }
 
         // Update a project asynchronously
-        public static async Task UpdateProjectAsync(Project project)
+        public async Task UpdateProjectAsync(Project project)
         {
             await Init();
 
@@ -102,7 +106,7 @@ namespace HonorsApplication.Data
         }
 
         // Delete a project by ID asynchronously
-        public static async Task DeleteProjectAsync(int projectId)
+        public   async Task DeleteProjectAsync(int projectId)
         {
             await Init();
 
@@ -115,7 +119,7 @@ namespace HonorsApplication.Data
         //TaskClass aka Task
 
         // Create a new task asynchronously
-        public static async Task AddTaskAsync(TaskClass task)
+        public async Task AddTaskAsync(TaskClass task)
         {
             await Init();
 
@@ -123,7 +127,7 @@ namespace HonorsApplication.Data
         }
 
         // Retrieve a task by ID asynchronously
-        public static async Task<TaskClass> GetTaskAsync(int taskId)
+        public async Task<TaskClass> GetTaskAsync(int taskId)
         {
             await Init();
 
@@ -131,7 +135,7 @@ namespace HonorsApplication.Data
         }
 
         // Retrieve all tasks for a specific project asynchronously
-        public static async Task<List<TaskClass>> GetTasksByProjectIdAsync(int projectId)
+        public async Task<List<TaskClass>> GetTasksByProjectIdAsync(int projectId)
         {
             await Init();
 
@@ -139,7 +143,7 @@ namespace HonorsApplication.Data
         }
 
         // Update a task asynchronously
-        public static async Task UpdateTaskAsync(TaskClass task)
+        public async Task UpdateTaskAsync(TaskClass task)
         {
             await Init();
 
@@ -147,7 +151,7 @@ namespace HonorsApplication.Data
         }
 
         // Delete a task by ID asynchronously
-        public static async Task DeleteTaskAsync(int taskId)
+        public async Task DeleteTaskAsync(int taskId)
         {
             await Init();
 
@@ -160,7 +164,7 @@ namespace HonorsApplication.Data
         //SubTask
 
         // Create a new subTask asynchronously
-        public static async Task AddSubTaskAsync(subTask subTask)
+        public async Task AddSubTaskAsync(subTask subTask)
         {
             await Init();
 
@@ -168,7 +172,7 @@ namespace HonorsApplication.Data
         }
 
         // Retrieve a subTask by ID asynchronously
-        public static async Task<subTask> GetSubTaskAsync(int subTaskId)
+        public  async Task<subTask> GetSubTaskAsync(int subTaskId)
         {
             await Init();
 
@@ -176,7 +180,7 @@ namespace HonorsApplication.Data
         }
 
         // Retrieve all subTasks for a specific task asynchronously
-        public static async Task<List<subTask>> GetSubTasksByTaskIdAsync(int taskId)
+        public async Task<List<subTask>> GetSubTasksByTaskIdAsync(int taskId)
         {
             await Init();
 
@@ -184,7 +188,7 @@ namespace HonorsApplication.Data
         }
 
         // Retrieve all subTasks asynchronously
-        public static async Task<List<subTask>> GetAllSubTasksAsync()
+        public async Task<List<subTask>> GetAllSubTasksAsync()
         {
             await Init();
 
@@ -192,7 +196,7 @@ namespace HonorsApplication.Data
         }
 
         // Update a subTask asynchronously
-        public static async Task UpdateSubTaskAsync(subTask subTask)
+        public async Task UpdateSubTaskAsync(subTask subTask)
         {
             await Init();
 
@@ -200,7 +204,7 @@ namespace HonorsApplication.Data
         }
 
         // Delete a subTask by ID asynchronously
-        public static async Task DeleteSubTaskAsync(int subTaskId)
+        public async Task DeleteSubTaskAsync(int subTaskId)
         {
             await Init();
 

@@ -1,58 +1,57 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.XtraReports.Native;
 using HonorsApplication.Data;
 using HonorsApplication.Pages;
 using HonorsApplication.ProgramClasses;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using Task = System.Threading.Tasks.Task;
 
 namespace HonorsApplication.ViewModels
 {
+    [QueryProperty("User", "key")]
 
 
-    [QueryProperty( "userID", "userID")]
-
-    public partial class ProjectsPageViewModel : ObservableObject
+    public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
+
         [ObservableProperty]
-        private string userID;
+        bool isBusy = false;
 
-        private readonly DatabaseContext dbContext;
+        [ObservableProperty]
+        LocalUser user;
 
-        public ProjectsPageViewModel(DatabaseContext context)
+        [ObservableProperty]
+        ObservableRangeCollection<Project> projects;
+
+        private readonly DataBaseService dbContext;
+
+        public ProjectsPageViewModel(DataBaseService context)
         {
             dbContext = context;
 
-            Projects = new ObservableCollection<Project>();
+            projects = new ObservableRangeCollection<Project>();
 
-            LoadProjects();
-            
         }
 
-        private ObservableCollection<Project> Projects;
 
         [RelayCommand]
-        private async Task LoadProjects()
+        async Task Refresh()
         {
-            var projects = dbContext.GetAllAsync<Project>();
-            //if (projects is not null && projects.Any())
-            {
-                if(Projects is null)
-                {
-                    Projects = new ObservableCollection<Project>();
-                }
+            IsBusy = true;
 
-               // foreach (var project in projects)
-                {
-                    //if(project.UserID == Convert.ToInt32(UserID))
-                    {
-                       // Projects.Add(project);
-                        
-                    }
-                }
-            }
+            Projects.Clear();
+
+            var pro = await dbContext.GetProjectsByUserIdAsync(User.userID);
+
+            Projects.AddRange(pro);
+
+            IsBusy = false;
+
         }
+
 
     }
 }

@@ -1,4 +1,5 @@
 
+using HonorsApplication.ProgramClasses;
 using HonorsApplication.ViewModels;
 
 namespace HonorsApplication.Pages
@@ -7,10 +8,10 @@ namespace HonorsApplication.Pages
 
     public partial class ProjectsPage : ContentPage
     {
+
         public ProjectsPage(ProjectsPageViewModel vm)
         {
             InitializeComponent();
-
             BindingContext = vm;
         }
 

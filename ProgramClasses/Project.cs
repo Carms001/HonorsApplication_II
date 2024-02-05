@@ -40,8 +40,19 @@ namespace HonorsApplication.ProgramClasses
 
         //Project - Task Structure
 
-        //List of assinged Tasks
-        //public List<Task> assginedTasks { get; set; }
+        //Get No. Assinged Tasks
+
+        public int projectAssingedTasks 
+        { 
+            get 
+            {
+                return 0; 
+            } 
+
+            
+            set { } }
+
+
 
         //List of Completed Tasks
         //public List<Task> completedTasks { get; set; }
@@ -61,7 +72,7 @@ namespace HonorsApplication.ProgramClasses
         //}
 
         [Indexed]
-        public int userID { get; set; }
+        public long userID { get; set; }
 
 
     }
