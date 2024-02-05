@@ -96,7 +96,7 @@ namespace HonorsApplication_II.ViewModels
 
                 //await Shell.Current.GoToAsync($"{nameof(ProjectsPage)}?name={newuser.username}", new Dictionary<string, object> { ["projects"] = userProjects });
 
-                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = (newuser, userProjects), ["key2"] = userProjects });
+                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = (newuser, userProjects) });
 
 
             }

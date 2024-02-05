@@ -17,7 +17,7 @@ namespace HonorsApplication_II.ViewModels
     public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
         [ObservableProperty]
-        (LocalUser user2, List<Project> projects2) thingy;
+        public (LocalUser user2, List<Project> projects2) thingy;
 
         [ObservableProperty]
         bool isBusy = false;
