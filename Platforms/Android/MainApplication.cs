@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace HonorsApplication
+namespace HonorsApplication_II
 {
     [Application]
     public class MainApplication : MauiApplication

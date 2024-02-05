@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace HonorsApplication
+namespace HonorsApplication_II
 {
     public class Program
     {

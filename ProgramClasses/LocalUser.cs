@@ -1,4 +1,4 @@
-﻿using HonorsApplication.ProgramClasses;
+﻿using HonorsApplication_II.ProgramClasses;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HonorsApplication.ProgramClasses
+namespace HonorsApplication_II.ProgramClasses
 {
 
 

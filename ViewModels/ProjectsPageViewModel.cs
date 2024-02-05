@@ -1,21 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Data.XtraReports.Native;
-using HonorsApplication.Data;
-using HonorsApplication.Pages;
-using HonorsApplication.ProgramClasses;
+using HonorsApplication_II.Data;
+using HonorsApplication_II.Pages;
+using HonorsApplication_II.ProgramClasses;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using Task = System.Threading.Tasks.Task;
 
-namespace HonorsApplication.ViewModels
+namespace HonorsApplication_II.ViewModels
 {
-    [QueryProperty("User", "key")]
+    [QueryProperty("Thingy", "key")]
 
 
     public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
+        [ObservableProperty]
+        (LocalUser user2, List<Project> projects2) thingy;
 
         [ObservableProperty]
         bool isBusy = false;

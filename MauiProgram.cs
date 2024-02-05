@@ -1,9 +1,9 @@
-﻿using HonorsApplication.Data;
-using HonorsApplication.Pages;
-using HonorsApplication.ViewModels;
+﻿using HonorsApplication_II.Data;
+using HonorsApplication_II.Pages;
+using HonorsApplication_II.ViewModels;
 using Microsoft.Extensions.Logging;
 
-namespace HonorsApplication
+namespace HonorsApplication_II
 {
     public static class MauiProgram
     {

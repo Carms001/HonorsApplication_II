@@ -1,4 +1,4 @@
-﻿using HonorsApplication.ProgramClasses;
+﻿using HonorsApplication_II.ProgramClasses;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
-using TaskClass = HonorsApplication.ProgramClasses.Task;
+using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 
-namespace HonorsApplication.Data
+namespace HonorsApplication_II.Data
 {
     public class DataBaseService
     {

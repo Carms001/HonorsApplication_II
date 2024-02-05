@@ -1,7 +1,7 @@
 
-using HonorsApplication.ViewModels;
+using HonorsApplication_II.ViewModels;
 
-namespace HonorsApplication.Pages
+namespace HonorsApplication_II.Pages
 {
 
 

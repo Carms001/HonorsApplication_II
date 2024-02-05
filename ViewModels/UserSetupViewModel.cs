@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HonorsApplication.ProgramClasses;
-using HonorsApplication.Pages;
-using TaskClass = HonorsApplication.ProgramClasses.Task;
-using HonorsApplication.Data;
+using HonorsApplication_II.ProgramClasses;
+using HonorsApplication_II.Pages;
+using TaskClass = HonorsApplication_II.ProgramClasses.Task;
+using HonorsApplication_II.Data;
 
-namespace HonorsApplication.ViewModels
+namespace HonorsApplication_II.ViewModels
 {
     public partial class UserSetupViewModel : ObservableObject
     {
@@ -96,9 +96,7 @@ namespace HonorsApplication.ViewModels
 
                 //await Shell.Current.GoToAsync($"{nameof(ProjectsPage)}?name={newuser.username}", new Dictionary<string, object> { ["projects"] = userProjects });
 
-                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = newuser});
-
-
+                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = (newuser, userProjects), ["key2"] = userProjects });
 
 
             }

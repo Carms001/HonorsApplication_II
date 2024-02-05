@@ -1,4 +1,4 @@
-﻿namespace HonorsApplication
+﻿namespace HonorsApplication_II
 {
     public partial class App : Application
     {

@@ -1,6 +1,6 @@
-﻿using HonorsApplication.Pages;
+﻿using HonorsApplication_II.Pages;
 
-namespace HonorsApplication
+namespace HonorsApplication_II
 {
     public partial class AppShell : Shell
     {
