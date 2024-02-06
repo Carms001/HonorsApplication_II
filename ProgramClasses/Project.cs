@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using HonorsApplication_II.Data;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,8 +9,12 @@ using System.Threading.Tasks;
 
 namespace HonorsApplication_II.ProgramClasses
 {
+
+    
+
     public class Project
     {
+
         //Project Details
 
         [PrimaryKey, AutoIncrement]
@@ -42,34 +47,11 @@ namespace HonorsApplication_II.ProgramClasses
 
         //Get No. Assinged Tasks
 
-        public int projectAssingedTasks 
-        { 
-            get 
-            {
-                return 0; 
-            } 
+        public int projectTaskCount { get; set; }
 
-            
-            set { } }
+        public int projectCompleteTaskCount { get; set;}
 
-
-
-        //List of Completed Tasks
-        //public List<Task> completedTasks { get; set; }
-
-        //public int completedTasksCount { get { if (completedTasks == null || completedTasks.Count == 0) { return 0; } else { return completedTasks.Count; } } set { } }
-
-        //public int UserID { get => userID; set => userID = value; }
-
-        //public double getProgress(double at, double ct)
-        //{
-
-            //double tt = at + ct;
-
-            //double progress = (ct / tt);
-
-           // return progress;
-        //}
+        public double projectProgress { get; set; }
 
         [Indexed]
         public long userID { get; set; }

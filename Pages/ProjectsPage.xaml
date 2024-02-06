@@ -35,15 +35,13 @@
                                 RowSpacing="10"
                                 ColumnSpacing="10">
 
-                                <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold" TextColor="White"/>
-                                   
-                                    <Label Text="{Binding projectAssingedTasks, StringFormat='{}{0}. Assgined Tasks:'}" Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="End"/>
+                                <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
 
-                                    <Label Text="{Binding projectAssingedTasks}" Grid.Row="2"/>
-                                 
-                                    <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="0.3" ProgressColor="Green" HeightRequest="10"/>
+                                <Label Text="{Binding projectGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" />
 
-                                </Grid>
+                                <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="0.3" ProgressColor="Green" HeightRequest="10"/>
+
+                            </Grid>
 
                         </Frame>
 
@@ -55,7 +53,7 @@
 
         </ScrollView>
 
-        <Button Text="New Project" Grid.Row="3" Grid.Column="1" MinimumWidthRequest="100" Command="{Binding RefreshCommand}"/>
+        <Button Text="New Project" Grid.Row="3" Grid.Column="1" MinimumWidthRequest="100" Command="{Binding AddProjectCommand}"/>
 
     </Grid>
     

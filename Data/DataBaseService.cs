@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 
@@ -14,9 +13,13 @@ namespace HonorsApplication_II.Data
     {
         static SQLiteAsyncConnection db;
 
+
         static async Task Init()
         {
-            if (db != null) { return; }
+            if (db != null) 
+            { 
+                return; 
+            }
             else //If database already created dont create it again
             {
 
@@ -33,6 +36,18 @@ namespace HonorsApplication_II.Data
 
         }
 
+        public async Task ResetDB()
+        {
+            await Init();
+
+            await db.DropTableAsync<subTask>();
+            await db.DropTableAsync<TaskClass>();
+            await db.DropTableAsync<Project>();
+            await db.DropTableAsync<LocalUser>();
+
+            db = null;
+        }
+
         //=================================================================================
         //LocalUser
 
@@ -42,6 +57,8 @@ namespace HonorsApplication_II.Data
             await Init();
 
             await db.InsertAsync(user);
+
+            
         }
 
         // Retrieve a user by ID asynchronously
@@ -158,6 +175,14 @@ namespace HonorsApplication_II.Data
             var task = await GetTaskAsync(taskId);
             if (task != null)
                 await db.DeleteAsync(task);
+        }
+
+        // Counts total amount of tasks asinged to that project
+        public async Task<int> GetTotalAmountOfTasksAsync(int projectId)
+        {
+            var tasks = await GetTasksByProjectIdAsync(projectId);
+            int count = tasks.Count();
+            return count;
         }
 
         //=================================================================================

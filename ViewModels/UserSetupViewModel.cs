@@ -5,6 +5,7 @@ using HonorsApplication_II.Pages;
 using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 using HonorsApplication_II.Data;
 using System.Collections.ObjectModel;
+using DevExpress.Data.XtraReports.Native;
 
 namespace HonorsApplication_II.ViewModels
 {
@@ -27,10 +28,12 @@ namespace HonorsApplication_II.ViewModels
         {
             if (Name == null)
             {
-                //Pending Implementation of a error messgie
+                await App.Current.MainPage.DisplayAlert("Error", "Please try again!", "OK");
             }
             else
             {
+
+                await dbContext.ResetDB();
 
                 //Creating the new user and assiging them some data
                 LocalUser newuser = new()
@@ -47,21 +50,16 @@ namespace HonorsApplication_II.ViewModels
 
                 Project exampleProject = new()
                 {
-                        projectName = "Example Project",
-                        projectStartDate = DateTime.Now,
-                        projectLastUsed = DateTime.Now,
+                    projectName = "Example Project",
+                    projectGoal = "Act as an example project for new users!",
+                    projectDescription = "This Project is to act as an example. In which this example project shows off the core functionality of this application.",
+                    projectStartDate = DateTime.Now,
+                    projectLastUsed = DateTime.Now,
+                    projectTaskCount =  0,
                         userID = newuser.userID
                 };
 
-                ///
-                //Project exampleProject2 = new()
-                //{
-                    //projectName = "Example Project 2",
-                    //projectStartDate = DateTime.Now,
-                    //projectLastUsed = DateTime.Now,
-                    //userID = newuser.userID
-                //};
-                //
+
                 await dbContext.AddProjectAsync(exampleProject);
                // await dbContext.AddProjectAsync(exampleProject2);
 
@@ -76,8 +74,11 @@ namespace HonorsApplication_II.ViewModels
                     exampleTask.projectID = exampleProject.projectID;
                     exampleTask.taskComplete = false;
 
+                    Project updateProject = new() { projectTaskCount = +1 };
+
                     //Adding the Example Task to the Database
                     await dbContext.AddTaskAsync(exampleTask);
+                    await dbContext.UpdateProjectAsync(updateProject);
 
                     x++;
                 }
@@ -85,6 +86,7 @@ namespace HonorsApplication_II.ViewModels
                     //Creating an example Task that is complete
 
                     //to be properly Implemented Later
+
                 TaskClass exampleCompleteTask = new TaskClass
                 {
                     taskName = "DummyTask",
@@ -93,15 +95,30 @@ namespace HonorsApplication_II.ViewModels
                     taskComplete = true
                 };
 
-                var userProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
+                var getUserProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
 
-                ObservableCollection<Project> userProjects2 = new ObservableCollection<Project>(userProjects);
+                
 
-                //await Shell.Current.GoToAsync($"{nameof(ProjectsPage)}?name={newuser.username}", new Dictionary<string, object> { ["projects"] = userProjects });
+                foreach (var userProject in getUserProjects)
+                {
 
-                //await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = (newuser, userProjects) });
+                    int count = 0;
 
-                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = newuser, ["key2"] = userProjects2 });
+                    var allTasks = await dbContext.GetTasksByProjectIdAsync(userProject.projectID);
+
+                    count = allTasks.Count();
+
+                    Project update = new() { projectTaskCount= count };
+
+                    await dbContext.UpdateProjectAsync(update);
+                }
+
+
+                ObservableRangeCollection<Project> userProjects = new();
+
+                userProjects.AddRange(getUserProjects);
+
+                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = newuser, ["key2"] = userProjects });
 
 
             }
