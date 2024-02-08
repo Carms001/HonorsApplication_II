@@ -12,27 +12,30 @@ namespace HonorsApplication_II.ViewModels
     public partial class UserSetupViewModel : ObservableObject
     {
 
-        private readonly DataBaseService dbContext;
+        private readonly DatabaseContext dbContext;
 
-        public UserSetupViewModel(DataBaseService context)
+        public UserSetupViewModel(DatabaseContext context)
         {
             dbContext = context;
         }
 
         [ObservableProperty]
+        //Obserable property Name
         string name;
 
 
         [RelayCommand]
+        //Task Method Create
         async System.Threading.Tasks.Task Create()
         {
-            if (Name == null)
+            if (Name == null) //if name is null
             {
+                //display error
                 await App.Current.MainPage.DisplayAlert("Error", "Please try again!", "OK");
             }
             else
             {
-
+                //resets the database - used for testing purposes
                 await dbContext.ResetDB();
 
                 //Creating the new user and assiging them some data
@@ -56,37 +59,34 @@ namespace HonorsApplication_II.ViewModels
                     projectStartDate = DateTime.Now,
                     projectLastUsed = DateTime.Now,
                     projectTaskCount =  0,
-                        userID = newuser.userID
+                    userID = newuser.userID
                 };
 
-
+                //adding the example project to the database
                 await dbContext.AddProjectAsync(exampleProject);
-               // await dbContext.AddProjectAsync(exampleProject2);
 
+                //creates new task object 
                 TaskClass exampleTask = new TaskClass();
 
                 int x = 0;
-
+                
+                // while x is not 5
                 while (x != 5)
                 {
+                    //edits the exampleTask object with data
                     exampleTask.taskName = "Example Task " + x;
                     exampleTask.taskStartDate = DateTime.Now;
                     exampleTask.projectID = exampleProject.projectID;
                     exampleTask.taskComplete = false;
 
-                    Project updateProject = new() { projectTaskCount = +1 };
-
                     //Adding the Example Task to the Database
                     await dbContext.AddTaskAsync(exampleTask);
-                    await dbContext.UpdateProjectAsync(updateProject);
 
+                    // x+1
                     x++;
                 }
 
-                    //Creating an example Task that is complete
-
-                    //to be properly Implemented Later
-
+                // creates a new task class to act as an example of a complete task
                 TaskClass exampleCompleteTask = new TaskClass
                 {
                     taskName = "DummyTask",
@@ -95,29 +95,16 @@ namespace HonorsApplication_II.ViewModels
                     taskComplete = true
                 };
 
+                //gets all the projects assinged to the user 
                 var getUserProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
 
-                
-
-                foreach (var userProject in getUserProjects)
-                {
-
-                    int count = 0;
-
-                    var allTasks = await dbContext.GetTasksByProjectIdAsync(userProject.projectID);
-
-                    count = allTasks.Count();
-
-                    Project update = new() { projectTaskCount= count };
-
-                    await dbContext.UpdateProjectAsync(update);
-                }
-
-
+                //creates a new RangeCollection called userProjects
                 ObservableRangeCollection<Project> userProjects = new();
 
+                //adds the list of projects assinged to the user the the Ranger Collection
                 userProjects.AddRange(getUserProjects);
 
+                //Navigates to the Projects page passing the Active user and a RangeCollection of Projects assinged to that user
                 await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = newuser, ["key2"] = userProjects });
 
 
