@@ -13,77 +13,87 @@ using Task = System.Threading.Tasks.Task;
 
 namespace HonorsApplication_II.ViewModels
 {
+
+    //Query propertys, allowing the transfer of selected data
     [QueryProperty("User", "key")]
     [QueryProperty("Projects", "key2")]
-
-    //[QueryProperty("Thingy", "key")]
-
 
     public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
 
         [ObservableProperty]
-        bool isBusy = false;
+        LocalUser user; //user Object
 
         [ObservableProperty]
-        LocalUser user;
+        ObservableRangeCollection<Project> projects; //RangeCollection of Projects
 
-        [ObservableProperty]
-        ObservableRangeCollection<Project> projects;
+        private readonly DatabaseContext dbContext; //setting the DB context
 
-        private readonly DataBaseService dbContext;
-
-        public ProjectsPageViewModel(DataBaseService context)
+        public ProjectsPageViewModel(DatabaseContext context)
         {
             dbContext = context;
 
         }
 
-        [RelayCommand]
+        [RelayCommand] //Allows the command to be seen by the page
+
+        //Refresh page refreshes the RangeCollection 
         async Task Refresh()
         {
-            IsBusy = true;
-
+            
+            //removes all the projects from the Projects collection
             Projects.Clear();
 
+            //gets all projects related to the active user
             var projects = await dbContext.GetProjectsByUserIdAsync(User.userID);
 
+            //adds all the projects to the Projects collection
             Projects.AddRange(projects);
-
-            IsBusy = false;
 
         }
         [RelayCommand]
+        //The method to add a new project
         async Task AddProject()
         {
+            //Displays a prompt to the user asking for the Project Name
             string name = await App.Current.MainPage.DisplayPromptAsync("New Project", "Whats the name of your new Project?", "Next", "Cancel");
-
+            
+            //Checks if name is Null
             if (name != null)
             {
-
+                //Ask the user for the project goal though a prompt
                 string goal = await App.Current.MainPage.DisplayPromptAsync("Project Goal", "Without too much detail. What is the goal of the Project?", "Create", "Cancel");
 
+                //checks if goal is null
                 if (goal != null)
                 {
+                    //creates a new project and assinges it basic data
                     Project newProject = new Project()
                     {
-                    projectName = name,
-                    projectGoal = goal,
-                    userID = User.userID,
-                    projectIsComplete = false,
-                    projectLastUsed = DateTime.Now,
-                    projectStartDate = DateTime.Now,
+                        //adds the project name collected from user
+                        projectName = name,
+                        //adds the project goal collected from user
+                        projectGoal = goal,
+                        //assings the project to the active user
+                        userID = User.userID, 
+                        //Assings basic DateTime data and makes sure the the IsComplete veribal is false
+                        projectIsComplete = false,
+                        projectLastUsed = DateTime.Now,
+                        projectStartDate = DateTime.Now,
 
                     };
 
+                    //adds the new project to the database
                     await dbContext.AddProjectAsync(newProject);
 
                 }
                 else
                 {
+                    //If either value is null a error will aprear the user
                     await App.Current.MainPage.DisplayAlert("Error", "Please try again!", "OK");
                 }
 
+                //refreshes the Project Collection
                 await Refresh();
             }
 

@@ -29,7 +29,7 @@ namespace HonorsApplication_II
             builder.Services.AddTransient<UserSetupPage>();
             builder.Services.AddTransient<UserSetupViewModel>();
 
-            builder.Services.AddSingleton<DataBaseService>();
+            builder.Services.AddSingleton<DatabaseContext>();
 
             
 

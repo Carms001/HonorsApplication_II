@@ -9,23 +9,29 @@ using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 
 namespace HonorsApplication_II.Data
 {
-    public class DataBaseService
+    public class DatabaseContext
     {
         static SQLiteAsyncConnection db;
 
-
         static async Task Init()
         {
+            // If the DB path is null
             if (db != null) 
             { 
+                //If not Null
                 return; 
             }
-            else //If database already created dont create it again
+            else 
             {
+                //If the DB path is Null
 
+                //Create a new database path
                 var databasePath = Path.Combine(FileSystem.AppDataDirectory, "MyData.db");
+
+                //Assign a new SQLite Connection to the database path
                 db = new SQLiteAsyncConnection(databasePath);
 
+                //Create Tables
                 await db.CreateTableAsync<LocalUser>();
                 await db.CreateTableAsync<Project>();
                 await db.CreateTableAsync<TaskClass>();
@@ -36,26 +42,36 @@ namespace HonorsApplication_II.Data
 
         }
 
+        //If the Database is needed to be removed for testing purposes
         public async Task ResetDB()
         {
-            await Init();
+            //Checks if the the database has been created
+            if(db != null)
+            {
+                //Drops tables
+                await db.DropTableAsync<subTask>();
+                await db.DropTableAsync<TaskClass>();
+                await db.DropTableAsync<Project>();
+                await db.DropTableAsync<LocalUser>();
 
-            await db.DropTableAsync<subTask>();
-            await db.DropTableAsync<TaskClass>();
-            await db.DropTableAsync<Project>();
-            await db.DropTableAsync<LocalUser>();
+                //Removes the Database Connection
+                db = null;
 
-            db = null;
+            }
+
+           
         }
 
         //=================================================================================
         //LocalUser
 
-        // Create a new user asynchronously
+        // Method to add a new user
         public async Task AddUserAsync(LocalUser user)
         {
+            //Checks the database is initalised
             await Init();
 
+            //Adds new user to the database
             await db.InsertAsync(user);
 
             
@@ -127,7 +143,7 @@ namespace HonorsApplication_II.Data
         {
             await Init();
 
-            var project = await DataBaseService.GetProjectAsync(projectId);
+            var project = await DatabaseContext.GetProjectAsync(projectId);
             if (project != null)
                 await db.DeleteAsync(project);
         }

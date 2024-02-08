@@ -6,25 +6,24 @@
              x:DataType="viewmodel:UserSetupViewModel"
              Title="">
 
+    <!-- Grid Defining 3 Rows and 3 Coloumns of veriouse widths and heights-->
     <Grid RowDefinitions="150,Auto,Auto,*"
       ColumnDefinitions=".10*, .80*, .10*" 
       Padding="10"
       RowSpacing="10"
       ColumnSpacing="10"> 
-
+        
+        <!-- Lable with a welcome msg-->
         <Label Grid.Column="1" Text="Welcome to Callums Honors Project" HorizontalTextAlignment="Center"/>
 
+        <!-- Lable asking the user their name -->
         <Label Grid.Row="1" Grid.Column="1"  Text="What is your Name?" HorizontalOptions="Center" FontSize="24" HorizontalTextAlignment="Center"/>
 
+        <!-- textbox for the user to enter there name -->
         <Entry Grid.Row="2" Grid.Column="1" Placeholder="Your name?" Text="{Binding Name}" PlaceholderColor="Grey" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="18"/>
-
+        
+        <!-- Button binded to the create command which creates a new user -->
         <Button Text="Lets Start!" Padding="30" Grid.Row="3" Grid.Column="1" MaximumWidthRequest="300" MinimumWidthRequest="10" VerticalOptions="End" Command="{Binding CreateCommand}"/>
-
-
-
-
-
-
 
     </Grid>
 
