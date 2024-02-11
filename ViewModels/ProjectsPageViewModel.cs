@@ -118,7 +118,7 @@ namespace HonorsApplication_II.ViewModels
             //var getTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
 
             //Creates a new ObseravbleRangeCollection
-            ObservableRangeCollection<TaskClass> onGoingTasks = new();
+            ObservableRangeCollection<taskStates> onGoingTasks = new();
 
             //Adds the list of non-complete tasks to the Collection
             onGoingTasks.AddRange(getTasks);

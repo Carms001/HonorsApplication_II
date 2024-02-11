@@ -7,7 +7,7 @@ using HonorsApplication_II.Data;
 using System.Collections.ObjectModel;
 using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Functions;
-
+using System;
 
 namespace HonorsApplication_II.ViewModels
 {
@@ -76,6 +76,7 @@ namespace HonorsApplication_II.ViewModels
                 TaskClass exampleTask = new TaskClass();
 
                 int x = 0;
+                Random rnd = new Random();
 
                 // while x is not 5
                 while (x != 5)
@@ -85,6 +86,18 @@ namespace HonorsApplication_II.ViewModels
                     exampleTask.taskStartDate = DateTime.Now;
                     exampleTask.projectID = exampleProject.projectID;
                     exampleTask.taskComplete = false;
+
+                    //Picks a number from 1 - 2
+                    int state = rnd.Next(1,3);
+
+                    switch (state)
+                    {
+                        //Assinging a value based off a random value
+                        case 1: exampleTask.taskState = "To-Do"; break;
+
+                        case 2: exampleTask.taskState = "Doing"; break;
+                    }
+
 
                     //Adding the Example Task to the Database
                     await dbContext.AddTaskAsync(exampleTask);

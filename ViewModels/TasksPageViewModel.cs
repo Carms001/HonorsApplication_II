@@ -26,7 +26,7 @@ namespace HonorsApplication_II.ViewModels
         Project currentProject;
 
         [ObservableProperty]
-        ObservableRangeCollection<taskClass> tasks;
+        ObservableRangeCollection<taskStates> tasks;
 
         public TasksViewModel(DatabaseContext context)
         {

@@ -22,10 +22,14 @@ namespace HonorsApplication_II.Functions
         }
 
 
-        public async Task<List<TaskClass>> onGoingTasks(int projectID)
+        public async Task<List<taskStates>> onGoingTasks(int projectID)
         {
             //Creates a new list of tasks
-            List<TaskClass> onGoingTasks = new List<TaskClass>();
+            List<taskStates> onGoingTasks = new List<taskStates>();
+
+            List<TaskClass> todoTasks = new List<TaskClass>();
+
+            List<TaskClass> doingTasks = new List<TaskClass>();
 
             //gets all the tasks assinged to the projectID
             var allTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
@@ -33,13 +37,32 @@ namespace HonorsApplication_II.Functions
             //If not NULL
             if (allTasks != null) 
             {
+
+
                 //ForEach task in allTasks
                 foreach (var task in allTasks)
                 {
                     //Adds only tasks that are non complete to the onGoingTasks list
-                    if (task.taskComplete == false) { onGoingTasks.Add(task); }
+                    if (task.taskComplete == false) 
+                    {
+
+                        if (task.taskState.Equals("Doing")) 
+                        { 
+                            
+                            doingTasks.Add(task);
+                        }
+                        else
+                        {
+                            todoTasks.Add(task);
+                        } 
+
+                    }
                 }
             }
+
+
+            onGoingTasks.Add(new taskStates("Doing", doingTasks) { });
+            onGoingTasks.Add(new taskStates("To-Do", todoTasks) { });
 
             //Returns list
             return onGoingTasks;

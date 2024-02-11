@@ -23,7 +23,17 @@
         <ScrollView Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
 
             <!-- Binds the Collection view the Projects Collection -->
-            <CollectionView ItemsSource="{Binding Tasks}" SelectionMode="None">
+            <CollectionView ItemsSource="{Binding Tasks}" SelectionMode="None" IsGrouped="True">
+
+                <CollectionView.GroupHeaderTemplate>
+
+                    <DataTemplate x:DataType="models:taskStates">
+
+                        <Label FontSize="18" FontAttributes="Bold" BackgroundColor="Grey" Text="{Binding stateName}"/>
+
+                    </DataTemplate>
+                    
+                </CollectionView.GroupHeaderTemplate>
 
                 <!-- Defines what the items in the collection view looks like -->
                 <CollectionView.ItemTemplate>
@@ -34,18 +44,18 @@
                         <!-- Inserts padding into the frame -->
                         <Frame Padding="0,5">
 
-                            <!--defines a grid with 5 rows of veriouse heights
+                            <!--defines a grid with 2 rows of veriouse heights
                                    With 3 Columns sharing around of 3rd of the avaible space each-->
 
                             <Grid 
-                               RowDefinitions="Auto,Auto,15,15,20"
+                               RowDefinitions="Auto,Auto"
                                ColumnDefinitions=".35*,.30*,.35*"
                                Padding="10"
                                RowSpacing="10"
                                ColumnSpacing="10">
 
                                 <!-- Lable Binded to the Project Name -->
-                                <Label Text="{Binding taskName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                <Label Text="{Binding taskName}" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
                                 <!-- Lable Binded to the Project Goal -->
                                 <Label Text="{Binding taskGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" />
 
