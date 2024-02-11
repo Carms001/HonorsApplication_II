@@ -17,25 +17,25 @@ namespace HonorsApplication_II.ProgramClasses
         public int subTaskID { get; set; }
 
         //subTask Title
-        public String subTaskName { get; set; } = null!;
+        public string subTaskName { get; set; } = null!;
 
         //Very Brief description of the subTask
-        public String subTaskGoal { get; set; } = null!;
+        public string subTaskGoal { get; set; } = null!;
 
         //Optional** More in depth description of the subTask
-        public String subTaskDescription { get; set; }
+        public string subTaskDescription { get; set; }
 
         //True or False if subTask is complete to not
         public bool subTaskComplete { get; set; }
 
         //the "Story Point" Value of the subTask
-        public float subTaskPoints { get; set; }
+        public int subTaskPoints { get; set; }
 
         //The prioritisation level of the subTask
-        public float subTaskPrioLevel { get; set; }
+        public int subTaskPrioLevel { get; set; }
 
         //the status of the subTask
-        public String subTaskStatus { get; set; }
+        public int subTaskStatus { get; set; }
 
         //subTask Start Date, Deadline and End Date
         public DateTime subTaskStartDate { get; set; }

@@ -36,20 +36,27 @@
                             
                                 <!--defines a grid with 5 rows of veriouse heights
                                     With 3 Columns sharing around of 3rd of the avaible space each-->
+
+                            <Frame.GestureRecognizers>
+                                <!--When frame tapped and binds back to the viewmodel-->
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProjectsPageViewModel}}, Path=ProjectDetailsCommand}" CommandParameter="{Binding projectID}"/>
+
+                            </Frame.GestureRecognizers>
+
                             <Grid 
                                 RowDefinitions="Auto,Auto,15,15,20"
                                 ColumnDefinitions=".35*,.30*,.35*"
                                 Padding="10"
                                 RowSpacing="10"
                                 ColumnSpacing="10">
-                                
+
                                 <!-- Lable Binded to the Project Name -->
                                 <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
                                 <!-- Lable Binded to the Project Goal -->
                                 <Label Text="{Binding projectGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" />
                                 <!-- Progress binded to the Progress of the project -->
                                 <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="0.3" ProgressColor="Green" HeightRequest="10"/>
-
+                                
                             </Grid>
 
                         </Frame>

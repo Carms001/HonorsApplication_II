@@ -115,7 +115,7 @@ namespace HonorsApplication_II.Data
         }
 
         // Retrieve a project by ID asynchronously
-        public static async Task<Project> GetProjectAsync(int projectId)
+        public async Task<Project> GetProjectAsync(int projectId)
         {
             await Init();
 
@@ -139,11 +139,11 @@ namespace HonorsApplication_II.Data
         }
 
         // Delete a project by ID asynchronously
-        public   async Task DeleteProjectAsync(int projectId)
+        public async Task DeleteProjectAsync(int projectId)
         {
             await Init();
 
-            var project = await DatabaseContext.GetProjectAsync(projectId);
+            var project = await GetProjectAsync(projectId);
             if (project != null)
                 await db.DeleteAsync(project);
         }

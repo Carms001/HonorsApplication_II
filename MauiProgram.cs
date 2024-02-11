@@ -1,4 +1,5 @@
 ﻿using HonorsApplication_II.Data;
+using HonorsApplication_II.Functions;
 using HonorsApplication_II.Pages;
 using HonorsApplication_II.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,8 @@ namespace HonorsApplication_II
 		builder.Logging.AddDebug();
 #endif
 
+            //Transient: Each time you request an instance, you get a new independent instance.
+            //Singleton: Only one instance of the class exists throughout the lifetime of the application, and all requests for that class return the same instance.
 
             builder.Services.AddTransient<ProjectsPage>();
             builder.Services.AddTransient<ProjectsPageViewModel>();
@@ -29,7 +32,11 @@ namespace HonorsApplication_II
             builder.Services.AddTransient<UserSetupPage>();
             builder.Services.AddTransient<UserSetupViewModel>();
 
+            builder.Services.AddTransient<Tasks>();
+            builder.Services.AddTransient<TasksViewModel>();
+
             builder.Services.AddSingleton<DatabaseContext>();
+            builder.Services.AddTransient<ProjectFunctions>();
 
             
 

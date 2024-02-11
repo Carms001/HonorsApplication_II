@@ -3,20 +3,21 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
+using HonorsApplication_II.Functions;
 using HonorsApplication_II.Pages;
 using HonorsApplication_II.ProgramClasses;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
-
+using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 using Task = System.Threading.Tasks.Task;
 
 namespace HonorsApplication_II.ViewModels
 {
 
     //Query propertys, allowing the transfer of selected data
-    [QueryProperty("User", "key")]
-    [QueryProperty("Projects", "key2")]
+    [QueryProperty("User", "user")]
+    [QueryProperty("Projects", "projects")]
 
     public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
@@ -29,11 +30,16 @@ namespace HonorsApplication_II.ViewModels
 
         private readonly DatabaseContext dbContext; //setting the DB context
 
-        public ProjectsPageViewModel(DatabaseContext context)
+        private ProjectFunctions functions;
+
+        public ProjectsPageViewModel(DatabaseContext context, ProjectFunctions functionsContext)
         {
             dbContext = context;
+            functions = functionsContext;
 
         }
+
+        //========================================================================================
 
         [RelayCommand] //Allows the command to be seen by the page
 
@@ -51,6 +57,9 @@ namespace HonorsApplication_II.ViewModels
             Projects.AddRange(projects);
 
         }
+
+        //========================================================================================
+
         [RelayCommand]
         //The method to add a new project
         async Task AddProject()
@@ -96,6 +105,29 @@ namespace HonorsApplication_II.ViewModels
                 //refreshes the Project Collection
                 await Refresh();
             }
+
+        }
+
+        [RelayCommand]
+
+        async Task ProjectDetails(int projectID)
+        {
+            //Generates a list of non complete tasks from the ProjectFunctions Class
+            var getTasks = await functions.onGoingTasks(projectID);
+
+            //var getTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
+
+            //Creates a new ObseravbleRangeCollection
+            ObservableRangeCollection<TaskClass> onGoingTasks = new();
+
+            //Adds the list of non-complete tasks to the Collection
+            onGoingTasks.AddRange(getTasks);
+
+            //Sets the currentProject to project that was clicked on
+            Project currentProject = await dbContext.GetProjectAsync(projectID); 
+
+            //Sends user the the TasksPage with the Project Object and a collection of non-Complete Tasks
+            await Shell.Current.GoToAsync(nameof(Tasks), new Dictionary<string, object> { ["project"] = currentProject, ["tasks"] = onGoingTasks });
 
         }
 

@@ -17,25 +17,25 @@ namespace HonorsApplication_II.ProgramClasses
         public int taskID { get; set; }
 
         //Task Title
-        public String taskName { get; set; } 
+        public string taskName { get; set; } 
 
         //Very Brief description of the Task
-        public String taskGoal { get; set; }
+        public string taskGoal { get; set; }
 
         //Optional** More in depth description of the task
-        public String taskDescription { get; set; }
+        public string taskDescription { get; set; }
 
         //True or False if task is complete to not
         public bool taskComplete { get; set; }
 
         //the "Story Point" Value of the Task
-        public float taskPoints { get; set; }
+        public int taskPoints { get; set; }
 
         //The prioritisation level of the Task
-        public float taskPrioLevel { get; set; }
+        public int taskPrioLevel { get; set; }
 
         //the status of the task
-        public String taskStatus { get; set; }
+        public string taskStatus { get; set; }
 
 
         //Task Start Date, Deadline and End Date

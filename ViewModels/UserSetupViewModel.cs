@@ -6,6 +6,8 @@ using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 using HonorsApplication_II.Data;
 using System.Collections.ObjectModel;
 using DevExpress.Data.XtraReports.Native;
+using HonorsApplication_II.Functions;
+
 
 namespace HonorsApplication_II.ViewModels
 {
@@ -14,9 +16,13 @@ namespace HonorsApplication_II.ViewModels
 
         private readonly DatabaseContext dbContext;
 
+
+
         public UserSetupViewModel(DatabaseContext context)
         {
             dbContext = context;
+
+
         }
 
         [ObservableProperty]
@@ -49,6 +55,7 @@ namespace HonorsApplication_II.ViewModels
                 //Adding the new user to the database
                 await dbContext.AddUserAsync(newuser);
 
+                //Using the userID and a Key, it sets up examples connected to the new User.
                 //Creating an Example Project as a sample
 
                 Project exampleProject = new()
@@ -58,7 +65,7 @@ namespace HonorsApplication_II.ViewModels
                     projectDescription = "This Project is to act as an example. In which this example project shows off the core functionality of this application.",
                     projectStartDate = DateTime.Now,
                     projectLastUsed = DateTime.Now,
-                    projectTaskCount =  0,
+                    projectTaskCount = 0,
                     userID = newuser.userID
                 };
 
@@ -69,7 +76,7 @@ namespace HonorsApplication_II.ViewModels
                 TaskClass exampleTask = new TaskClass();
 
                 int x = 0;
-                
+
                 // while x is not 5
                 while (x != 5)
                 {
@@ -89,11 +96,13 @@ namespace HonorsApplication_II.ViewModels
                 // creates a new task class to act as an example of a complete task
                 TaskClass exampleCompleteTask = new TaskClass
                 {
-                    taskName = "DummyTask",
+                    taskName = "CompleteTask",
                     taskStartDate = DateTime.Now,
                     projectID = exampleProject.projectID,
                     taskComplete = true
                 };
+
+                await dbContext.AddTaskAsync(exampleCompleteTask);
 
                 //gets all the projects assinged to the user 
                 var getUserProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
@@ -105,7 +114,7 @@ namespace HonorsApplication_II.ViewModels
                 userProjects.AddRange(getUserProjects);
 
                 //Navigates to the Projects page passing the Active user and a RangeCollection of Projects assinged to that user
-                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["key"] = newuser, ["key2"] = userProjects });
+                await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["user"] = newuser, ["projects"] = userProjects });
 
 
             }

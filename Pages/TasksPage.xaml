@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HonorsApplication_II.Pages.Tasks"
+             xmlns:viewmodel="clr-namespace:HonorsApplication_II.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:HonorsApplication_II.ProgramClasses"
+             x:DataType="viewmodel:TasksViewModel"
+             Title="{Binding CurrentProject.projectName, StringFormat='{}{0} Project'}">
+
+
+    <!-- A Grid Defining 3 Rows of Auto hieght and 3 coloumns sharing 5%, 90% & 5% of the width avalible   -->
+    <Grid 
+       RowDefinitions="Auto,Auto,*,Auto"
+       ColumnDefinitions=".05*, .90*, .05*" 
+       Padding="10"
+       RowSpacing="10"
+       ColumnSpacing="10">
+        <!-- Lable binding to the users name -->
+        <Button Grid.Column="1"  Text="Back Button" Command="{Binding GoBackCommand}" HorizontalOptions="Center" FontSize="24" />
+
+        <!-- Allows the user to Scroll Form this point -->
+        <ScrollView Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
+
+            <!-- Binds the Collection view the Projects Collection -->
+            <CollectionView ItemsSource="{Binding Tasks}" SelectionMode="None">
+
+                <!-- Defines what the items in the collection view looks like -->
+                <CollectionView.ItemTemplate>
+
+                    <!-- Sets the Datatype of the template -->
+                    <DataTemplate x:DataType="models:Task">
+
+                        <!-- Inserts padding into the frame -->
+                        <Frame Padding="0,5">
+
+                            <!--defines a grid with 5 rows of veriouse heights
+                                   With 3 Columns sharing around of 3rd of the avaible space each-->
+
+                            <Grid 
+                               RowDefinitions="Auto,Auto,15,15,20"
+                               ColumnDefinitions=".35*,.30*,.35*"
+                               Padding="10"
+                               RowSpacing="10"
+                               ColumnSpacing="10">
+
+                                <!-- Lable Binded to the Project Name -->
+                                <Label Text="{Binding taskName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                <!-- Lable Binded to the Project Goal -->
+                                <Label Text="{Binding taskGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" />
+
+                            </Grid>
+
+                        </Frame>
+
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </ScrollView>
+        
+    </Grid>
+
+</ContentPage>
