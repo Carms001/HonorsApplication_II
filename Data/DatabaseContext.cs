@@ -39,7 +39,6 @@ namespace HonorsApplication_II.Data
 
             }
 
-
         }
 
         //If the Database is needed to be removed for testing purposes
@@ -59,7 +58,6 @@ namespace HonorsApplication_II.Data
 
             }
 
-           
         }
 
         //=================================================================================

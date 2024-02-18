@@ -32,9 +32,9 @@ namespace HonorsApplication_II.ProgramClasses
         public int taskPoints { get; set; }
 
         //The prioritisation level of the Task
-        public string taskState { get; set; }
+        public string taskCatagory {  get; set; }
 
-        //Each task is in 1 of 3 states
+        //Each task is in 1 of 3 catagorys
         // 1 = ToDo
         // 2 = Doing or InProgress
         // 3 = Done or Complete
@@ -53,14 +53,7 @@ namespace HonorsApplication_II.ProgramClasses
 
         [Indexed]
         public int projectID { get; set; }
+
     }
 
-    //taskStates is a list of tasks (Probs going to rename this)
-    public class taskStates : List<Task>
-    {
-        //State Name
-        public string stateName { get; private set; }
-
-        public taskStates(string name, List<Task> tasks): base(tasks) { stateName = name;  }
-    }
 }

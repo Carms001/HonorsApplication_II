@@ -17,7 +17,7 @@
         RowSpacing="10"
         ColumnSpacing="10">
         <!-- Lable binding to the users name -->
-        <Label Grid.Column="1"  Text="{Binding User.username , StringFormat='{}{0}s Projects'}" HorizontalOptions="Center" FontSize="24" HorizontalTextAlignment="Center"/>
+        <Label Grid.Column="1"  Text="{Binding User.username , StringFormat='{}{0}s Projects'}" HorizontalOptions="Center" FontSize="24" HorizontalTextAlignment="Center" BackgroundColor="Transparent"/>
         
         <!-- Allows the user to Scroll Form this point -->
         <ScrollView Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
@@ -32,7 +32,7 @@
                     <DataTemplate x:DataType="models:Project">
                         
                         <!-- Inserts padding into the frame -->
-                        <Frame Padding="0,5">
+                        <Frame Padding="0,5" BackgroundColor="Transparent">
                             
                                 <!--defines a grid with 5 rows of veriouse heights
                                     With 3 Columns sharing around of 3rd of the avaible space each-->
@@ -51,11 +51,11 @@
                                 ColumnSpacing="10">
 
                                 <!-- Lable Binded to the Project Name -->
-                                <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold" BackgroundColor="Transparent"/>
                                 <!-- Lable Binded to the Project Goal -->
-                                <Label Text="{Binding projectGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" />
+                                <Label Text="{Binding projectGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="Transparent"/>
                                 <!-- Progress binded to the Progress of the project -->
-                                <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="0.3" ProgressColor="Green" HeightRequest="10"/>
+                                <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="0.3" ProgressColor="Green" HeightRequest="10" BackgroundColor="Transparent"/>
                                 
                             </Grid>
 

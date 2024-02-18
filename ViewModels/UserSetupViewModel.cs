@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Functions;
 using System;
+using Task = System.Threading.Tasks.Task;
 
 namespace HonorsApplication_II.ViewModels
 {
@@ -32,7 +33,7 @@ namespace HonorsApplication_II.ViewModels
 
         [RelayCommand]
         //Task Method Create
-        async System.Threading.Tasks.Task Create()
+        public async Task Create()
         {
             if (Name == null) //if name is null
             {
@@ -93,9 +94,9 @@ namespace HonorsApplication_II.ViewModels
                     switch (state)
                     {
                         //Assinging a value based off a random value
-                        case 1: exampleTask.taskState = "To-Do"; break;
+                        case 1: exampleTask.taskCatagory = "To-Do"; break;
 
-                        case 2: exampleTask.taskState = "Doing"; break;
+                        case 2: exampleTask.taskCatagory = "Doing"; break;
                     }
 
 
@@ -112,6 +113,7 @@ namespace HonorsApplication_II.ViewModels
                     taskName = "CompleteTask",
                     taskStartDate = DateTime.Now,
                     projectID = exampleProject.projectID,
+                    taskCatagory = "Done",
                     taskComplete = true
                 };
 

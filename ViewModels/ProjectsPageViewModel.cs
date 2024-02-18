@@ -112,22 +112,26 @@ namespace HonorsApplication_II.ViewModels
 
         async Task ProjectDetails(int projectID)
         {
-            //Generates a list of non complete tasks from the ProjectFunctions Class
-            var getTasks = await functions.onGoingTasks(projectID);
 
-            //var getTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
+            ObservableRangeCollection<TaskClass> doingTasks = new();
 
-            //Creates a new ObseravbleRangeCollection
-            ObservableRangeCollection<taskStates> onGoingTasks = new();
+            ObservableRangeCollection<TaskClass> todoTasks = new();
 
-            //Adds the list of non-complete tasks to the Collection
-            onGoingTasks.AddRange(getTasks);
+            var getTasks =  await functions.getDoingTasks(projectID);
+
+            doingTasks.AddRange(getTasks);
+
+            getTasks.Clear();
+
+            getTasks = await functions.getToDoTasks(projectID);
+
+            todoTasks.AddRange(getTasks);
 
             //Sets the currentProject to project that was clicked on
             Project currentProject = await dbContext.GetProjectAsync(projectID); 
 
             //Sends user the the TasksPage with the Project Object and a collection of non-Complete Tasks
-            await Shell.Current.GoToAsync(nameof(Tasks), new Dictionary<string, object> { ["project"] = currentProject, ["tasks"] = onGoingTasks });
+            await Shell.Current.GoToAsync(nameof(Tasks), new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });
 
         }
 

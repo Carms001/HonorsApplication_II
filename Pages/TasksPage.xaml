@@ -6,34 +6,27 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:models="clr-namespace:HonorsApplication_II.ProgramClasses"
              x:DataType="viewmodel:TasksViewModel"
-             Title="{Binding CurrentProject.projectName, StringFormat='{}{0} Project'}">
+             Title="{Binding CurrentProject.projectName}">
 
-
-    <!-- A Grid Defining 3 Rows of Auto hieght and 3 coloumns sharing 5%, 90% & 5% of the width avalible   -->
-    <Grid 
-       RowDefinitions="Auto,Auto,*,Auto"
-       ColumnDefinitions=".05*, .90*, .05*" 
-       Padding="10"
-       RowSpacing="10"
-       ColumnSpacing="10">
-        <!-- Lable binding to the users name -->
-        <Button Grid.Column="1"  Text="Back Button" Command="{Binding GoBackCommand}" HorizontalOptions="Center" FontSize="24" />
 
         <!-- Allows the user to Scroll Form this point -->
-        <ScrollView Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
+    <ScrollView HorizontalOptions="Center">
+
+        <Grid 
+            RowDefinitions="Auto,Auto,Auto,Auto"
+            ColumnDefinitions=".01*, .98*, .01*" 
+            Padding="10"
+            RowSpacing="10"
+            ColumnSpacing="10">
+
+            <Frame Grid.Column="1" BackgroundColor="Transparent">
+
+                <Label Text="Doing" HorizontalOptions="Center" BackgroundColor="Transparent"/>
+
+            </Frame>
 
             <!-- Binds the Collection view the Projects Collection -->
-            <CollectionView ItemsSource="{Binding Tasks}" SelectionMode="None" IsGrouped="True">
-
-                <CollectionView.GroupHeaderTemplate>
-
-                    <DataTemplate x:DataType="models:taskStates">
-
-                        <Label FontSize="18" FontAttributes="Bold" BackgroundColor="Grey" Text="{Binding stateName}"/>
-
-                    </DataTemplate>
-                    
-                </CollectionView.GroupHeaderTemplate>
+            <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True" CanMixGroups="True" >
 
                 <!-- Defines what the items in the collection view looks like -->
                 <CollectionView.ItemTemplate>
@@ -42,22 +35,24 @@
                     <DataTemplate x:DataType="models:Task">
 
                         <!-- Inserts padding into the frame -->
-                        <Frame Padding="0,5">
+                        <Frame Padding="0,5" BackgroundColor="Transparent">
 
                             <!--defines a grid with 2 rows of veriouse heights
                                    With 3 Columns sharing around of 3rd of the avaible space each-->
 
                             <Grid 
-                               RowDefinitions="Auto,Auto"
-                               ColumnDefinitions=".35*,.30*,.35*"
-                               Padding="10"
-                               RowSpacing="10"
-                               ColumnSpacing="10">
+                               RowDefinitions="Auto"
+                               ColumnDefinitions=".4*,.45*,.15*"
+                               Padding="5"
+                               RowSpacing="5"
+                               ColumnSpacing="5">
 
                                 <!-- Lable Binded to the Project Name -->
-                                <Label Text="{Binding taskName}" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold"/>
-                                <!-- Lable Binded to the Project Goal -->
-                                <Label Text="{Binding taskGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" />
+                                <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
+
+                                <Label Text="{Binding taskPoints, StringFormat='{}{0} Story Points'}" Grid.Column="1" HorizontalOptions="Start" BackgroundColor="Transparent"/>
+
+                                <Label Text="{Binding taskCatagory}" Grid.Column="2" HorizontalOptions="End" BackgroundColor="Transparent"/>
 
                             </Grid>
 
@@ -69,8 +64,55 @@
 
             </CollectionView>
 
-        </ScrollView>
-        
-    </Grid>
+            <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent">
+
+                <Label Text="To-Do" HorizontalOptions="Center" BackgroundColor="Transparent"/>
+
+            </Frame>
+
+            <!-- Binds the Collection view the Projects Collection -->
+            <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True" CanMixGroups="True" >
+
+                <!-- Defines what the items in the collection view looks like -->
+                <CollectionView.ItemTemplate>
+
+                    <!-- Sets the Datatype of the template -->
+                    <DataTemplate x:DataType="models:Task">
+
+                        <!-- Inserts padding into the frame -->
+                        <Frame Padding="0,5" BackgroundColor="Transparent">
+
+                            <!--defines a grid with 2 rows of veriouse heights
+                           With 3 Columns sharing around of 3rd of the avaible space each-->
+
+                            <Grid 
+                               RowDefinitions="Auto"
+                               ColumnDefinitions=".4*,.45*,.15*"
+                               Padding="5"
+                               RowSpacing="10"
+                               ColumnSpacing="5">
+
+                                <!-- Lable Binded to the Project Name -->
+                                <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
+
+                                <Label Text="{Binding taskPoints, StringFormat='{}{0} Story Points'}" Grid.Column="1" HorizontalOptions="Start" BackgroundColor="Transparent"/>
+
+                                <Label Text="{Binding taskCatagory}" Grid.Column="2" HorizontalOptions="End" BackgroundColor="Transparent"/>
+
+                            </Grid>
+
+                        </Frame>
+
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </Grid>
+
+    </ScrollView>
+
+    
 
 </ContentPage>

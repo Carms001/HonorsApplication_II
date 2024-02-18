@@ -20,52 +20,103 @@ namespace HonorsApplication_II.Functions
         {
             dbContext = context;
         }
-
-
-        public async Task<List<taskStates>> onGoingTasks(int projectID)
+         
+        public async Task<List<TaskClass>> getToDoTasks(int projectID)
         {
-            //Creates a new list of tasks
-            List<taskStates> onGoingTasks = new List<taskStates>();
+            var tasks = new List<TaskClass>();
 
-            List<TaskClass> todoTasks = new List<TaskClass>();
-
-            List<TaskClass> doingTasks = new List<TaskClass>();
-
-            //gets all the tasks assinged to the projectID
             var allTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
 
-            //If not NULL
-            if (allTasks != null) 
+            foreach (var task in allTasks)
             {
-
-
-                //ForEach task in allTasks
-                foreach (var task in allTasks)
+                if (!task.taskComplete)
                 {
-                    //Adds only tasks that are non complete to the onGoingTasks list
-                    if (task.taskComplete == false) 
+                    if (task.taskCatagory.Equals("To-Do"))
                     {
-
-                        if (task.taskState.Equals("Doing")) 
-                        { 
-                            
-                            doingTasks.Add(task);
-                        }
-                        else
-                        {
-                            todoTasks.Add(task);
-                        } 
-
+                        tasks.Add(task);
                     }
+
+                }
+
+            }
+
+            return tasks;
+        }
+
+        public async Task<List<TaskClass>> getDoingTasks(int projectID)
+        {
+            var tasks = new List<TaskClass>();
+
+            var allTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
+
+            foreach (var task in allTasks) 
+            {
+                if (!task.taskComplete)
+                {
+                    if (task.taskCatagory.Equals("Doing"))
+                    {
+                        tasks.Add(task);
+                    } 
+
+                }
+
+            }
+
+            return tasks;
+        }
+
+        public async Task<List<TaskClass>> getDoneTasks(int projectID)
+        {
+            var tasks = new List<TaskClass>();
+
+            var allTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
+
+            foreach (var task in allTasks) { if (task.taskComplete == true) { tasks.Add(task); } }
+
+            return tasks;
+        }
+
+        public async Task<ObservableRangeCollection<TaskClass>> refreshTasks (int projectID, ObservableRangeCollection<TaskClass> tasks, string catagory, bool complete)
+        {
+
+            tasks.Clear();
+
+            var getTasks = new List<TaskClass>();
+
+            if (complete) { getTasks = await getDoneTasks(projectID); } else
+            {
+                switch (catagory)
+                {
+                    case "To-DO": getTasks = await getToDoTasks(projectID); break;
+
+                    case "Doing": getTasks= await getDoingTasks(projectID); break;
                 }
             }
 
+            tasks.AddRange(getTasks);
 
-            onGoingTasks.Add(new taskStates("Doing", doingTasks) { });
-            onGoingTasks.Add(new taskStates("To-Do", todoTasks) { });
+            return tasks;
 
-            //Returns list
-            return onGoingTasks;
+        }
+
+
+   
+
+        public async Task<TaskClass> ChangeState(TaskClass task, string state)
+        {
+
+            switch (state)
+            {
+                //Assinging a value based off a random value
+                case "To-Do" : task.taskCatagory = "To-Do"; break;
+
+                case "Doing" : task.taskCatagory = "Doing"; break;
+            }
+
+            await dbContext.UpdateTaskAsync(task);
+
+
+            return task;
 
         }
 
