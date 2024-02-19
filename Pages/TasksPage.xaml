@@ -19,26 +19,52 @@
             RowSpacing="10"
             ColumnSpacing="10">
 
-            <Frame Grid.Column="1" BackgroundColor="Transparent">
+            <Frame Grid.Column="1" Grid.Row="0" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
 
-                <Label Text="Doing" HorizontalOptions="Center" BackgroundColor="Transparent"/>
+                <Grid
+                    ColumnDefinitions=".1*,.8*,.1*"
+                    Padding="5"
+                    ColumnSpacing="5">
+
+                    <Label Text="Doing" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1"/>
+
+                    <Label Text="{Binding DoingTasks.Count}" BackgroundColor="Transparent" Grid.Column="2"/>
+
+                </Grid>
+
+                <Frame.GestureRecognizers>
+                    <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="Doing"/>
+                </Frame.GestureRecognizers>
 
             </Frame>
 
-            <!-- Binds the Collection view the Projects Collection -->
-            <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True" CanMixGroups="True" >
 
-                <!-- Defines what the items in the collection view looks like -->
+
+            <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True">
+
+                
                 <CollectionView.ItemTemplate>
-
-                    <!-- Sets the Datatype of the template -->
+                    
+           
                     <DataTemplate x:DataType="models:Task">
 
-                        <!-- Inserts padding into the frame -->
+              
                         <Frame Padding="0,5" BackgroundColor="Transparent">
 
-                            <!--defines a grid with 2 rows of veriouse heights
-                                   With 3 Columns sharing around of 3rd of the avaible space each-->
+                            <Frame.GestureRecognizers>
+
+                                <DragGestureRecognizer CanDrag="True" 
+                                                       DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedCommand}" 
+                                                       DragStartingCommandParameter="{Binding .}"
+                                                       />
+                                
+
+                                <DropGestureRecognizer AllowDrop="True" 
+                                                       DropCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedOverCommand}"
+                                                       DropCommandParameter="{Binding .}"
+                                                       />
+
+                            </Frame.GestureRecognizers>
 
                             <Grid 
                                RowDefinitions="Auto"
@@ -47,7 +73,6 @@
                                RowSpacing="5"
                                ColumnSpacing="5">
 
-                                <!-- Lable Binded to the Project Name -->
                                 <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
                                 <Label Text="{Binding taskPoints, StringFormat='{}{0} Story Points'}" Grid.Column="1" HorizontalOptions="Start" BackgroundColor="Transparent"/>
@@ -64,26 +89,50 @@
 
             </CollectionView>
 
-            <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent">
+            <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
 
-                <Label Text="To-Do" HorizontalOptions="Center" BackgroundColor="Transparent"/>
+                <Grid
+                    ColumnDefinitions=".1*,.8*,.1*"
+                    Padding="5"
+                    ColumnSpacing="5">
+
+                    <Label Text="To-Do" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1"/>
+
+                    <Label Text="{Binding TodoTasks.Count}" BackgroundColor="Transparent" Grid.Column="2"/>
+
+                </Grid>
+
+                <Frame.GestureRecognizers>
+                    <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="To-Do"/>
+                </Frame.GestureRecognizers>
 
             </Frame>
 
-            <!-- Binds the Collection view the Projects Collection -->
-            <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True" CanMixGroups="True" >
+           
+            <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True">
 
-                <!-- Defines what the items in the collection view looks like -->
+        
                 <CollectionView.ItemTemplate>
 
-                    <!-- Sets the Datatype of the template -->
+          
                     <DataTemplate x:DataType="models:Task">
 
-                        <!-- Inserts padding into the frame -->
                         <Frame Padding="0,5" BackgroundColor="Transparent">
 
-                            <!--defines a grid with 2 rows of veriouse heights
-                           With 3 Columns sharing around of 3rd of the avaible space each-->
+                            <Frame.GestureRecognizers>
+
+                                <DragGestureRecognizer CanDrag="True" 
+                                                       DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedCommand}" 
+                                                       DragStartingCommandParameter="{Binding .}"
+                                                       />
+
+
+                                <DropGestureRecognizer AllowDrop="True" 
+                                                       DropCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedOverCommand}"
+                                                       DropCommandParameter="{Binding .}"
+                                                       />
+
+                            </Frame.GestureRecognizers>
 
                             <Grid 
                                RowDefinitions="Auto"
@@ -92,7 +141,7 @@
                                RowSpacing="10"
                                ColumnSpacing="5">
 
-                                <!-- Lable Binded to the Project Name -->
+                        
                                 <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
                                 <Label Text="{Binding taskPoints, StringFormat='{}{0} Story Points'}" Grid.Column="1" HorizontalOptions="Start" BackgroundColor="Transparent"/>

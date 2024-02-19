@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using Task = System.Threading.Tasks.Task;
 using TaskClass = HonorsApplication_II.ProgramClasses.Task;
@@ -189,6 +190,28 @@ namespace HonorsApplication_II.Data
             var task = await GetTaskAsync(taskId);
             if (task != null)
                 await db.DeleteAsync(task);
+        }
+
+        public async Task AddListOfTasksToProjectAsync(List<TaskClass> tasks)
+        {
+            await Init();
+
+            foreach (var task in tasks)
+            {
+                await db.InsertAsync(task);
+            }
+        }
+
+        public async Task DeleteAllTasksByProjectIDAsync(int projectID)
+        {
+            await Init();
+
+            var allTasks = await GetTasksByProjectIdAsync(projectID);
+
+            foreach (var task in allTasks)
+            {
+                await db.DeleteAsync(task);
+            }
         }
 
         // Counts total amount of tasks asinged to that project

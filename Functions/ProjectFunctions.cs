@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 using TaskClass = HonorsApplication_II.ProgramClasses.Task;
+
 
 namespace HonorsApplication_II.Functions
 {
@@ -21,7 +22,7 @@ namespace HonorsApplication_II.Functions
             dbContext = context;
         }
          
-        public async Task<List<TaskClass>> getToDoTasks(int projectID)
+        public async Task<List<TaskClass>> GetToDoTasks(int projectID)
         {
             var tasks = new List<TaskClass>();
 
@@ -43,7 +44,7 @@ namespace HonorsApplication_II.Functions
             return tasks;
         }
 
-        public async Task<List<TaskClass>> getDoingTasks(int projectID)
+        public async Task<List<TaskClass>> GetDoingTasks(int projectID)
         {
             var tasks = new List<TaskClass>();
 
@@ -62,10 +63,12 @@ namespace HonorsApplication_II.Functions
 
             }
 
+            
+
             return tasks;
         }
 
-        public async Task<List<TaskClass>> getDoneTasks(int projectID)
+        public async Task<List<TaskClass>> GetDoneTasks(int projectID)
         {
             var tasks = new List<TaskClass>();
 
@@ -76,20 +79,20 @@ namespace HonorsApplication_II.Functions
             return tasks;
         }
 
-        public async Task<ObservableRangeCollection<TaskClass>> refreshTasks (int projectID, ObservableRangeCollection<TaskClass> tasks, string catagory, bool complete)
+        public async Task<ObservableRangeCollection<TaskClass>> RefreshTasks (int projectID, ObservableRangeCollection<TaskClass> tasks, string catagory, bool complete)
         {
 
             tasks.Clear();
 
             var getTasks = new List<TaskClass>();
 
-            if (complete) { getTasks = await getDoneTasks(projectID); } else
+            if (complete) { getTasks = await GetDoneTasks(projectID); } else
             {
                 switch (catagory)
                 {
-                    case "To-DO": getTasks = await getToDoTasks(projectID); break;
+                    case "To-DO": getTasks = await GetToDoTasks(projectID); break;
 
-                    case "Doing": getTasks= await getDoingTasks(projectID); break;
+                    case "Doing": getTasks= await GetDoingTasks(projectID); break;
                 }
             }
 
@@ -99,8 +102,27 @@ namespace HonorsApplication_II.Functions
 
         }
 
+        public async Task ReOrderTasks(ObservableRangeCollection<TaskClass> doing, ObservableRangeCollection<TaskClass> todo, int projectID)
+        {
+            ObservableRangeCollection<TaskClass> done = new();
 
-   
+            var getDone = await GetDoneTasks(projectID);
+
+            done.AddRange(getDone);
+
+            List<TaskClass> allTasks = new List<TaskClass>();
+
+            foreach (var task in doing) { allTasks.Add(task); }
+
+            foreach (var task in todo) { allTasks.Add(task); }
+
+            foreach (var task in done) { allTasks.Add(task); }
+
+            await dbContext.DeleteAllTasksByProjectIDAsync(projectID);
+
+            await dbContext.AddListOfTasksToProjectAsync(allTasks);
+
+        }
 
         public async Task<TaskClass> ChangeState(TaskClass task, string state)
         {

@@ -110,25 +110,25 @@ namespace HonorsApplication_II.ViewModels
 
         [RelayCommand]
 
-        async Task ProjectDetails(int projectID)
+        async Task ProjectDetails(Project currentProject)
         {
 
             ObservableRangeCollection<TaskClass> doingTasks = new();
 
             ObservableRangeCollection<TaskClass> todoTasks = new();
 
-            var getTasks =  await functions.getDoingTasks(projectID);
+            var getTasks =  await functions.GetDoingTasks(currentProject.projectID);
 
             doingTasks.AddRange(getTasks);
 
             getTasks.Clear();
 
-            getTasks = await functions.getToDoTasks(projectID);
+            getTasks = await functions.GetToDoTasks(currentProject.projectID);
 
             todoTasks.AddRange(getTasks);
 
             //Sets the currentProject to project that was clicked on
-            Project currentProject = await dbContext.GetProjectAsync(projectID); 
+            //Project currentProject = await dbContext.GetProjectAsync(projectID); 
 
             //Sends user the the TasksPage with the Project Object and a collection of non-Complete Tasks
             await Shell.Current.GoToAsync(nameof(Tasks), new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });

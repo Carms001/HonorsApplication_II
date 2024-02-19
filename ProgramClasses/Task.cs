@@ -39,13 +39,12 @@ namespace HonorsApplication_II.ProgramClasses
         // 2 = Doing or InProgress
         // 3 = Done or Complete
 
-
         //Task Start Date, Deadline and End Date
         public DateTime taskStartDate { get; set; }
         public DateTime taskDeadline { get; set; }
         public DateTime taskEndDate { get; set; }
 
-        //=================================================================================
+        //================================================================================
 
         //Task - Subtask Structure
 
