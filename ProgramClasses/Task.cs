@@ -32,7 +32,7 @@ namespace HonorsApplication_II.ProgramClasses
         public int taskPoints { get; set; }
 
         //The prioritisation level of the Task
-        public string taskCatagory {  get; set; }
+        public string taskCatagory { get; set; }
 
         //Each task is in 1 of 3 catagorys
         // 1 = ToDo

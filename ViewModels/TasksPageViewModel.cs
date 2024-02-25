@@ -1,6 +1,8 @@
 ﻿
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.Controls.ExpressionEditor;
 using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
 using HonorsApplication_II.Functions;
@@ -19,7 +21,7 @@ namespace HonorsApplication_II.ViewModels
     [QueryProperty("CurrentProject", "project")]
     [QueryProperty("DoingTasks", "doingTasks")]
     [QueryProperty("TodoTasks", "todoTasks")]
-    
+
 
     public partial class TasksViewModel : ObservableObject
     {
@@ -58,45 +60,56 @@ namespace HonorsApplication_II.ViewModels
         {
 
             taskDragged = task;
-            
+
         }
 
 
         [RelayCommand]
         async Task TaskDraggedOver(TaskClass task)
         {
-                try
+            try
+            {
+                var taskToMove = taskDragged;
+                var taskToInsertBefore = task;
+                string catagory = task.taskCatagory;
+
+                if (taskToMove == taskToInsertBefore || taskToMove == null || taskToInsertBefore == null || taskToMove.taskCatagory != taskToInsertBefore.taskCatagory) { await App.Current.MainPage.DisplayAlert("Error", "Something went wrong", "OK"); }
+
+                int insertAtIndex;
+
+                switch (catagory)
                 {
-                    var taskToMove = taskDragged;
-                    var taskToInsertBefore = task;
-                    string catagory = task.taskCatagory;
+                    case "Doing":
+                        insertAtIndex = DoingTasks.IndexOf(taskToInsertBefore);
 
-                    if (taskToMove == taskToInsertBefore || taskToMove == null || taskToInsertBefore == null) { return; }
+                        if (insertAtIndex >= 0 && insertAtIndex < DoingTasks.Count)
+                        {
+                            DoingTasks.Remove(taskToMove);
+                            DoingTasks.Insert(insertAtIndex, taskToMove);
 
-                    int insertAtIndex;
+                        }
 
-                    switch(catagory)
-                    {
-                        case "Doing": insertAtIndex = DoingTasks.IndexOf(taskToInsertBefore); 
-                        
-                            if (insertAtIndex >= 0 && insertAtIndex < DoingTasks.Count) 
-                            { 
-                                DoingTasks.Remove(taskToMove); 
-                                DoingTasks.Insert(insertAtIndex, taskToMove);
-                            }
+                        break;
 
-                            break;
+                    case "To-Do":
+                        insertAtIndex = TodoTasks.IndexOf(taskToInsertBefore);
 
-                        case "To-Do": insertAtIndex = TodoTasks.IndexOf(taskToInsertBefore);
+                        if (insertAtIndex >= 0 && insertAtIndex < DoingTasks.Count)
+                        {
+                            TodoTasks.Remove(taskToMove);
+                            TodoTasks.Insert(insertAtIndex, taskToMove);
 
-                            if (insertAtIndex >= 0 && insertAtIndex < DoingTasks.Count) { TodoTasks.Remove(taskToMove); TodoTasks.Insert(insertAtIndex, taskToMove); }
-                        
-                            break;
-                    }
+                        }
 
-                     await functions.ReOrderTasks(DoingTasks, TodoTasks, CurrentProject.projectID);
+                        break;
+                }
 
-                }catch (Exception ex) {   await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK"); }
+                await functions.ReOrderTasks(DoingTasks, TodoTasks, CurrentProject.projectID);
+
+
+
+            }
+            catch (Exception ex) { await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK"); }
 
         }
 
@@ -104,75 +117,166 @@ namespace HonorsApplication_II.ViewModels
         [RelayCommand]
         async Task TaskDraggedOverCatagory(string catagory)
         {
-
-            var task = taskDragged;
-
-            Catagory = catagory;
-
-            if (Catagory != null)
+            try
             {
 
-                if ((Catagory.Equals("Doing") && task.taskCatagory.Equals("Doing")) || (Catagory.Equals("To-Do") && task.taskCatagory.Equals("To-Do")))
+                var task = taskDragged;
+
+                Catagory = catagory;
+
+
+                if (Catagory != null)
                 {
 
-                    return;
+                    if ((Catagory.Equals("Doing") && task.taskCatagory.Equals("Doing")) || (Catagory.Equals("To-Do") && task.taskCatagory.Equals("To-Do")))
+                    {
+
+                        await App.Current.MainPage.DisplayAlert("Error", "Something went wrong", "OK");
+
+                    }
+                    else
+                    {
+
+                        switch (Catagory)
+                        {
+                            case "Doing":
+
+                                task.taskCatagory = "Doing";
+
+                                await dbcontext.UpdateTaskAsync(task);
+
+                                TodoTasks.Remove(task);
+                                DoingTasks.Add(task);
+
+
+                                break;
+
+                            case "To-Do":
+
+                                task.taskCatagory = "To-Do";
+
+                                await dbcontext.UpdateTaskAsync(task);
+
+                                DoingTasks.Remove(task);
+                                TodoTasks.Add(task);
+
+                                break;
+                        }
+
+                        await functions.ReOrderTasks(DoingTasks, TodoTasks, CurrentProject.projectID);
+
+                    }
 
                 }
                 else
                 {
-
-                    switch (Catagory)
-                    {
-                        case "Doing":
-
-                            task.taskCatagory = "Doing";
-
-                            await dbcontext.UpdateTaskAsync(task);
-
-                            TodoTasks.Remove(task);
-                            DoingTasks.Add(task);
-
-
-                            break;
-
-                        case "To-Do":
-
-                            task.taskCatagory = "To-Do";
-
-                            await dbcontext.UpdateTaskAsync(task);
-
-                            DoingTasks.Remove(task);
-                            TodoTasks.Add(task);
-
-                            break;
-                    }
-
-                    await functions.ReOrderTasks(DoingTasks, TodoTasks, CurrentProject.projectID);
-
+                    await App.Current.MainPage.DisplayAlert("Error", "Catagory = Null", "OK");
                 }
 
+
             }
-
-
-
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            }
         }
 
 
-            [RelayCommand]
+        [RelayCommand]
         async Task GoBack()
         {
             await Shell.Current.GoToAsync("..");//This is how you navigate backwords
         }
 
-        [RelayCommand] //Allows the command to be seen by the page
+        [RelayCommand]
+        async Task DeleteTask(TaskClass task)
+        {
 
+            switch (task.taskCatagory)
+            {
+
+                case "Doing": DoingTasks.Remove(task); break;
+
+                case "To-Do": TodoTasks.Remove(task); break;
+
+
+            }
+
+            await dbcontext.DeleteTaskAsync(task.taskID);
+
+            await functions.UpdateProjectProgress(CurrentProject);
+
+        }
+
+        [RelayCommand]
+        async Task CompleteTask(TaskClass task)
+        {
+
+            switch (task.taskCatagory)
+            {
+
+                case "Doing": DoingTasks.Remove(task); break;
+
+                case "To-Do": TodoTasks.Remove(task); break;
+
+
+            }
+
+            task.taskCatagory = "Done";
+            task.taskComplete = true;
+
+            await functions.UpdateProjectProgress(CurrentProject);
+
+        }
+
+        [RelayCommand]
+        async Task NewTask()
+        {
+
+            string name = await App.Current.MainPage.DisplayPromptAsync("New Task", "Enter the name of your new Task", "Create", "Cancel");
+
+            //Checks if name is Null
+            if (name != null)
+            {
+
+                TaskClass task = new TaskClass();
+
+                task.projectID = CurrentProject.projectID;
+                task.taskName = name;
+                task.taskComplete = false;
+                task.taskCatagory = "To-Do";
+
+                await dbcontext.AddTaskAsync(task);
+
+                TodoTasks.Add(task);
+
+                await Refresh();
+
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Something went wrong!", "OK");
+            }
+
+        }
+
+
+        [RelayCommand] //Allows the command to be seen by the page
         //Refresh page refreshes the RangeCollection 
         async Task Refresh()
         {
 
-            TodoTasks = await functions.RefreshTasks(CurrentProject.projectID, TodoTasks, "To-Do", false);
+            DoingTasks.Clear();
+            TodoTasks.Clear();
 
-            DoingTasks = await functions.RefreshTasks(CurrentProject.projectID, DoingTasks, "Doing", false);
+            var getDoing = await functions.GetDoingTasks(CurrentProject.projectID);
+
+            var getTodo = await functions.GetToDoTasks(CurrentProject.projectID);
+
+            DoingTasks.AddRange(getDoing);
+            TodoTasks.AddRange(getTodo);
+
+            await functions.ReOrderTasks(DoingTasks, TodoTasks, CurrentProject.projectID);
 
 
         }

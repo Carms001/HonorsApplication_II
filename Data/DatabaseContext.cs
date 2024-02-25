@@ -1,4 +1,5 @@
-﻿using HonorsApplication_II.ProgramClasses;
+﻿using HonorsApplication_II.Functions;
+using HonorsApplication_II.ProgramClasses;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace HonorsApplication_II.Data
     public class DatabaseContext
     {
         static SQLiteAsyncConnection db;
+
 
         static async Task Init()
         {
@@ -172,6 +174,7 @@ namespace HonorsApplication_II.Data
             await Init();
 
             return await db.Table<TaskClass>().Where(t => t.projectID == projectId).ToListAsync();
+
         }
 
         // Update a task asynchronously

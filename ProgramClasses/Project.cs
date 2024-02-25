@@ -1,4 +1,5 @@
 ﻿using HonorsApplication_II.Data;
+using HonorsApplication_II.Functions;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace HonorsApplication_II.ProgramClasses
 {
-
-    
 
     public class Project
     {
@@ -43,19 +42,11 @@ namespace HonorsApplication_II.ProgramClasses
 
         //=================================================================================
 
-        //Project - Task Structure
-
-        //Get No. Assinged Tasks
-
-        public int projectTaskCount { get; set; }
-
-        public int projectCompleteTaskCount { get; set;}
-
         public double projectProgress { get; set; }
 
         [Indexed]
         public long userID { get; set; }
 
-
     }
+
 }

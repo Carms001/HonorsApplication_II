@@ -63,8 +63,6 @@ namespace HonorsApplication_II.Functions
 
             }
 
-            
-
             return tasks;
         }
 
@@ -77,29 +75,6 @@ namespace HonorsApplication_II.Functions
             foreach (var task in allTasks) { if (task.taskComplete == true) { tasks.Add(task); } }
 
             return tasks;
-        }
-
-        public async Task<ObservableRangeCollection<TaskClass>> RefreshTasks (int projectID, ObservableRangeCollection<TaskClass> tasks, string catagory, bool complete)
-        {
-
-            tasks.Clear();
-
-            var getTasks = new List<TaskClass>();
-
-            if (complete) { getTasks = await GetDoneTasks(projectID); } else
-            {
-                switch (catagory)
-                {
-                    case "To-DO": getTasks = await GetToDoTasks(projectID); break;
-
-                    case "Doing": getTasks= await GetDoingTasks(projectID); break;
-                }
-            }
-
-            tasks.AddRange(getTasks);
-
-            return tasks;
-
         }
 
         public async Task ReOrderTasks(ObservableRangeCollection<TaskClass> doing, ObservableRangeCollection<TaskClass> todo, int projectID)
@@ -122,6 +97,8 @@ namespace HonorsApplication_II.Functions
 
             await dbContext.AddListOfTasksToProjectAsync(allTasks);
 
+            await UpdateProjectProgress(await dbContext.GetProjectAsync(projectID));
+
         }
 
         public async Task<TaskClass> ChangeState(TaskClass task, string state)
@@ -139,6 +116,23 @@ namespace HonorsApplication_II.Functions
 
 
             return task;
+
+        }
+
+        public async Task UpdateProjectProgress(Project project)
+        {
+            double progress = 0;
+
+            var allTasks = await dbContext.GetTasksByProjectIdAsync(project.projectID);
+
+            var doneTasks = await GetDoneTasks(project.projectID);
+
+            progress = (double)doneTasks.Count / (double)allTasks.Count;
+
+            project.projectProgress = progress;
+
+            await dbContext.UpdateProjectAsync(project);
+
 
         }
 

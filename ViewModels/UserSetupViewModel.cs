@@ -17,12 +17,12 @@ namespace HonorsApplication_II.ViewModels
 
         private readonly DatabaseContext dbContext;
 
+        private ProjectFunctions functions;
 
-
-        public UserSetupViewModel(DatabaseContext context)
+        public UserSetupViewModel(DatabaseContext context, ProjectFunctions functioncontext)
         {
             dbContext = context;
-
+            functions = functioncontext;
 
         }
 
@@ -66,7 +66,6 @@ namespace HonorsApplication_II.ViewModels
                     projectDescription = "This Project is to act as an example. In which this example project shows off the core functionality of this application.",
                     projectStartDate = DateTime.Now,
                     projectLastUsed = DateTime.Now,
-                    projectTaskCount = 0,
                     userID = newuser.userID
                 };
 
@@ -127,6 +126,11 @@ namespace HonorsApplication_II.ViewModels
 
                 //adds the list of projects assinged to the user the the Ranger Collection
                 userProjects.AddRange(getUserProjects);
+
+                foreach(var project in userProjects)
+                {
+                    await functions.UpdateProjectProgress(project);
+                }
 
                 //Navigates to the Projects page passing the Active user and a RangeCollection of Projects assinged to that user
                 await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["user"] = newuser, ["projects"] = userProjects });
