@@ -44,6 +44,8 @@ namespace HonorsApplication_II.ProgramClasses
         public DateTime taskDeadline { get; set; }
         public DateTime taskEndDate { get; set; }
 
+        public string taskTimeDeadlineColour { get; set; }
+
         //================================================================================
 
         //Task - Subtask Structure

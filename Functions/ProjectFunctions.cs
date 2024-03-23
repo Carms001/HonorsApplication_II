@@ -1,4 +1,5 @@
-﻿using DevExpress.Data.XtraReports.Native;
+﻿using DevExpress.Data;
+using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
 using HonorsApplication_II.ProgramClasses;
 using System;
@@ -133,6 +134,10 @@ namespace HonorsApplication_II.Functions
 
             await dbContext.UpdateProjectAsync(project);
 
+        }
+
+        public async Task UpdateTaskColour(TaskClass task)
+        {
 
         }
 
