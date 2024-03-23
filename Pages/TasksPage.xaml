@@ -45,7 +45,7 @@
 
                     <DataTemplate x:DataType="models:Task">
 
-                        <Frame Padding="0,5" BackgroundColor="Transparent">
+                        <Frame Padding="0,5" BackgroundColor="#FFADB0">
 
                             <Frame.GestureRecognizers>
 
@@ -61,6 +61,23 @@
 
                             </Frame.GestureRecognizers>
 
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Red">
+                                    <Setter Property="BackgroundColor" Value="LightPink"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Yellow">
+                                    <Setter Property="BackgroundColor" Value="LightYellow"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Green">
+                                    <Setter Property="BackgroundColor" Value="LightGreen"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="None">
+                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                </DataTrigger>
+
+
+                            </Frame.Triggers>
+
                             <Grid 
                                RowDefinitions="25"
                                ColumnDefinitions=".4*,.45*,.15*"
@@ -71,7 +88,7 @@
 
                                 <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
-                                <Label Text="{Binding taskCatagory}" Grid.Column="1" BackgroundColor="Transparent"/>
+                                <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent"/>
 
                                 <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="LightGray"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}"/>
@@ -132,22 +149,39 @@
 
                             </Frame.GestureRecognizers>
 
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Red">
+                                    <Setter Property="BackgroundColor" Value="LightPink"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Yellow">
+                                    <Setter Property="BackgroundColor" Value="LightYellow"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Green">
+                                    <Setter Property="BackgroundColor" Value="LightGreen"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="None">
+                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                </DataTrigger>
+
+
+                            </Frame.Triggers>
+
                             <Grid 
                                 RowDefinitions="25"
                                 ColumnDefinitions=".4*,.45*,.15*"
-    
                                 Padding="5"
                                 RowSpacing="5"
                                 ColumnSpacing="5">
 
                                 <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
-                                <Label Text="{Binding taskCatagory}" Grid.Column="1" BackgroundColor="Transparent"/>
+                                <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent"/>
 
                                 <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="LightGray"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}"/>
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}"/>
 
                             </Grid>
+
 
                         </Frame>
 

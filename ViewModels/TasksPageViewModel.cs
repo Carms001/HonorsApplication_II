@@ -196,10 +196,6 @@ namespace HonorsApplication_II.ViewModels
 
             string action = await App.Current.MainPage.DisplayActionSheet("Task Options", "Cancel", null, "Edit", "Delete", "Complete");
 
-
-            if (action == null) { return; }
-
-
             switch (action)
             {
                 case "Edit": break;
@@ -240,6 +236,9 @@ namespace HonorsApplication_II.ViewModels
 
                     task.taskCatagory = "Done";
                     task.taskComplete = true;
+                    task.taskCompleteDate = DateTime.Now;
+
+                    await dbcontext.UpdateTaskAsync(task);
 
                     await functions.UpdateProjectProgress(CurrentProject);
 
@@ -270,7 +269,7 @@ namespace HonorsApplication_II.ViewModels
                     task.taskName = name;
                     task.taskComplete = false;
                     task.taskCatagory = "To-Do";
-
+                    task.taskTimeDeadlineColour = "None";
                     await dbcontext.AddTaskAsync(task);
 
                     TodoTasks.Add(task);

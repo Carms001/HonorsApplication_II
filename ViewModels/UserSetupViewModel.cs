@@ -56,67 +56,8 @@ namespace HonorsApplication_II.ViewModels
                 //Adding the new user to the database
                 await dbContext.AddUserAsync(newuser);
 
-                //Using the userID and a Key, it sets up examples connected to the new User.
-                //Creating an Example Project as a sample
+                await functions.SetUpExampleProject(newuser.userID);
 
-                Project exampleProject = new()
-                {
-                    projectName = "Example Project",
-                    projectGoal = "Act as an example project for new users!",
-                    projectDescription = "This Project is to act as an example. In which this example project shows off the core functionality of this application.",
-                    projectStartDate = DateTime.Now,
-                    projectLastUsed = DateTime.Now,
-                    userID = newuser.userID
-                };
-
-                //adding the example project to the database
-                await dbContext.AddProjectAsync(exampleProject);
-
-                //creates new task object 
-                TaskClass exampleTask = new TaskClass();
-
-                int x = 0;
-                Random rnd = new Random();
-
-                // while x is not 5
-                while (x != 5)
-                {
-                    //edits the exampleTask object with data
-                    exampleTask.taskName = "Example Task " + x;
-                    exampleTask.taskStartDate = DateTime.Now;
-                    exampleTask.projectID = exampleProject.projectID;
-                    exampleTask.taskComplete = false;
-
-                    //Picks a number from 1 - 2
-                    int state = rnd.Next(1,3);
-
-                    switch (state)
-                    {
-                        //Assinging a value based off a random value
-                        case 1: exampleTask.taskCatagory = "To-Do"; break;
-
-                        case 2: exampleTask.taskCatagory = "Doing"; break;
-                    }
-
-
-                    //Adding the Example Task to the Database
-                    await dbContext.AddTaskAsync(exampleTask);
-
-                    // x+1
-                    x++;
-                }
-
-                // creates a new task class to act as an example of a complete task
-                TaskClass exampleCompleteTask = new TaskClass
-                {
-                    taskName = "CompleteTask",
-                    taskStartDate = DateTime.Now,
-                    projectID = exampleProject.projectID,
-                    taskCatagory = "Done",
-                    taskComplete = true
-                };
-
-                await dbContext.AddTaskAsync(exampleCompleteTask);
 
                 //gets all the projects assinged to the user 
                 var getUserProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);

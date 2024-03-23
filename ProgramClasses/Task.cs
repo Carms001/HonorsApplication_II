@@ -40,10 +40,14 @@ namespace HonorsApplication_II.ProgramClasses
         // 3 = Done or Complete
 
         //Task Start Date, Deadline and End Date
+
+        public bool taskHasDeadline {  get; set; }
+
         public DateTime taskStartDate { get; set; }
         public DateTime taskDeadline { get; set; }
-        public DateTime taskEndDate { get; set; }
+        public DateTime taskCompleteDate { get; set; }
 
+        public string taskDaysLeft { get; set; }
         public string taskTimeDeadlineColour { get; set; }
 
         //================================================================================
