@@ -7,6 +7,7 @@ using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
 using HonorsApplication_II.Functions;
 using HonorsApplication_II.ProgramClasses;
+using Mopups.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,12 @@ namespace HonorsApplication_II.ViewModels
 
         [ObservableProperty]
         private string catagory;
+
+        [RelayCommand]
+        async Task TaskPressed (TaskClass task)
+        {
+            await MopupService.Instance.PushAsync(new PopupPages.TaskDetailsPopup(task), true );
+        }
 
         [RelayCommand]
         public void TaskDragged(TaskClass task)

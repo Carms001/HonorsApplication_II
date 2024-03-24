@@ -59,6 +59,9 @@
                                                        DropCommandParameter="{Binding .}"
                                                        />
 
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskPressedCommand}"
+                                                      CommandParameter="{Binding .}"/>
+
                             </Frame.GestureRecognizers>
 
                             <Frame.Triggers>
@@ -66,7 +69,7 @@
                                     <Setter Property="BackgroundColor" Value="LightPink"/>
                                 </DataTrigger>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Yellow">
-                                    <Setter Property="BackgroundColor" Value="LightYellow"/>
+                                    <Setter Property="BackgroundColor" Value="Orange"/>
                                 </DataTrigger>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Green">
                                     <Setter Property="BackgroundColor" Value="LightGreen"/>
@@ -147,6 +150,9 @@
                                                        DropCommandParameter="{Binding .}"
                                                        />
 
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskPressedCommand}"
+                                                      CommandParameter="{Binding .}"/>
+
                             </Frame.GestureRecognizers>
 
                             <Frame.Triggers>
@@ -154,7 +160,7 @@
                                     <Setter Property="BackgroundColor" Value="LightPink"/>
                                 </DataTrigger>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Yellow">
-                                    <Setter Property="BackgroundColor" Value="LightYellow"/>
+                                    <Setter Property="BackgroundColor" Value="Orange"/>
                                 </DataTrigger>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Green">
                                     <Setter Property="BackgroundColor" Value="LightGreen"/>

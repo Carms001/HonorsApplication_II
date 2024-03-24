@@ -55,8 +55,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="DevExpress.Data" Version="23.2.4" />
+		<PackageReference Include="DevExpress.Data" Version="23.2.6-pre-24077" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="Mopups" Version="1.2.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
 	</ItemGroup>
 
@@ -68,6 +69,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Pages\TasksPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="PopupPages\TaskDetailsPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

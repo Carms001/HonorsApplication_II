@@ -9,6 +9,8 @@
              Title="Projects"
              >
 
+    <ScrollView HorizontalOptions="Center">
+    
     <!-- A Grid Defining 3 Rows of Auto hieght and 3 coloumns sharing 5%, 90% & 5% of the width avalible   -->
     <Grid 
         RowDefinitions="Auto,Auto,*,Auto"
@@ -18,61 +20,58 @@
         ColumnSpacing="10">
         <!-- Lable binding to the users name -->
         <Label Grid.Column="1"  Text="{Binding User.username , StringFormat='{}{0}s Projects'}" HorizontalOptions="Center" FontSize="24" HorizontalTextAlignment="Center" BackgroundColor="Transparent"/>
-        
-        <!-- Allows the user to Scroll Form this point -->
-        <ScrollView Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
-            
-            <!-- Binds the Collection view the Projects Collection -->
-            <CollectionView ItemsSource="{Binding Projects}" SelectionMode="None">
-                
-                <!-- Defines what the items in the collection view looks like -->
-                <CollectionView.ItemTemplate>
-                    
-                    <!-- Sets the Datatype of the template -->
-                    <DataTemplate x:DataType="models:Project">
-                        
-                        <!-- Inserts padding into the frame -->
-                        <Frame Padding="0,5" BackgroundColor="Transparent">
-                            
-                                <!--defines a grid with 5 rows of veriouse heights
+
+        <!-- Binds the Collection view the Projects Collection -->
+        <CollectionView ItemsSource="{Binding Projects}" SelectionMode="None" Grid.Column="1" Grid.Row="1">
+
+            <!-- Defines what the items in the collection view looks like -->
+            <CollectionView.ItemTemplate>
+
+                <!-- Sets the Datatype of the template -->
+                <DataTemplate x:DataType="models:Project">
+
+                    <!-- Inserts padding into the frame -->
+                    <Frame Padding="0,5" BackgroundColor="Transparent">
+
+                        <!--defines a grid with 5 rows of veriouse heights
                                     With 3 Columns sharing around of 3rd of the avaible space each-->
 
-                            <Frame.GestureRecognizers>
-                                <!--When frame tapped and binds back to the viewmodel-->
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProjectsPageViewModel}}, Path=ProjectDetailsCommand}" CommandParameter="{Binding .}"/>
+                        <Frame.GestureRecognizers>
+                            <!--When frame tapped and binds back to the viewmodel-->
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProjectsPageViewModel}}, Path=ProjectDetailsCommand}" CommandParameter="{Binding .}"/>
 
-                            </Frame.GestureRecognizers>
+                        </Frame.GestureRecognizers>
 
-                            <Grid 
+                        <Grid 
                                 RowDefinitions="Auto,Auto,15,15,20"
                                 ColumnDefinitions=".35*,.30*,.35*"
                                 Padding="10"
                                 RowSpacing="10"
                                 ColumnSpacing="10">
 
-                                <!-- Lable Binded to the Project Name -->
-                                <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold" BackgroundColor="Transparent"/>
-                                <!-- Lable Binded to the Project Goal -->
-                                <Label Text="{Binding projectGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="Transparent"/>
-                                <!-- Progress binded to the Progress of the project -->
-                                <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="{Binding projectProgress}" ProgressColor="Green" HeightRequest="10" BackgroundColor="Transparent"/>
-                                
-                            </Grid>
+                            <!-- Lable Binded to the Project Name -->
+                            <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold" BackgroundColor="Transparent"/>
+                            <!-- Lable Binded to the Project Goal -->
+                            <Label Text="{Binding projectGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="Transparent"/>
+                            <!-- Progress binded to the Progress of the project -->
+                            <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="{Binding projectProgress}" ProgressColor="Green" HeightRequest="10" BackgroundColor="Transparent"/>
 
-                        </Frame>
+                        </Grid>
 
-                    </DataTemplate>
+                    </Frame>
 
-                </CollectionView.ItemTemplate>
+                </DataTemplate>
 
-            </CollectionView>
+            </CollectionView.ItemTemplate>
 
-        </ScrollView>
-        
+        </CollectionView>
+
         <!-- Button binded to the Add command which creates a new project -->
         <Button Text="New Project" Grid.Row="3" Grid.Column="1" MinimumWidthRequest="100" Command="{Binding AddProjectCommand}"/>
 
     </Grid>
-    
+
+    </ScrollView>
+
 </ContentPage>
 

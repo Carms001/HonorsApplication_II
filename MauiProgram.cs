@@ -1,8 +1,10 @@
 ﻿using HonorsApplication_II.Data;
 using HonorsApplication_II.Functions;
 using HonorsApplication_II.Pages;
+
 using HonorsApplication_II.ViewModels;
 using Microsoft.Extensions.Logging;
+using Mopups.Hosting;
 
 namespace HonorsApplication_II
 {
@@ -13,6 +15,7 @@ namespace HonorsApplication_II
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .ConfigureMopups()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
