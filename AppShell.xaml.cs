@@ -9,6 +9,7 @@ namespace HonorsApplication_II
             InitializeComponent();
             Routing.RegisterRoute(nameof(ProjectsPage), typeof(ProjectsPage));
             Routing.RegisterRoute(nameof(Tasks), typeof(Tasks));
+            Routing.RegisterRoute(nameof(EditTaskPage), typeof(EditTaskPage));
 
         }
     }

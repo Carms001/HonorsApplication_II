@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HonorsApplication_II.Pages.EditTaskPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:HonorsApplication_II.ProgramClasses"
+             xmlns:viewmodel="clr-namespace:HonorsApplication_II.ViewModels"
+             x:DataType="viewmodel:EditTaskViewModel"
+             Title="Edit Task">
+
+    <ScrollView>
+
+        <Grid
+            RowDefinitions="*,*,*,*,*"
+            Padding="10"
+            RowSpacing="10">
+            
+
+            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
+
+                <Grid
+                    RowDefinitions="Auto,Auto"
+                    Padding="10"
+                    RowSpacing="5">
+
+                    <Label Text="Task Name:" />
+                    <Entry Placeholder="{Binding Task.taskName}" Text="{Binding Name}" Grid.Row="1"/>
+
+                </Grid>
+
+            </Frame>
+
+            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="1">
+
+                <Grid
+                    RowDefinitions="Auto,Auto"
+                    Padding="10"
+                    RowSpacing="5">
+
+                    <Label Text="Goal:" />
+                    <Entry Placeholder="{Binding Task.taskGoal}" Text="{Binding Goal}" Grid.Row="1"/>
+
+                </Grid>
+
+            </Frame>
+
+            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="2">
+
+                <Grid
+                    RowDefinitions="Auto,Auto"
+                    Padding="10"
+                    RowSpacing="5">
+
+                    <Label Text="Description:" />
+                    <Entry Placeholder="{Binding Task.taskDescription}" Text="{Binding Description}" Grid.Row="1" />
+
+                </Grid>
+
+            </Frame>
+
+            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="3">
+
+                <Grid
+                    RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="0.8*,*"
+                    Padding="10"
+                    RowSpacing="5">
+
+                    <Label Text="Deadline:" />
+                    <DatePicker Date="{Binding Task.taskDeadline}" MinimumDate="{Binding MinDate}" Grid.Row="1" IsEnabled="true">
+
+                        <DatePicker.Triggers>
+
+                            <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked }" Value="false">
+
+                                <Setter Property="IsEnabled" Value="false"/>
+                                
+                            </DataTrigger>
+
+                        </DatePicker.Triggers>
+
+
+                    </DatePicker>
+                    <CheckBox IsChecked="{Binding Task.taskHasDeadline}"  Grid.Column="1" Grid.Row="1" x:Name="checkBox"/>
+
+                    
+                    
+                    
+                </Grid>
+
+            </Frame>
+
+
+            <Button Text="Save" HorizontalOptions="Center" VerticalOptions="End" Command="{Binding SaveCommand}" Grid.Row="4"/>
+
+        </Grid>
+
+    </ScrollView>
+</ContentPage>

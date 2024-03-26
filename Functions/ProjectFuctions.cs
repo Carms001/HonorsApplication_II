@@ -23,7 +23,7 @@ namespace HonorsApplication_II.Functions
             dbContext = context;
         }
 
-        public async Task SetUpExampleProject(int userID)
+        public async Task SetUpExampleProject()
         {
             //Creating an Example Project as a sample
 
@@ -34,7 +34,7 @@ namespace HonorsApplication_II.Functions
                 projectDescription = "This Project is to act as an example. In which this example project shows off the core functionality of this application.",
                 projectStartDate = DateTime.Now,
                 projectLastUsed = DateTime.Now,
-                userID = userID
+                //userID = userID
             };
 
             //adding the example project to the database
@@ -103,9 +103,12 @@ namespace HonorsApplication_II.Functions
                 projectID = exampleProject.projectID,
                 taskCatagory = "Done",
                 taskComplete = true
-        };
+            };
 
             await dbContext.AddTaskAsync(exampleCompleteTask);
+
+            await UpdateProjectProgress(exampleProject);
+
         } 
 
 
@@ -227,8 +230,6 @@ namespace HonorsApplication_II.Functions
 
         public async Task UpdateTaskColour(TaskClass task)
         {
-
-
 
             if(task.taskHasDeadline == false) { return; }
 

@@ -44,8 +44,8 @@ namespace HonorsApplication_II.ProgramClasses
 
         public double projectProgress { get; set; }
 
-        [Indexed]
-        public long userID { get; set; }
+        //[Indexed]
+        //public long userID { get; set; }
 
     }
 

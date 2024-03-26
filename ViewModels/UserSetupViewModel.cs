@@ -56,17 +56,17 @@ namespace HonorsApplication_II.ViewModels
                 //Adding the new user to the database
                 await dbContext.AddUserAsync(newuser);
 
-                await functions.SetUpExampleProject(newuser.userID);
+                //await functions.SetUpExampleProject(newuser.userID);
 
 
                 //gets all the projects assinged to the user 
-                var getUserProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
+                //var getUserProjects = await dbContext.GetProjectsByUserIdAsync(newuser.userID);
 
                 //creates a new RangeCollection called userProjects
                 ObservableRangeCollection<Project> userProjects = new();
 
                 //adds the list of projects assinged to the user the the Ranger Collection
-                userProjects.AddRange(getUserProjects);
+                //userProjects.AddRange(getUserProjects);
 
                 foreach(var project in userProjects)
                 {

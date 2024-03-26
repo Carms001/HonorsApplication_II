@@ -1,4 +1,5 @@
-﻿using HonorsApplication_II.Functions;
+﻿using DevExpress.Data.XtraReports.Native;
+using HonorsApplication_II.Functions;
 using HonorsApplication_II.ProgramClasses;
 using SQLite;
 using System;
@@ -45,8 +46,11 @@ namespace HonorsApplication_II.Data
         }
 
         //If the Database is needed to be removed for testing purposes
-        public async Task ResetDB()
+        public  async Task ResetDB()
         {
+
+            await Init();
+
             //Checks if the the database has been created
             if(db != null)
             {
@@ -115,6 +119,14 @@ namespace HonorsApplication_II.Data
             await db.InsertAsync(project);
         }
 
+        // Retrieve all projects asynchronously
+        public async Task<List<Project>> GetAllProjectsAsync()
+        {
+            await Init();
+
+            return await db.Table<Project>().ToListAsync();
+        }
+
         // Retrieve a project by ID asynchronously
         public async Task<Project> GetProjectAsync(int projectId)
         {
@@ -124,12 +136,12 @@ namespace HonorsApplication_II.Data
         }
 
         // Retrieve all projects for a specific user asynchronously
-        public async Task<List<Project>> GetProjectsByUserIdAsync(int userId)
-        {
-            await Init();
+        //public async Task<List<Project>> GetProjectsByUserIdAsync(int userId)
+        //{
+            //await Init();
 
-            return await db.Table<Project>().Where(p => p.userID == userId).ToListAsync();
-        }
+            //return await db.Table<Project>().Where(p => p.userID == userId).ToListAsync();
+        //}
 
         // Update a project asynchronously
         public async Task UpdateProjectAsync(Project project)

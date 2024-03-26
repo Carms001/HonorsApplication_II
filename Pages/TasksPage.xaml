@@ -45,7 +45,7 @@
 
                     <DataTemplate x:DataType="models:Task">
 
-                        <Frame Padding="0,5" BackgroundColor="#FFADB0">
+                        <Frame Padding="0,5" BackgroundColor="Transparent">
 
                             <Frame.GestureRecognizers>
 
@@ -66,7 +66,7 @@
 
                             <Frame.Triggers>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Red">
-                                    <Setter Property="BackgroundColor" Value="LightPink"/>
+                                    <Setter Property="BackgroundColor" Value="Red"/>
                                 </DataTrigger>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Yellow">
                                     <Setter Property="BackgroundColor" Value="Orange"/>
@@ -157,7 +157,7 @@
 
                             <Frame.Triggers>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Red">
-                                    <Setter Property="BackgroundColor" Value="LightPink"/>
+                                    <Setter Property="BackgroundColor" Value="Red"/>
                                 </DataTrigger>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Yellow">
                                     <Setter Property="BackgroundColor" Value="Orange"/>

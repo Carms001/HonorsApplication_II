@@ -38,6 +38,9 @@ namespace HonorsApplication_II
             builder.Services.AddTransient<Tasks>();
             builder.Services.AddTransient<TasksViewModel>();
 
+            builder.Services.AddTransient<EditTaskPage>();
+            builder.Services.AddTransient<EditTaskViewModel>();
+
             builder.Services.AddSingleton<DatabaseContext>();
             builder.Services.AddTransient<ProjectFunctions>();
 

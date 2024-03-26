@@ -6,6 +6,7 @@ using DevExpress.Data.Controls.ExpressionEditor;
 using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
 using HonorsApplication_II.Functions;
+using HonorsApplication_II.Pages;
 using HonorsApplication_II.ProgramClasses;
 using Mopups.Services;
 using System;
@@ -205,7 +206,9 @@ namespace HonorsApplication_II.ViewModels
 
             switch (action)
             {
-                case "Edit": break;
+                case "Edit":
+
+                    break;
 
 
                 //=========================================================
@@ -255,6 +258,10 @@ namespace HonorsApplication_II.ViewModels
 
                 default: await App.Current.MainPage.DisplayAlert("Error", "Something went wrong!", "OK");  break;
             }
+
+            if (action.Equals("Edit")) { await Shell.Current.GoToAsync(nameof(EditTaskPage), new Dictionary<string, object> { ["task"] = task }); }
+
+            await Refresh();
 
         }  
 

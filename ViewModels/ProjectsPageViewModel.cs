@@ -1,7 +1,6 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
 using HonorsApplication_II.Functions;
 using HonorsApplication_II.Pages;
@@ -11,19 +10,20 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 using Task = System.Threading.Tasks.Task;
+using DevExpress.Data.XtraReports.Native;
 
 namespace HonorsApplication_II.ViewModels
 {
 
     //Query propertys, allowing the transfer of selected data
-    [QueryProperty("User", "user")]
-    [QueryProperty("Projects", "projects")]
+    //[QueryProperty("User", "user")]
+    //[QueryProperty("Projects", "projects")]
 
     public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
 
-        [ObservableProperty]
-        LocalUser user; //user Object
+        //[ObservableProperty]
+        //LocalUser user; //user Object
 
         [ObservableProperty]
         ObservableRangeCollection<Project> projects; //RangeCollection of Projects
@@ -37,7 +37,29 @@ namespace HonorsApplication_II.ViewModels
             dbContext = context;
             functions = functionsContext;
 
+            projects = new ObservableRangeCollection<Project>();
+
+            Task task = Startup();
+            
         }
+
+        async Task Startup()
+        {
+            await dbContext.ResetDB();
+
+            await functions.SetUpExampleProject();
+
+            ObservableRangeCollection<Project> list = new ObservableRangeCollection<Project>();
+
+            var list2 = dbContext.GetAllProjectsAsync();
+
+            list.AddRange(await list2);
+
+            Projects = list;
+
+        }
+
+
 
         //========================================================================================
 
@@ -51,7 +73,7 @@ namespace HonorsApplication_II.ViewModels
             Projects.Clear();
 
             //gets all projects related to the active user
-            var projects = await dbContext.GetProjectsByUserIdAsync(User.userID);
+            var projects = await dbContext.GetAllProjectsAsync();
 
             //adds all the projects to the Projects collection
             Projects.AddRange(projects);
@@ -84,7 +106,6 @@ namespace HonorsApplication_II.ViewModels
                         //adds the project goal collected from user
                         projectGoal = goal,
                         //assings the project to the active user
-                        userID = User.userID, 
                         //Assings basic DateTime data and makes sure the the IsComplete veribal is false
                         projectIsComplete = false,
                         projectLastUsed = DateTime.Now,
@@ -126,6 +147,8 @@ namespace HonorsApplication_II.ViewModels
             getTasks = await functions.GetToDoTasks(currentProject.projectID);
 
             todoTasks.AddRange(getTasks);
+
+            await Refresh();
 
             //Sets the currentProject to project that was clicked on
             //Project currentProject = await dbContext.GetProjectAsync(projectID); 
