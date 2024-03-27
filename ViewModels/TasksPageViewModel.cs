@@ -46,6 +46,7 @@ namespace HonorsApplication_II.ViewModels
         {
             dbcontext = context;
             functions = functionsContext;
+
         }
 
 
@@ -193,9 +194,16 @@ namespace HonorsApplication_II.ViewModels
 
 
         [RelayCommand]
-        async Task GoBack()
+        async Task Return()
         {
-            await Shell.Current.GoToAsync("..");//This is how you navigate backwords
+
+            await functions.UpdateProjectProgress(CurrentProject);
+
+            ObservableRangeCollection<Project> projects = new ObservableRangeCollection<Project>();
+
+            projects.AddRange(await dbcontext.GetAllProjectsAsync());
+
+            await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["projects"] = projects });
         }
 
         [RelayCommand]
@@ -252,16 +260,36 @@ namespace HonorsApplication_II.ViewModels
 
                     await functions.UpdateProjectProgress(CurrentProject);
 
+                    if (CurrentProject.projectProgress == 1)
+                    {
+                        bool confrim = await App.Current.MainPage.DisplayAlert("Project Complete?", "You have no more tasks! \nDo you want to Complete the project or start a new task?", "New Task", "Complete Project");
+
+                        if (confrim)
+                        {
+                            await NewTask();
+                        }
+                        else
+                        {
+                            CurrentProject.projectIsComplete = true;
+
+                            await dbcontext.UpdateProjectAsync(CurrentProject);
+
+                            await Return();
+
+                        }
+
+
+                    }
+
                     break;
 
                 case "Cancel": return; 
 
-                default: await App.Current.MainPage.DisplayAlert("Error", "Something went wrong!", "OK");  break;
+                default: //await App.Current.MainPage.DisplayAlert("Error", "Something went wrong!", "OK");  
+                    break;
             }
 
             if (action.Equals("Edit")) { await Shell.Current.GoToAsync(nameof(EditTaskPage), new Dictionary<string, object> { ["task"] = task }); }
-
-            await Refresh();
 
         }  
 
@@ -307,7 +335,7 @@ namespace HonorsApplication_II.ViewModels
 
         [RelayCommand] //Allows the command to be seen by the page
         //Refresh page refreshes the RangeCollection 
-        async Task Refresh()
+        public async Task Refresh()
         {
 
             DoingTasks.Clear();

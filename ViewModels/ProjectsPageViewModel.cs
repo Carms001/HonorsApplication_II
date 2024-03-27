@@ -17,13 +17,10 @@ namespace HonorsApplication_II.ViewModels
 
     //Query propertys, allowing the transfer of selected data
     //[QueryProperty("User", "user")]
-    //[QueryProperty("Projects", "projects")]
+    [QueryProperty("Projects", "projects")]
 
     public partial class ProjectsPageViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
-
-        //[ObservableProperty]
-        //LocalUser user; //user Object
 
         [ObservableProperty]
         ObservableRangeCollection<Project> projects; //RangeCollection of Projects
@@ -37,9 +34,12 @@ namespace HonorsApplication_II.ViewModels
             dbContext = context;
             functions = functionsContext;
 
-            projects = new ObservableRangeCollection<Project>();
+            if (Projects == null)
+            {
+                Projects = new ObservableRangeCollection<Project>();
 
-            Task task = Startup();
+                Task task = Startup();
+            }
             
         }
 

@@ -8,6 +8,11 @@
              x:DataType="viewmodel:EditTaskViewModel"
              Title="Edit Task">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding ReturnCommand}"
+                            IconOverride="back.png" />
+    </Shell.BackButtonBehavior>
+
     <ScrollView>
 
         <Grid
@@ -74,22 +79,17 @@
                             <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked }" Value="false">
 
                                 <Setter Property="IsEnabled" Value="false"/>
-                                
+
                             </DataTrigger>
 
                         </DatePicker.Triggers>
 
-
                     </DatePicker>
                     <CheckBox IsChecked="{Binding Task.taskHasDeadline}"  Grid.Column="1" Grid.Row="1" x:Name="checkBox"/>
 
-                    
-                    
-                    
                 </Grid>
 
             </Frame>
-
 
             <Button Text="Save" HorizontalOptions="Center" VerticalOptions="End" Command="{Binding SaveCommand}" Grid.Row="4"/>
 

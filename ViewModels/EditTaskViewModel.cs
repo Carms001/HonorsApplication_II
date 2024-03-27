@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
 using HonorsApplication_II.Functions;
 using HonorsApplication_II.ProgramClasses;
@@ -31,8 +32,6 @@ namespace HonorsApplication_II.ViewModels
             dbContext = context;
             functions = functionsContext;
 
-            task = new TaskClass();
-
         }
 
         [ObservableProperty]
@@ -56,26 +55,46 @@ namespace HonorsApplication_II.ViewModels
             bool confrim = await App.Current.MainPage.DisplayAlert("Save", "Are you sure you want to save changes?", "Save", "Cancel");
 
             if (confrim) 
-            { 
-                Task.taskName = Name;
-                Task.taskDescription = Description;
-                Task.taskGoal = Goal;
+            {
 
-                if (Task.taskHasDeadline) 
-                { 
-                    Task.taskHasDeadline = true;
+                if (Name != null && !Name.Equals(Task.taskName)){ Task.taskName = Name;}
 
-                }
-                else
-                {
-                    Task.taskHasDeadline = false;
-                    
-                }
+                if (Description != null && !Description.Equals(Task.taskDescription)) { Task.taskDescription = Description; }
+
+                if (Goal != null && !Goal.Equals(Task.taskGoal)) { Task.taskGoal = Goal; }
+
+                if (Task.taskHasDeadline) { Task.taskHasDeadline = true; } else { Task.taskHasDeadline = false; Task.taskDeadline = DateTime.MinValue; Task.taskTimeDeadlineColour = "None"; Task.taskDaysLeft = null; }
 
                 await dbContext.UpdateTaskAsync(Task);
 
+                Project currentProject = await dbContext.GetProjectAsync(Task.projectID);
+                ObservableRangeCollection<TaskClass> doingTasks = new ObservableRangeCollection<TaskClass>();
+                ObservableRangeCollection<TaskClass> todoTasks = new ObservableRangeCollection<TaskClass>();
+
+                await functions.UpdateTaskColour(Task);
+
+                doingTasks.AddRange(await functions.GetDoingTasks(Task.projectID));
+                todoTasks.AddRange(await functions.GetToDoTasks(Task.projectID));
+
+
+                //await tasksPage.Refresh();
+
+                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks});
+            }
+        }
+
+        [RelayCommand]
+
+        async Task Return()
+        {
+            bool confrim = await App.Current.MainPage.DisplayAlert("Back", "Are you sure you want to go back? Your changes will NOT be saved!", "Ok", "Cancel");
+
+
+            if (confrim)
+            {
                 await Shell.Current.GoToAsync("..");
             }
+
         }
      }
 
