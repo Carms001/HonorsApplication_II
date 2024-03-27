@@ -96,6 +96,63 @@ namespace HonorsApplication_II.ViewModels
             }
 
         }
-     }
+
+        [RelayCommand]
+        async Task Delete()
+        {
+            bool confrim = await App.Current.MainPage.DisplayAlert("Back", "Are you sure you want to Delete this Task?", "Yes", "Cancel");
+
+
+            if (confrim)
+            {
+                await dbContext.DeleteTaskAsync(Task.taskID);
+
+                Project currentProject = await dbContext.GetProjectAsync(Task.projectID);
+                ObservableRangeCollection<TaskClass> doingTasks = new ObservableRangeCollection<TaskClass>();
+                ObservableRangeCollection<TaskClass> todoTasks = new ObservableRangeCollection<TaskClass>();
+
+                await functions.UpdateTaskColour(Task);
+
+                doingTasks.AddRange(await functions.GetDoingTasks(Task.projectID));
+                todoTasks.AddRange(await functions.GetToDoTasks(Task.projectID));
+
+
+                //await tasksPage.Refresh();
+
+                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });
+            }
+
+        }
+
+        [RelayCommand]
+        async Task Complete()
+        {
+            bool confrim = await App.Current.MainPage.DisplayAlert("Back", "Are you sure you want to Complete this Task?", "Yes", "Cancel");
+
+
+            if (confrim)
+            {
+                Task.taskComplete = true;
+
+                await dbContext.UpdateTaskAsync(Task);
+
+                Project currentProject = await dbContext.GetProjectAsync(Task.projectID);
+                ObservableRangeCollection<TaskClass> doingTasks = new ObservableRangeCollection<TaskClass>();
+                ObservableRangeCollection<TaskClass> todoTasks = new ObservableRangeCollection<TaskClass>();
+
+                await functions.UpdateTaskColour(Task);
+
+                doingTasks.AddRange(await functions.GetDoingTasks(Task.projectID));
+                todoTasks.AddRange(await functions.GetToDoTasks(Task.projectID));
+
+
+                //await tasksPage.Refresh();
+
+                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });
+            }
+
+        }
+
+    }
 
 }

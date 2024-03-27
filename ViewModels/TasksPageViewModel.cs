@@ -209,87 +209,7 @@ namespace HonorsApplication_II.ViewModels
         [RelayCommand]
         async Task TaskOptions(TaskClass task)
         {
-
-            string action = await App.Current.MainPage.DisplayActionSheet("Task Options", "Cancel", null, "Edit", "Delete", "Complete");
-
-            switch (action)
-            {
-                case "Edit":
-
-                    break;
-
-
-                //=========================================================
-
-                case "Delete":
-
-                    switch (task.taskCatagory)
-                    {
-
-                        case "Doing": DoingTasks.Remove(task); break;
-
-                        case "To-Do": TodoTasks.Remove(task); break;
-
-
-                    }
-
-                    await dbcontext.DeleteTaskAsync(task.taskID);
-
-                    await functions.UpdateProjectProgress(CurrentProject); 
-
-                    break;
-
-                //=========================================================
-
-                case "Complete":
-
-                    switch (task.taskCatagory)
-                    {
-
-                        case "Doing": DoingTasks.Remove(task); break;
-
-                        case "To-Do": TodoTasks.Remove(task); break;
-
-                    }
-
-                    task.taskCatagory = "Done";
-                    task.taskComplete = true;
-                    task.taskCompleteDate = DateTime.Now;
-
-                    await dbcontext.UpdateTaskAsync(task);
-
-                    await functions.UpdateProjectProgress(CurrentProject);
-
-                    if (CurrentProject.projectProgress == 1)
-                    {
-                        bool confrim = await App.Current.MainPage.DisplayAlert("Project Complete?", "You have no more tasks! \nDo you want to Complete the project or start a new task?", "New Task", "Complete Project");
-
-                        if (confrim)
-                        {
-                            await NewTask();
-                        }
-                        else
-                        {
-                            CurrentProject.projectIsComplete = true;
-
-                            await dbcontext.UpdateProjectAsync(CurrentProject);
-
-                            await Return();
-
-                        }
-
-
-                    }
-
-                    break;
-
-                case "Cancel": return; 
-
-                default: //await App.Current.MainPage.DisplayAlert("Error", "Something went wrong!", "OK");  
-                    break;
-            }
-
-            if (action.Equals("Edit")) { await Shell.Current.GoToAsync(nameof(EditTaskPage), new Dictionary<string, object> { ["task"] = task }); }
+            await Shell.Current.GoToAsync(nameof(EditTaskPage), new Dictionary<string, object> { ["task"] = task }); 
 
         }  
 
@@ -330,8 +250,6 @@ namespace HonorsApplication_II.ViewModels
             }
 
         }
-
-
 
         [RelayCommand] //Allows the command to be seen by the page
         //Refresh page refreshes the RangeCollection 

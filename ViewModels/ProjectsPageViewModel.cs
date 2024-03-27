@@ -59,6 +59,13 @@ namespace HonorsApplication_II.ViewModels
 
         }
 
+        [RelayCommand]
+        async Task ProjectOptions(Project project)
+        {
+            await Shell.Current.GoToAsync(nameof(EditProjectPage), new Dictionary<string, object> { ["project"] = project });
+
+        }
+
 
 
         //========================================================================================

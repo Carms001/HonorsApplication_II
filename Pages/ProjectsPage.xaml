@@ -55,7 +55,11 @@
                             <Label Text="{Binding projectName}" FontSize="24" Grid.ColumnSpan="3" HorizontalOptions="Center" FontAttributes="Bold" BackgroundColor="Transparent"/>
                             <!-- Lable Binded to the Project Goal -->
                             <Label Text="{Binding projectGoal, StringFormat='Project Goal: {0:F2}'}" Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="Transparent"/>
-                            <!-- Progress binded to the Progress of the project -->
+                            
+                                <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" Grid.Row="3" HorizontalOptions="End" BackgroundColor="LightGray"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProjectsPageViewModel}}, Path=ProjectOptionsCommand}" CommandParameter="{Binding .}"/>
+
+                                <!-- Progress binded to the Progress of the project -->
                             <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="{Binding projectProgress}" ProgressColor="Green" HeightRequest="10" BackgroundColor="Transparent"/>
 
                         </Grid>

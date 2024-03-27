@@ -124,7 +124,7 @@ namespace HonorsApplication_II.Data
         {
             await Init();
 
-            return await db.Table<Project>().ToListAsync();
+            return await db.Table<Project>().Where(Project => !Project.projectIsComplete).ToListAsync();
         }
 
         // Retrieve a project by ID asynchronously

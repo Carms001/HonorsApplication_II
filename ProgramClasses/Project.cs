@@ -33,10 +33,9 @@ namespace HonorsApplication_II.ProgramClasses
         //Progress
         //public double Progress { get { return getProgress(assginedTasks.Count, completedTasksCount); } set { } }
 
-
         //Project Start Date, Deadline and End Date
         public DateTime projectStartDate { get; set; }
-        public DateTime projectDeadLine { get; set; }
+
         public DateTime projectEndDate { get; set; }
         public DateTime projectLastUsed { get; set; }
 
