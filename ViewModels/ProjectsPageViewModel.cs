@@ -66,8 +66,6 @@ namespace HonorsApplication_II.ViewModels
 
         }
 
-
-
         //========================================================================================
 
         [RelayCommand] //Allows the command to be seen by the page

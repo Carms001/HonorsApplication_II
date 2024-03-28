@@ -152,14 +152,31 @@ namespace HonorsApplication_II.ViewModels
                         {
                             case "Doing":
 
-                                task.taskCatagory = "Doing";
+                                if(DoingTasks.Count >= 3)
+                                {
+                                    bool confrim = await App.Current.MainPage.DisplayAlert("Too Many Doing Tasks", "You have " + DoingTasks.Count + " Doing tasks already! You can add another but try focus on the tasks you have already started!", "Add", "Cancel");
 
-                                await dbcontext.UpdateTaskAsync(task);
+                                    if (confrim)
+                                    {
+                                        task.taskCatagory = "Doing";
 
-                                TodoTasks.Remove(task);
-                                DoingTasks.Add(task);
+                                        await dbcontext.UpdateTaskAsync(task);
 
+                                        TodoTasks.Remove(task);
+                                        DoingTasks.Add(task);
+                                    }
+                                    else { return; }
+                                }
+                                else 
+                                {
+                                    task.taskCatagory = "Doing";
 
+                                    await dbcontext.UpdateTaskAsync(task);
+
+                                    TodoTasks.Remove(task);
+                                    DoingTasks.Add(task);
+                                }
+  
                                 break;
 
                             case "To-Do":
@@ -191,7 +208,17 @@ namespace HonorsApplication_II.ViewModels
             }
         }
 
+        [RelayCommand]
+        async Task DoingInfo()
+        {
+            await functions.PopInfo("Doing");
+        }
 
+        [RelayCommand]
+        async Task ToDoInfo()
+        {
+            await functions.PopInfo("To-Do");
+        }
 
         [RelayCommand]
         async Task Return()

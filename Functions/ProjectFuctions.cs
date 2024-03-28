@@ -2,11 +2,13 @@
 using DevExpress.Data.XtraReports.Native;
 using HonorsApplication_II.Data;
 using HonorsApplication_II.ProgramClasses;
+using Mopups.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 using TaskClass = HonorsApplication_II.ProgramClasses.Task;
 
@@ -117,29 +119,28 @@ namespace HonorsApplication_II.Functions
         //Gets the tasks that are labled as To-Do
         public async Task<List<TaskClass>> GetToDoTasks(int projectID)
         {
-            //creates a list of type task
+
             var tasks = new List<TaskClass>();
 
-            //gets all the tasks associated with that project ID
+
             var allTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
 
-            //Loops though each task in the list of all tasks
+
             foreach (var task in allTasks)
             {
-                //if the task doesnt have taskComplete as true
-                if (!task.taskComplete)
-                {
-                    //If the task catagory = To-Do
+
+                if (!task.taskComplete){
+
                     if (task.taskCatagory.Equals("To-Do"))
                     {
-                        //adds the task to the list of tasks
+
                         tasks.Add(task);
                     }
 
                 }
 
             }
-            //Returns the list of tasks with only those with the catagory of "To-Do"
+
             return tasks;
         }
 
@@ -147,22 +148,22 @@ namespace HonorsApplication_II.Functions
         //Gets the tasks that are labled as To-Do
         public async Task<List<TaskClass>> GetDoingTasks(int projectID)
         {
-            //creates a list of type task
+
             var tasks = new List<TaskClass>();
 
-            //gets all the tasks associated with that project ID
+
             var allTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
 
-            //Loops though each task in the list of all tasks
+
             foreach (var task in allTasks) 
             {
-                //if the task doesnt have taskComplete as true
+
                 if (!task.taskComplete)
                 {
-                    //If the task catagory = Doing
+
                     if (task.taskCatagory.Equals("Doing"))
                     {
-                        //adds the task to the list of tasks
+
                         tasks.Add(task);
                     } 
 
@@ -170,7 +171,7 @@ namespace HonorsApplication_II.Functions
 
             }
 
-            //Returns the list of tasks with only those with the catagory of "Doing"
+
             return tasks;
         }
 
@@ -178,16 +179,16 @@ namespace HonorsApplication_II.Functions
         //Gets the tasks that are labled as To-Do
         public async Task<List<TaskClass>> GetDoneTasks(int projectID)
         {
-            //creates a list of type task
+
             var tasks = new List<TaskClass>();
 
-            //gets all the tasks associated with that project ID
+
             var allTasks = await dbContext.GetTasksByProjectIdAsync(projectID);
 
-            //Loops though each task in the list of all tasks if the task has taskComplete = true, it adds it to the list
+
             foreach (var task in allTasks) { if (task.taskComplete == true) { tasks.Add(task); } }
 
-            //Returns a list of tasks that are marked as complete
+
             return tasks;
         }
 
@@ -195,32 +196,30 @@ namespace HonorsApplication_II.Functions
         //Method that reOrdersTasks
         public async Task ReOrderTasks(ObservableRangeCollection<TaskClass> doing, ObservableRangeCollection<TaskClass> todo, int projectID)
         {
-            //Creates a Range of type TaskClass
+
             ObservableRangeCollection<TaskClass> done = new();
 
-            //gets a list of of done Tasks
+
             var getDone = await GetDoneTasks(projectID);
 
-            //Adds the list of done tasks to the range
+
             done.AddRange(getDone);
 
-            //creates a new List of type TaskClass
+
             List<TaskClass> allTasks = new List<TaskClass>();
 
 
-            //adds all the range of tasks into one big list of tasks in order
+
             foreach (var task in doing) { allTasks.Add(task); }
 
             foreach (var task in todo) { allTasks.Add(task); }
 
             foreach (var task in done) { allTasks.Add(task); }
 
-            //Removes all the tasks related to the project
-            await dbContext.DeleteAllTasksByProjectIDAsync(projectID);
-            //adds the task back into the project 
-            await dbContext.AddListOfTasksToProjectAsync(allTasks);
 
-            //By removing then adding the task back within the database they are now in the order that the user wants
+            await dbContext.DeleteAllTasksByProjectIDAsync(projectID);
+ 
+            await dbContext.AddListOfTasksToProjectAsync(allTasks);
 
         }
 
@@ -228,7 +227,7 @@ namespace HonorsApplication_II.Functions
         //Method that Changes the state/Catafory of the Task
         public async Task<TaskClass> ChangeState(TaskClass task, string state)
         {
-            //Sets the task catagory based of the parameter states value
+
             switch (state)
             {
                 
@@ -237,10 +236,9 @@ namespace HonorsApplication_II.Functions
                 case "Doing" : task.taskCatagory = "Doing"; break;
             }
 
-            //updates the task in the database
+
             await dbContext.UpdateTaskAsync(task);
 
-            //returns the current task
             return task;
 
         }
@@ -252,19 +250,17 @@ namespace HonorsApplication_II.Functions
            
             double progress = 0;
 
-            //gets all the tasks associated with the project
+
             var allTasks = await dbContext.GetTasksByProjectIdAsync(project.projectID);
 
-            //gets all the done tasks 
+
             var doneTasks = await GetDoneTasks(project.projectID);
 
-            //devides the amount of done tasks by the amount of all tasks to find the percentage that are done
             progress = (double)doneTasks.Count / (double)allTasks.Count;
 
-            //sets the project progress to the value calcualted
+
             project.projectProgress = progress;
 
-            //updates the project in the database with the new progress value
             await dbContext.UpdateProjectAsync(project);
 
         }
@@ -273,18 +269,18 @@ namespace HonorsApplication_II.Functions
         //Method that Updates the background of the task based of teh deadline
         public async Task UpdateTaskColour(TaskClass task)
         {
-            //if the task has no deadline 
+
             if(task.taskHasDeadline == false) { return; }
 
             bool due = false;
 
-            //finds the diffrence in DateTime bettween now and the deadline
+
             var dif = DateTime.Now - task.taskDeadline;
 
-            //Calculates the amount of whole days left
+
             int daysLeft = dif.Days * -1;
 
-            //assinged diffrent values to taskDaysLeft depending the value of daysLeft
+   
             if(daysLeft == 0) 
             {
                 task.taskDaysLeft = "Due Today";
@@ -294,10 +290,8 @@ namespace HonorsApplication_II.Functions
                 task.taskDaysLeft = "Overdue";
             }
 
-            //Assinges a value to the daysleft string
             task.taskDaysLeft = "Days Left: " + daysLeft;
-
-            //if the amounr of days are above or below a certain about of time a diffrent colour will be set
+  
             if(daysLeft <= 3 || due == true)
             {
                 task.taskTimeDeadlineColour = "Red";
@@ -311,9 +305,80 @@ namespace HonorsApplication_II.Functions
                 task.taskTimeDeadlineColour = "Green";        
             }
 
-            //updates the database
             await dbContext.UpdateTaskAsync(task);
 
+        }
+        //========================================================================================
+        //Method that Sets the Text for the ExtraInfo popup
+        public async Task PopInfo(string choice)
+        {
+
+            string text;
+
+            switch (choice)
+            {
+                case "Doing":
+
+                    text = "The 'Doing' column shows the tasks that are activly being worked on!\n\n" +
+                        "You can add to this by dragging a task over the header. ";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+
+                    break;
+                case "To-Do": 
+
+                    text = "The 'To-Do' column shows the tasks that are in backlog and what need to be done AFTER all those in the 'Doing' pile are done.\n\n" +
+                        "Like the 'Doing' Header if you drag a task over this header you can deprioritise that task and put it in the backlog or 'To-Do'.";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+
+                    break;
+
+                case "Goal":
+
+                    text = "The Goal is a very short sentence about the overall objective and is NOT a descriptions!\n\n" +
+                        "An Example: if that objective is to get milk form the store, the goal would be: Go get milk!";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+
+                    break;
+
+                case "Decription":
+
+                    text = "Unlike the Goal, Description is a OPTIONAL place to jot down what the Objective is in detail.";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+
+                    break;
+
+                case "Deadline":
+
+                    text = "You can give the task a Deadline by Checking or UnChecking the checkbox.";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+
+                    break;
+
+                case "TaskName":
+
+                    text = "Task Name: is the name you give to the task and is what is displayed on the Task List. Try naming the task as relatable to its purpose as you can\n\n" +
+                        "Example: 'Get Milk' if the task is to get milk.";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+
+                    break;
+
+                case "ProjectName":
+
+                    text = "Project Name: is the name you give to the task and is what is displayed on the Project List. Try naming the Project as relatable to its purpose as you can\n\n" +
+                        "Example: 'Write Essay' if the task is to write an Essay";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+
+                    break;
+
+
+            }
         }
 
     }

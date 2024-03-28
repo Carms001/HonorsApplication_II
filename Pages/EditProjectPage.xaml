@@ -6,63 +6,73 @@
              xmlns:models="clr-namespace:HonorsApplication_II.ProgramClasses"
              xmlns:viewmodel="clr-namespace:HonorsApplication_II.ViewModels"
              x:DataType="viewmodel:EditProjectViewModel"
-             Title="Edit Task">
+             Title="Edit Project">
 
+    <!--Controls the Backbutton Navigation Behaviour-->
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding ReturnCommand}"
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
 
     <ScrollView>
-
+        <!--Grid that holds Frames in place-->
         <Grid
             RowDefinitions="*,*,*,*,*"
             Padding="10"
             RowSpacing="10">
 
-
+            <!--Frame that holds the "Project Name" and Binding-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
 
                 <Grid
                     RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="0.8*,0.2*"
                     Padding="10"
                     RowSpacing="5">
 
                     <Label Text="Task Name:" />
                     <Entry Placeholder="{Binding Project.projectName}" Text="{Binding Name}" Grid.Row="1"/>
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding ProjectNameInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
 
                 </Grid>
 
             </Frame>
 
+            <!--Frame that holds the "Project Goal" and Binding-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="1">
 
                 <Grid
                     RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="0.8*,0.2*"
                     Padding="10"
                     RowSpacing="5">
 
                     <Label Text="Goal:" />
                     <Entry Placeholder="{Binding Project.projectGoal}" Text="{Binding Goal}" Grid.Row="1"/>
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding GoalInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
 
                 </Grid>
 
             </Frame>
 
+            <!--Frame that holds the "Project Description" and Binding-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="2">
 
                 <Grid
                     RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="0.8*,0.2*"
                     Padding="10"
                     RowSpacing="5">
 
                     <Label Text="Description:" />
                     <Entry Placeholder="{Binding Project.projectDescription}" Text="{Binding Description}" Grid.Row="1" />
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DescriptionInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
 
                 </Grid>
 
             </Frame>
 
+            <!--Frame that holds the Project Comeplete/Delete Buttons-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="3">
 
                 <Grid
@@ -94,6 +104,7 @@
 
             </Frame>
 
+            <!--Frame that holds the Project Save Button-->
             <Frame BackgroundColor="ForestGreen" BorderColor="LightGrey" CornerRadius="10" Grid.Row="4">
 
                 <Label Text="Save" HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -103,7 +114,6 @@
                 </Frame.GestureRecognizers>
 
             </Frame>
-
 
         </Grid>
 

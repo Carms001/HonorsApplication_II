@@ -49,6 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\ic_fluent_info_24_filled.svg" />
 	  <None Remove="Resources\Images\ic_fluent_options_24_filled.svg" />
 	  <None Remove="Resources\Images\more_circle.svg" />
 	</ItemGroup>
@@ -65,6 +66,9 @@
 	  <Compile Update="Pages\TasksPage.xaml.cs">
 	    <DependentUpon>TasksPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="PopupPages\ExtraInfoPopup.xaml.cs">
+	    <DependentUpon>ExtraInfoPopup.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -75,6 +79,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TasksPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="PopupPages\ExtraInfoPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="PopupPages\TaskDetailsPopup.xaml">

@@ -8,6 +8,7 @@
              x:DataType="viewmodel:EditTaskViewModel"
              Title="Edit Task">
 
+    <!--Controls the Backbutton Navigation Behaviour-->
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding ReturnCommand}"
                             IconOverride="back.png" />
@@ -15,69 +16,67 @@
 
     <ScrollView>
 
+        <!--Grid that holds Frames in place-->
         <Grid
-            RowDefinitions="*,*,*,*,*,*"
+            RowDefinitions="*,*,*,*,*"
             Padding="10"
             RowSpacing="10">
             
 
+            <!--Frame that holds the "Task Name" and binding-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
 
                 <Grid
                     RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="0.8*,0.2*"
                     Padding="10"
                     RowSpacing="5">
 
                     <Label Text="Task Name:" />
                     <Entry Placeholder="{Binding Task.taskName}" Text="{Binding Name}" Grid.Row="1"/>
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding TaskNameInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
 
                 </Grid>
 
             </Frame>
 
+            <!--Frame that holds the "Task Goal" and binding-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="1">
 
                 <Grid
                     RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="0.8*,0.2*"
                     Padding="10"
                     RowSpacing="5">
 
                     <Label Text="Goal:" />
                     <Entry Placeholder="{Binding Task.taskGoal}" Text="{Binding Goal}" Grid.Row="1"/>
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding GoalInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
+                    
 
                 </Grid>
 
             </Frame>
 
+            <!--Frame that holds the "Deadline" and binding-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="2">
 
                 <Grid
-                    RowDefinitions="Auto,Auto"
-                    Padding="10"
-                    RowSpacing="5">
-
-                    <Label Text="Description:" />
-                    <Entry Placeholder="{Binding Task.taskDescription}" Text="{Binding Description}" Grid.Row="1" />
-
-                </Grid>
-
-            </Frame>
-
-            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="3">
-
-                <Grid
-                    RowDefinitions="Auto,Auto"
-                    ColumnDefinitions="0.8*,*"
+                    RowDefinitions="30,50"
+                    ColumnDefinitions="0.8*,0.2*"
                     Padding="10"
                     RowSpacing="5">
 
                     <Label Text="Deadline:" />
+                    <CheckBox IsChecked="{Binding Task.taskHasDeadline}"  Grid.Column="1" x:Name="checkBox" HorizontalOptions="Center" HeightRequest="30"/>
                     <DatePicker Date="{Binding Task.taskDeadline}" MinimumDate="{Binding MinDate}" Grid.Row="1" IsEnabled="true">
 
                         <DatePicker.Triggers>
 
+                            <!--DataTrigger that triggers according to if the Checkbox is checked or not-->
                             <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked }" Value="false">
-
+                                
+                                <!--Sets the DatePickers Property to to or false when fired-->
                                 <Setter Property="IsEnabled" Value="false"/>
 
                             </DataTrigger>
@@ -85,13 +84,17 @@
                         </DatePicker.Triggers>
 
                     </DatePicker>
-                    <CheckBox IsChecked="{Binding Task.taskHasDeadline}"  Grid.Column="1" Grid.Row="1" x:Name="checkBox"/>
+                    
+                    <!--CheckBox that is set to the above data trigger-->
+                    
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DeadlineInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
 
                 </Grid>
 
             </Frame>
 
-            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="4">
+            <!--Frame that holds the Task Comeplete/Delete Buttons-->
+            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="3">
 
                 <Grid
                     ColumnDefinitions="*,*"
@@ -122,7 +125,8 @@
 
             </Frame>
 
-            <Frame BackgroundColor="ForestGreen" BorderColor="LightGrey" CornerRadius="10" Grid.Row="5">
+            <!--Frame that holds the Task Save Button-->
+            <Frame BackgroundColor="ForestGreen" BorderColor="LightGrey" CornerRadius="10" Grid.Row="4">
 
                 <Label Text="Save" HorizontalOptions="Center" VerticalOptions="Center"/>
 

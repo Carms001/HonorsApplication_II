@@ -41,9 +41,6 @@ namespace HonorsApplication_II.ViewModels
         string name;
 
         [ObservableProperty]
-        string description;
-
-        [ObservableProperty]
         string goal;
 
 
@@ -57,9 +54,7 @@ namespace HonorsApplication_II.ViewModels
             if (confrim) 
             {
 
-                if (Name != null && !Name.Equals(Task.taskName)){ Task.taskName = Name;}
-
-                if (Description != null && !Description.Equals(Task.taskDescription)) { Task.taskDescription = Description; }
+                if (Name != null && !Name.Equals(Task.taskName)){ Task.taskName = Name;}else if(Name == null) { Task.taskName = "Unnamed Task"; }
 
                 if (Goal != null && !Goal.Equals(Task.taskGoal)) { Task.taskGoal = Goal; }
 
@@ -89,10 +84,11 @@ namespace HonorsApplication_II.ViewModels
         {
             bool confrim = await App.Current.MainPage.DisplayAlert("Back", "Are you sure you want to go back? Your changes will NOT be saved!", "Ok", "Cancel");
 
-
             if (confrim)
             {
-                await Shell.Current.GoToAsync("..");
+
+                await Shell.Current.GoToAsync(".."});
+
             }
 
         }
@@ -151,6 +147,24 @@ namespace HonorsApplication_II.ViewModels
                 await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });
             }
 
+        }
+
+        [RelayCommand]
+        async Task TaskNameInfo()
+        {
+            await functions.PopInfo("TaskName");
+        }
+
+        [RelayCommand]
+        async Task GoalInfo()
+        {
+            await functions.PopInfo("Goal");
+        }
+
+        [RelayCommand]
+        async Task DeadlineInfo()
+        {
+            await functions.PopInfo("Deadline");
         }
 
     }

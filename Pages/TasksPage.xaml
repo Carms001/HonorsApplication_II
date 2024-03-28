@@ -8,6 +8,7 @@
              x:DataType="viewmodel:TasksViewModel"
              Title="{Binding CurrentProject.projectName}">
 
+    <!--Controls the Backbutton Navigation Behaviour-->
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding ReturnCommand}"
                         IconOverride="back.png" />
@@ -17,6 +18,7 @@
     <!-- Allows the user to Scroll Form this point -->
     <ScrollView HorizontalOptions="Center">
 
+        <!--Grid that holds Frames/CollectionViews in place-->
         <Grid 
             RowDefinitions="Auto,Auto,Auto,*,Auto"
             ColumnDefinitions=".01*, .98*, .01*" 
@@ -24,6 +26,7 @@
             RowSpacing="10"
             ColumnSpacing="10">
 
+            <!--Frame that holds the "Doing" Header-->
             <Frame Grid.Column="1" Grid.Row="0" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
 
                 <Grid
@@ -31,21 +34,25 @@
                     Padding="5"
                     ColumnSpacing="5">
 
-                    <Label Text="Doing" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1"/>
+                    <Label Text="Doing" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold"/>
 
-                    <Label Text="{Binding DoingTasks.Count}" BackgroundColor="Transparent" Grid.Column="2"/>
+                    <Label Text="{Binding DoingTasks.Count}" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold"/>
+
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoingInfoCommand}" MaximumHeightRequest="30"/>
 
                 </Grid>
 
+                <!--GestserReconizer that tells when something was dropped over it-->
                 <Frame.GestureRecognizers>
                     <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="Doing"/>
                 </Frame.GestureRecognizers>
 
             </Frame>
 
+            <!--CollectionView that displays all the "Doing"-->
             <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True">
 
-                
+                <!--Outlines the template used to display the tasks-->
                 <CollectionView.ItemTemplate>
 
 
@@ -53,6 +60,7 @@
 
                         <Frame Padding="0,5" BackgroundColor="Transparent">
 
+                            <!--GestureResconisers to set the what happens if the Frame is Dragged/Dropped or Tapped on-->
                             <Frame.GestureRecognizers>
 
                                 <DragGestureRecognizer CanDrag="True" 
@@ -70,6 +78,7 @@
 
                             </Frame.GestureRecognizers>
 
+                            <!--Triggers that change the colour of the background based on the taskDeadlineColour Value-->
                             <Frame.Triggers>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Red">
                                     <Setter Property="BackgroundColor" Value="Red"/>
@@ -87,6 +96,7 @@
 
                             </Frame.Triggers>
 
+                            <!--Grid that displays all the Data of the task-->
                             <Grid 
                                RowDefinitions="25"
                                ColumnDefinitions=".4*,.45*,.15*"
@@ -99,7 +109,7 @@
 
                                 <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent"/>
 
-                                <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="LightGray"
+                                <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}"/>
 
                             </Grid>
@@ -112,6 +122,7 @@
 
             </CollectionView>
 
+            <!--Frame that holds the "To-Do" Header-->
             <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
 
                 <Grid
@@ -119,48 +130,50 @@
                     Padding="5"
                     ColumnSpacing="5">
 
-                    <Label Text="To-Do" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1"/>
+                    <Label Text="To-Do" HorizontalOptions="Center" FontAttributes="Bold" BackgroundColor="Transparent" Grid.Column="1"/>
 
-                    <Label Text="{Binding TodoTasks.Count}" BackgroundColor="Transparent" Grid.Column="2"/>
+                    <Label Text="{Binding TodoTasks.Count}" BackgroundColor="Transparent" FontAttributes="Bold"/>
+
+                    <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding ToDoInfoCommand}" MaximumHeightRequest="30"/>
 
                 </Grid>
-
+                <!--GestserReconizer that tells when something was dropped over it-->
                 <Frame.GestureRecognizers>
                     <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="To-Do"/>
                 </Frame.GestureRecognizers>
 
             </Frame>
 
-
+            <!--GestserReconizer that tells when something was dropped over it-->
             <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True">
 
         
                 <CollectionView.ItemTemplate>
 
-          
-                    <DataTemplate x:DataType="models:Task">
 
+                    <DataTemplate x:DataType="models:Task">
 
                         <Frame Padding="0,5" BackgroundColor="Transparent">
 
+                            <!--GestureResconisers to set the what happens if the Frame is Dragged/Dropped or Tapped on-->
                             <Frame.GestureRecognizers>
 
                                 <DragGestureRecognizer CanDrag="True" 
-                                                       DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedCommand}" 
-                                                       DragStartingCommandParameter="{Binding .}"
-                                                       />
-
+                                   DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedCommand}" 
+                                   DragStartingCommandParameter="{Binding .}"
+                                   />
 
                                 <DropGestureRecognizer AllowDrop="True" 
-                                                       DropCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedOverCommand}"
-                                                       DropCommandParameter="{Binding .}"
-                                                       />
+                                   DropCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedOverCommand}"
+                                   DropCommandParameter="{Binding .}"
+                                   />
 
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskPressedCommand}"
-                                                      CommandParameter="{Binding .}"/>
+                                  CommandParameter="{Binding .}"/>
 
                             </Frame.GestureRecognizers>
 
+                            <!--Triggers that change the colour of the background based on the taskDeadlineColour Value-->
                             <Frame.Triggers>
                                 <DataTrigger TargetType="Frame" Binding="{Binding taskTimeDeadlineColour}" Value="Red">
                                     <Setter Property="BackgroundColor" Value="Red"/>
@@ -178,6 +191,7 @@
 
                             </Frame.Triggers>
 
+                            <!--Grid that displays all the Data of the task-->
                             <Grid 
                                 RowDefinitions="25"
                                 ColumnDefinitions=".4*,.45*,.15*"
@@ -189,11 +203,10 @@
 
                                 <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent"/>
 
-                                <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="LightGray"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}"/>
+                                <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}"/>
 
                             </Grid>
-
 
                         </Frame>
 
@@ -203,6 +216,7 @@
 
             </CollectionView>
 
+            <!--Frame that Holds the New Task Button-->
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="4" Grid.Column="1" >
 
                 <Label Text="New Task" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1"/>

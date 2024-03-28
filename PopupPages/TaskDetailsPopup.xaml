@@ -8,7 +8,7 @@
 
     <ScrollView VerticalOptions="Center" >
 
-        <Frame BackgroundColor="LightGrey" WidthRequest="300" MaximumWidthRequest="300" >
+        <Frame BackgroundColor="LightGrey" Padding="0,5" >
 
             <Grid
                 RowDefinitions="*,*,*,*,*,*"

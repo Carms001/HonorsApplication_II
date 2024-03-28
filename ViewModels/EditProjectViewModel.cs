@@ -57,9 +57,9 @@ namespace HonorsApplication_II.ViewModels
             if (confrim) 
             {
 
-                if (Name != null && !Name.Equals(Project.projectName)){ Project.projectName = Name;}
+                if (Name != null && !Name.Equals(Project.projectName)){ Project.projectName = Name;}else if(Name == null) { Project.projectName = "Unnamed Project";}
 
-                if (Description != null && !Description.Equals(Project.projectDescription)) { Project.projectDescription = Description; }
+                if (Description != null && !Description.Equals(Project.projectDescription)) { Project.projectDescription = Description; } else { Project.projectDescription = "No Description"; }
 
                 if (Goal != null && !Goal.Equals(Project.projectGoal)) { Project.projectGoal = Goal; }
 
@@ -127,6 +127,26 @@ namespace HonorsApplication_II.ViewModels
             }
 
         }
+
+        [RelayCommand]
+        async Task ProjectNameInfo()
+        {
+            await functions.PopInfo("ProjectName");
+        }
+
+        [RelayCommand]
+        async Task GoalInfo()
+        {
+            await functions.PopInfo("Goal");
+        }
+
+        [RelayCommand]
+        async Task DescriptionInfo()
+        {
+            await functions.PopInfo("Description");
+        }
+
+
     }
 
 }
