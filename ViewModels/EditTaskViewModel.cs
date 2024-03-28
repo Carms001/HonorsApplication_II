@@ -54,7 +54,7 @@ namespace HonorsApplication_II.ViewModels
             if (confrim) 
             {
 
-                if (Name != null && !Name.Equals(Task.taskName)){ Task.taskName = Name;}else if(Name == null) { Task.taskName = "Unnamed Task"; }
+                if (Name != null && !Name.Equals(Task.taskName)){ Task.taskName = Name;}else if(Task.taskName == null) { Task.taskName = "Unnamed Task"; }
 
                 if (Goal != null && !Goal.Equals(Task.taskGoal)) { Task.taskGoal = Goal; }
 
@@ -87,7 +87,7 @@ namespace HonorsApplication_II.ViewModels
             if (confrim)
             {
 
-                await Shell.Current.GoToAsync(".."});
+                await Shell.Current.GoToAsync("..");
 
             }
 

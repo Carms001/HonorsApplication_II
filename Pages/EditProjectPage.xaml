@@ -10,9 +10,9 @@
 
     <!--Controls the Backbutton Navigation Behaviour-->
     <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding ReturnCommand}"
-                            IconOverride="back.png" />
+        <BackButtonBehavior IsVisible="False"/>
     </Shell.BackButtonBehavior>
+
 
     <ScrollView>
         <!--Grid that holds Frames in place-->
@@ -30,7 +30,7 @@
                     Padding="10"
                     RowSpacing="5">
 
-                    <Label Text="Task Name:" />
+                    <Label Text="Project Name:" />
                     <Entry Placeholder="{Binding Project.projectName}" Text="{Binding Name}" Grid.Row="1"/>
                     <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding ProjectNameInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
 
@@ -76,9 +76,8 @@
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="3">
 
                 <Grid
-                    ColumnDefinitions="*,*"
-                    Padding="10"
-                    RowSpacing="5">
+                    ColumnDefinitions="auto,*"
+                    ColumnSpacing="10">
 
                     <Frame BackgroundColor="DodgerBlue" BorderColor="LightGrey" CornerRadius="10">
 

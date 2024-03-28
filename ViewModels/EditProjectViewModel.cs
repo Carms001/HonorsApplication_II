@@ -57,7 +57,7 @@ namespace HonorsApplication_II.ViewModels
             if (confrim) 
             {
 
-                if (Name != null && !Name.Equals(Project.projectName)){ Project.projectName = Name;}else if(Name == null) { Project.projectName = "Unnamed Project";}
+                if (Name != null && !Name.Equals(Project.projectName)){ Project.projectName = Name;}else if(Project.projectName == null) { Project.projectName = "Unnamed Project";}
 
                 if (Description != null && !Description.Equals(Project.projectDescription)) { Project.projectDescription = Description; } else { Project.projectDescription = "No Description"; }
 

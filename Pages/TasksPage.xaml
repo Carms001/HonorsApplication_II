@@ -8,11 +8,7 @@
              x:DataType="viewmodel:TasksViewModel"
              Title="{Binding CurrentProject.projectName}">
 
-    <!--Controls the Backbutton Navigation Behaviour-->
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding ReturnCommand}"
-                        IconOverride="back.png" />
-    </Shell.BackButtonBehavior>
+
 
 
     <!-- Allows the user to Scroll Form this point -->

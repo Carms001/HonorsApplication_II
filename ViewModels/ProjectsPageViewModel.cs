@@ -143,17 +143,9 @@ namespace HonorsApplication_II.ViewModels
 
             ObservableRangeCollection<TaskClass> todoTasks = new();
 
-            var getTasks =  await functions.GetDoingTasks(currentProject.projectID);
+            doingTasks.AddRange(await functions.GetDoingTasks(currentProject.projectID));
 
-            doingTasks.AddRange(getTasks);
-
-            getTasks.Clear();
-
-            getTasks = await functions.GetToDoTasks(currentProject.projectID);
-
-            todoTasks.AddRange(getTasks);
-
-            await Refresh();
+            todoTasks.AddRange(await functions.GetToDoTasks(currentProject.projectID));
 
             //Sets the currentProject to project that was clicked on
             //Project currentProject = await dbContext.GetProjectAsync(projectID); 
