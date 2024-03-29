@@ -76,7 +76,7 @@
             <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="3">
 
                 <Grid
-                    ColumnDefinitions="auto,*"
+                    ColumnDefinitions="*,*"
                     ColumnSpacing="10">
 
                     <Frame BackgroundColor="DodgerBlue" BorderColor="LightGrey" CornerRadius="10">

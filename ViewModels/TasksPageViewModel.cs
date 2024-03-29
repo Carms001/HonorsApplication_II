@@ -41,6 +41,8 @@ namespace HonorsApplication_II.ViewModels
 
         public ProjectFunctions functions;
 
+        [ObservableProperty]
+        bool isRefreshing = false;
         //Page Constructor
         public TasksViewModel(DatabaseContext context, ProjectFunctions functionsContext)
         {
@@ -230,7 +232,9 @@ namespace HonorsApplication_II.ViewModels
 
             projects.AddRange(await dbcontext.GetAllProjectsAsync());
 
-            await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["projects"] = projects });
+            //await Shell.Current.GoToAsync(nameof(ProjectsPage), new Dictionary<string, object> { ["projects"] = projects });
+
+            await Shell.Current.GoToAsync("..");
         }
 
         [RelayCommand]
@@ -246,7 +250,7 @@ namespace HonorsApplication_II.ViewModels
 
             try
             {
-                string name = await App.Current.MainPage.DisplayPromptAsync("New Task", "Enter the name of your new Task", "Create", "Cancel");
+                string name = await App.Current.MainPage.DisplayPromptAsync("New Task", "Enter the name of your new Task, Try keep is short and sweet", "Create", "Cancel");
 
                 //Checks if name is Null
                 if (name != null)
@@ -282,6 +286,7 @@ namespace HonorsApplication_II.ViewModels
         //Refresh page refreshes the RangeCollection 
         public async Task Refresh()
         {
+            IsRefreshing = true;
 
             DoingTasks.Clear();
             TodoTasks.Clear();
@@ -290,9 +295,17 @@ namespace HonorsApplication_II.ViewModels
 
             var getTodo = await functions.GetToDoTasks(CurrentProject.projectID);
 
+            foreach (var task in getDoing) { await functions.UpdateTaskColour(task); }
+
+            foreach (var item in getTodo)
+            {
+                await functions.UpdateTaskColour(item);
+            }
+
             DoingTasks.AddRange(getDoing);
             TodoTasks.AddRange(getTodo);
 
+            IsRefreshing = false;
 
         }
     }

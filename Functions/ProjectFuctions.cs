@@ -289,8 +289,16 @@ namespace HonorsApplication_II.Functions
             {
                 task.taskDaysLeft = "Overdue";
             }
+            else if(daysLeft == 1)
+            {
+                task.taskDaysLeft = "Due Tommorow";
+            }
+            else
+            {
+                task.taskDaysLeft = "Days Left: " + daysLeft;
+            }
 
-            task.taskDaysLeft = "Days Left: " + daysLeft;
+            
   
             if(daysLeft <= 3 || due == true)
             {

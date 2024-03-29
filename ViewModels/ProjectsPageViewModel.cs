@@ -29,33 +29,36 @@ namespace HonorsApplication_II.ViewModels
 
         private ProjectFunctions functions;
 
+        [ObservableProperty]
+        bool isRefreshing = false;
+
         public ProjectsPageViewModel(DatabaseContext context, ProjectFunctions functionsContext)
         {
             dbContext = context;
             functions = functionsContext;
 
-            if (Projects == null)
-            {
-                Projects = new ObservableRangeCollection<Project>();
+            Task task = Startup();
 
-                Task task = Startup();
-            }
-            
         }
 
         async Task Startup()
         {
-            await dbContext.ResetDB();
 
-            await functions.SetUpExampleProject();
+            try
+            {
+                await dbContext.ResetDB();
 
-            ObservableRangeCollection<Project> list = new ObservableRangeCollection<Project>();
+                await functions.SetUpExampleProject();
 
-            var list2 = dbContext.GetAllProjectsAsync();
+                ObservableRangeCollection<Project> list = new ObservableRangeCollection<Project>();
 
-            list.AddRange(await list2);
+                var list2 = dbContext.GetAllProjectsAsync();
 
-            Projects = list;
+                list.AddRange(await list2);
+
+                Projects = list;
+            }catch(Exception ex) { await App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK"); }
+
 
         }
 
@@ -73,15 +76,22 @@ namespace HonorsApplication_II.ViewModels
         //Refresh page refreshes the RangeCollection 
         async Task Refresh()
         {
-            
+
+            IsRefreshing = true;
+
+
             //removes all the projects from the Projects collection
             Projects.Clear();
 
-            //gets all projects related to the active user
-            var projects = await dbContext.GetAllProjectsAsync();
+            var listOfProjects = await dbContext.GetAllProjectsAsync();
+
+            foreach (var project in listOfProjects) { await functions.UpdateProjectProgress(project); }
+
 
             //adds all the projects to the Projects collection
-            Projects.AddRange(projects);
+            Projects.AddRange(listOfProjects);
+
+            IsRefreshing = false;
 
         }
 
@@ -92,7 +102,7 @@ namespace HonorsApplication_II.ViewModels
         async Task AddProject()
         {
             //Displays a prompt to the user asking for the Project Name
-            string name = await App.Current.MainPage.DisplayPromptAsync("New Project", "Whats the name of your new Project?", "Next", "Cancel");
+            string name = await App.Current.MainPage.DisplayPromptAsync("New Project", "Whats the name of your new Project?\n\nTry keep is short and sweet.", "Next", "Cancel");
             
             //Checks if name is Null
             if (name != null)
@@ -129,7 +139,12 @@ namespace HonorsApplication_II.ViewModels
                 }
 
                 //refreshes the Project Collection
-                await Refresh();
+                Projects.Clear();
+
+                var listOfProjects = await dbContext.GetAllProjectsAsync();
+
+                //adds all the projects to the Projects collection
+                Projects.AddRange(listOfProjects);
             }
 
         }

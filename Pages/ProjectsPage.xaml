@@ -9,8 +9,10 @@
              Title="Projects"
              >
 
-    <ScrollView HorizontalOptions="Center">
+    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
     
+    <ScrollView HorizontalOptions="Center">
+
     <!-- A Grid Defining 3 Rows of Auto hieght and 3 coloumns sharing 5%, 90% & 5% of the width avalible   -->
     <Grid 
         RowDefinitions="Auto,Auto,*,Auto"
@@ -78,5 +80,6 @@
 
     </ScrollView>
 
+    </RefreshView>
 </ContentPage>
 
