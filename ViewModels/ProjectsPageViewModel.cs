@@ -46,9 +46,6 @@ namespace HonorsApplication_II.ViewModels
 
             try
             {
-                await dbContext.ResetDB();
-
-                await functions.SetUpExampleProject();
 
                 ObservableRangeCollection<Project> list = new ObservableRangeCollection<Project>();
 
@@ -57,7 +54,16 @@ namespace HonorsApplication_II.ViewModels
                 list.AddRange(await list2);
 
                 Projects = list;
+
+
             }catch(Exception ex) { await App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK"); }
+
+            if(Projects == null)
+            {
+                await dbContext.ResetDB();
+
+                await functions.SetUpExampleProject();
+            }
 
 
         }
