@@ -281,16 +281,20 @@ namespace HonorsApplication_II.Functions
             int daysLeft = dif.Days * -1;
 
             //daysLeft = daysLeft + 1;
+
+            var v1 = DateTime.Now.DayOfYear;
+            var v2 = task.taskDeadline.DayOfYear;
+            
    
-            if(daysLeft == 0) 
+            if(v1 == v2) 
             {
                 task.taskDaysLeft = "Due Today";
             }
-            else if(daysLeft < 0) 
+            else if(v2 < v1) 
             {
                 task.taskDaysLeft = "Overdue";
             }
-            else if(daysLeft == 1)
+            else if(v2-v1 == 1)
             {
                 task.taskDaysLeft = "Due Tommorow";
             }
