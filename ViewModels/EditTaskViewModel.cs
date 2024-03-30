@@ -35,7 +35,7 @@ namespace HonorsApplication_II.ViewModels
         }
 
         [ObservableProperty]
-        DateTime minDate = DateTime.Now;
+        DateTime minDate = DateTime.Today;
 
         [ObservableProperty]
         string name;
@@ -58,7 +58,20 @@ namespace HonorsApplication_II.ViewModels
 
                 if (Goal != null && !Goal.Equals(Task.taskGoal)) { Task.taskGoal = Goal; }
 
-                if (Task.taskHasDeadline) { Task.taskHasDeadline = true; } else { Task.taskHasDeadline = false; Task.taskDeadline = DateTime.MinValue; Task.taskTimeDeadlineColour = "None"; Task.taskDaysLeft = null; }
+                if (Task.taskHasDeadline) 
+                { 
+                    Task.taskHasDeadline = true;
+
+                    if(Task.taskDeadline < DateTime.Now) {  Task.taskDeadline = DateTime.Now; }
+
+                } 
+                else 
+                { 
+                    Task.taskHasDeadline = false; 
+                    Task.taskDeadline = DateTime.MinValue; 
+                    Task.taskTimeDeadlineColour = "None"; 
+                    Task.taskDaysLeft = null; 
+                }
 
                 await dbContext.UpdateTaskAsync(Task);
 

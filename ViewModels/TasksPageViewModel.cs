@@ -116,8 +116,6 @@ namespace HonorsApplication_II.ViewModels
 
                 await functions.ReOrderTasks(DoingTasks, TodoTasks, CurrentProject.projectID);
 
-
-
             }
             catch (Exception ex)
             {
@@ -125,7 +123,6 @@ namespace HonorsApplication_II.ViewModels
             }
 
         }
-
 
         [RelayCommand]
         async Task TaskDraggedOverCatagory(string catagory)
@@ -208,6 +205,7 @@ namespace HonorsApplication_II.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
             }
+
         }
 
         [RelayCommand]

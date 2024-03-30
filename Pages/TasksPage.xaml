@@ -32,7 +32,7 @@
                     RowSpacing="5"
                     ColumnSpacing="5">
 
-                        <Label Text="Doing" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold"/>
+                        <Label Text="Doing" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold"/>
 
                         <Label Text="{Binding DoingTasks.Count}" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold"/>
 
@@ -199,7 +199,7 @@
                                 RowSpacing="5"
                                 ColumnSpacing="5">
 
-                                    <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                    <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent" VerticalOptions="Center" />
 
                                     <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center"/>
 

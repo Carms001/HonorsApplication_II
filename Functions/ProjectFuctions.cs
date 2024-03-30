@@ -280,6 +280,7 @@ namespace HonorsApplication_II.Functions
 
             int daysLeft = dif.Days * -1;
 
+            //daysLeft = daysLeft + 1;
    
             if(daysLeft == 0) 
             {
