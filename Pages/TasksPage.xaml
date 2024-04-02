@@ -17,38 +17,111 @@
 
             <!--Grid that holds Frames/CollectionViews in place-->
             <Grid 
-            RowDefinitions="Auto,Auto,Auto,*,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto,Auto"
             ColumnDefinitions=".01*, .98*, .01*" 
-            Padding="10"
-            RowSpacing="10"
+            Padding="5"
+            RowSpacing="5"
             ColumnSpacing="10">
 
+
+                <Frame Grid.Column="1" Grid.Row="0" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70" Margin="1">
+
+                    <Grid
+                        ColumnDefinitions=".1*,.8*,.1*"
+                        Padding="1"
+                        ColumnSpacing="5">
+
+                        <Label Text="{Binding DoneTasks.Count}" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
+
+                        <Label Text="Done" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold" FontSize="Micro"/>
+
+                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoneInfoCommand}" MaximumHeightRequest="25"/>
+
+                    </Grid>
+
+                    <!--GestserReconizer that tells when something was dropped over it-->
+                    <Frame.GestureRecognizers>
+                        <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="Done"/>
+                        <TapGestureRecognizer Command="{Binding DoneTasksHideCommand}"/>
+
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--CollectionView that displays all the "Doing"-->
+                <CollectionView ItemsSource="{Binding DoneTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True" IsVisible="{Binding DoneHidden}">
+
+                    <!--Outlines the template used to display the tasks-->
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate x:DataType="models:Task">
+
+                            <Frame Padding="10,5" BackgroundColor="Transparent" BorderColor="LightGrey" Margin="1">
+
+                                <!--GestureResconisers to set the what happens if the Frame is Dragged/Dropped or Tapped on-->
+                                <Frame.GestureRecognizers>
+
+                                    <DragGestureRecognizer CanDrag="True" 
+                                       DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedCommand}" 
+                                       DragStartingCommandParameter="{Binding .}"
+                                       />
+
+                                    <DropGestureRecognizer AllowDrop="True" 
+                                       DropCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskDraggedOverCommand}"
+                                       DropCommandParameter="{Binding .}"
+                                       />
+
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskPressedCommand}"
+                                      CommandParameter="{Binding .}"/>
+
+                                </Frame.GestureRecognizers>
+
+                                <!--Grid that displays all the Data of the task-->
+                                <Grid 
+                                    RowDefinitions="Auto"
+                                    ColumnDefinitions=".1*,.8*,.1*"
+                                    Padding="1"
+                                    RowSpacing="1"
+                                    ColumnSpacing="5">
+
+                                    <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent" Grid.Column="1" HorizontalOptions="Center"/>
+
+                                </Grid>
+
+                            </Frame>
+
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
                 <!--Frame that holds the "Doing" Header-->
-                <Frame Grid.Column="1" Grid.Row="0" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
+                <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70" Margin="1">
 
                     <Grid
                     ColumnDefinitions=".1*,.8*,.1*"
-                    Padding="5"
-                    RowSpacing="5"
+                    Padding="1"
                     ColumnSpacing="5">
 
-                        <Label Text="Doing" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold"/>
+                        <Label Text="{Binding DoingTasks.Count}" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
+                        
+                        <Label Text="Doing" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold" FontSize="Micro"/>
 
-                        <Label Text="{Binding DoingTasks.Count}" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold"/>
-
-                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoingInfoCommand}" MaximumHeightRequest="30"/>
+                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoingInfoCommand}" MaximumHeightRequest="25"/>
 
                     </Grid>
 
                     <!--GestserReconizer that tells when something was dropped over it-->
                     <Frame.GestureRecognizers>
                         <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="Doing"/>
+                        <TapGestureRecognizer Command="{Binding DoingTasksHideCommand}"/>
                     </Frame.GestureRecognizers>
 
                 </Frame>
 
                 <!--CollectionView that displays all the "Doing"-->
-                <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True">
+                <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True" IsVisible="{Binding DoingHidden}">
 
                     <!--Outlines the template used to display the tasks-->
                     <CollectionView.ItemTemplate>
@@ -56,7 +129,7 @@
 
                         <DataTemplate x:DataType="models:Task">
 
-                            <Frame Padding="10,5" BackgroundColor="Transparent">
+                            <Frame Padding="10,5" BackgroundColor="Transparent" Margin="1">
 
                                 <!--GestureResconisers to set the what happens if the Frame is Dragged/Dropped or Tapped on-->
                                 <Frame.GestureRecognizers>
@@ -97,12 +170,11 @@
 
                                 <!--Grid that displays all the Data of the task-->
                                 <Grid 
-                               RowDefinitions="Auto"
-                               ColumnDefinitions=".4*,.45*,.15*"
-                               Padding="5"
-
-                               RowSpacing="5"
-                               ColumnSpacing="5">
+                                    RowDefinitions="Auto"
+                                    ColumnDefinitions=".4*,.45*,.15*"
+                                    Padding="1"
+                                    RowSpacing="1"
+                                    ColumnSpacing="5">
 
                                     <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
@@ -122,29 +194,30 @@
                 </CollectionView>
 
                 <!--Frame that holds the "To-Do" Header-->
-                <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10">
+                <Frame Grid.Column="1" Grid.Row="4" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70" Margin="1">
 
                     <Grid
                     ColumnDefinitions=".1*,.8*,.1*"
-                    Padding="5"
+                    Padding="1"
                     ColumnSpacing="5">
 
-                        <Label Text="To-Do" HorizontalOptions="Center" FontAttributes="Bold" BackgroundColor="Transparent" Grid.Column="1"/>
+                        <Label Text="{Binding TodoTasks.Count}" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
+                        
+                        <Label Text="To-Do" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold" FontSize="Micro"/>
 
-                        <Label Text="{Binding TodoTasks.Count}" BackgroundColor="Transparent" FontAttributes="Bold"/>
-
-                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding ToDoInfoCommand}" MaximumHeightRequest="30"/>
+                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding ToDoInfoCommand}" MaximumHeightRequest="25"/>
 
                     </Grid>
                     <!--GestserReconizer that tells when something was dropped over it-->
                     <Frame.GestureRecognizers>
                         <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="To-Do"/>
+                        <TapGestureRecognizer Command="{Binding To_DoTasksHideCommand}"/>
                     </Frame.GestureRecognizers>
 
                 </Frame>
 
                 <!--GestserReconizer that tells when something was dropped over it-->
-                <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True">
+                <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="5" CanReorderItems="True" IsVisible="{Binding To_DoHidden}" >
 
 
                     <CollectionView.ItemTemplate>
@@ -152,7 +225,7 @@
 
                         <DataTemplate x:DataType="models:Task">
 
-                            <Frame Padding="10,5" BackgroundColor="Transparent">
+                            <Frame Padding="10,5" BackgroundColor="Transparent" Margin="1">
 
                                 <!--GestureResconisers to set the what happens if the Frame is Dragged/Dropped or Tapped on-->
                                 <Frame.GestureRecognizers>
@@ -195,11 +268,11 @@
                                 <Grid 
                                 RowDefinitions="Auto"
                                 ColumnDefinitions=".4*,.45*,.15*"
-                                Padding="5"
-                                RowSpacing="5"
+                                Padding="1"
+                                RowSpacing="1"
                                 ColumnSpacing="5">
 
-                                    <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"  />
+                                    <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
                                     <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center"/>
 
@@ -216,8 +289,19 @@
 
                 </CollectionView>
 
+                <Frame BackgroundColor="Red" BorderColor="LightGrey" CornerRadius="10" Grid.Row="7" Grid.Column="1" IsVisible="{Binding DeleteHidden}" >
+
+                    <Label Text="Delete Task" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1"/>
+
+                    <!--GestserReconizer that tells when something was dropped over it-->
+                    <Frame.GestureRecognizers>
+                        <DropGestureRecognizer DropCommand="{Binding TaskDraggedOverCatagoryCommand}" DropCommandParameter="Delete"/>
+                    </Frame.GestureRecognizers>
+                    
+                </Frame>
+                
                 <!--Frame that Holds the New Task Button-->
-                <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="4" Grid.Column="1" >
+                <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="8" Grid.Column="1" >
 
                     <Label Text="New Task" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1"/>
 

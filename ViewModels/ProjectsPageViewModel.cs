@@ -43,6 +43,10 @@ namespace HonorsApplication_II.ViewModels
 
         async Task Startup()
         {
+            bool noProject = true;
+            bool seenExample = true;
+
+            bool needReset = false;
 
             try
             {
@@ -55,15 +59,26 @@ namespace HonorsApplication_II.ViewModels
 
                 Projects = list;
 
+                foreach (var project in Projects) 
+                { 
+                    if(project.projectName.Equals("Example Project")) { seenExample = true; }
+                    if (!project.projectIsComplete) { noProject = false; }
+                
+                }
+
 
             }catch(Exception ex) { await App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK"); }
 
-            if(Projects == null)
+            if(Projects == null || needReset)
             {
                 await dbContext.ResetDB();
 
                 await functions.SetUpExampleProject();
+
+                seenExample = true;
             }
+
+            if(noProject && !seenExample) { await functions.SetUpExampleProject(); seenExample = true; }
 
 
         }
@@ -164,15 +179,19 @@ namespace HonorsApplication_II.ViewModels
 
             ObservableRangeCollection<TaskClass> todoTasks = new();
 
+            ObservableRangeCollection<TaskClass> doneTasks = new();
+
             doingTasks.AddRange(await functions.GetDoingTasks(currentProject.projectID));
 
             todoTasks.AddRange(await functions.GetToDoTasks(currentProject.projectID));
+
+            doneTasks.AddRange(await functions.GetDoneTasks(currentProject.projectID));
 
             //Sets the currentProject to project that was clicked on
             //Project currentProject = await dbContext.GetProjectAsync(projectID); 
 
             //Sends user the the TasksPage with the Project Object and a collection of non-Complete Tasks
-            await Shell.Current.GoToAsync(nameof(Tasks), new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });
+            await Shell.Current.GoToAsync(nameof(Tasks), new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks, ["doneTasks"] = doneTasks });
 
         }
 

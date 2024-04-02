@@ -60,8 +60,9 @@
 
                                 <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" Grid.Row="3" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}"
                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProjectsPageViewModel}}, Path=ProjectOptionsCommand}" CommandParameter="{Binding .}" HeightRequest="30"/>
-
+                            
                             <ProgressBar Grid.Row="4" Grid.ColumnSpan="3" Progress="{Binding projectProgress}" ProgressColor="Green" HeightRequest="10" BackgroundColor="Transparent"/>
+                            
 
                         </Grid>
 

@@ -78,16 +78,18 @@ namespace HonorsApplication_II.ViewModels
                 Project currentProject = await dbContext.GetProjectAsync(Task.projectID);
                 ObservableRangeCollection<TaskClass> doingTasks = new ObservableRangeCollection<TaskClass>();
                 ObservableRangeCollection<TaskClass> todoTasks = new ObservableRangeCollection<TaskClass>();
+                ObservableRangeCollection<TaskClass> doneTasks = new ObservableRangeCollection<TaskClass>();
 
                 await functions.UpdateTaskColour(Task);
 
                 doingTasks.AddRange(await functions.GetDoingTasks(Task.projectID));
                 todoTasks.AddRange(await functions.GetToDoTasks(Task.projectID));
+                doneTasks.AddRange(await functions.GetDoneTasks(Task.projectID));
 
 
                 //await tasksPage.Refresh();
 
-                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks});
+                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks, ["doneTasks"] = doneTasks });
             }
         }
 
@@ -119,16 +121,18 @@ namespace HonorsApplication_II.ViewModels
                 Project currentProject = await dbContext.GetProjectAsync(Task.projectID);
                 ObservableRangeCollection<TaskClass> doingTasks = new ObservableRangeCollection<TaskClass>();
                 ObservableRangeCollection<TaskClass> todoTasks = new ObservableRangeCollection<TaskClass>();
+                ObservableRangeCollection<TaskClass> doneTasks = new ObservableRangeCollection<TaskClass>();
 
                 await functions.UpdateTaskColour(Task);
 
                 doingTasks.AddRange(await functions.GetDoingTasks(Task.projectID));
                 todoTasks.AddRange(await functions.GetToDoTasks(Task.projectID));
+                doneTasks.AddRange(await functions.GetDoneTasks(Task.projectID));
 
 
                 //await tasksPage.Refresh();
 
-                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });
+                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks, ["doneTasks"] = doneTasks });
             }
 
         }
@@ -148,16 +152,18 @@ namespace HonorsApplication_II.ViewModels
                 Project currentProject = await dbContext.GetProjectAsync(Task.projectID);
                 ObservableRangeCollection<TaskClass> doingTasks = new ObservableRangeCollection<TaskClass>();
                 ObservableRangeCollection<TaskClass> todoTasks = new ObservableRangeCollection<TaskClass>();
+                ObservableRangeCollection<TaskClass> doneTasks = new ObservableRangeCollection<TaskClass>();
 
                 await functions.UpdateTaskColour(Task);
 
                 doingTasks.AddRange(await functions.GetDoingTasks(Task.projectID));
                 todoTasks.AddRange(await functions.GetToDoTasks(Task.projectID));
+                doneTasks.AddRange(await functions.GetDoneTasks(Task.projectID));
 
 
                 //await tasksPage.Refresh();
 
-                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks });
+                await Shell.Current.GoToAsync("..", new Dictionary<string, object> { ["project"] = currentProject, ["doingTasks"] = doingTasks, ["todoTasks"] = todoTasks, ["doneTasks"] = doneTasks });
             }
 
         }

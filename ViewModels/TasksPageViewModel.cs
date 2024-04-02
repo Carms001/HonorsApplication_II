@@ -23,6 +23,7 @@ namespace HonorsApplication_II.ViewModels
     [QueryProperty("CurrentProject", "project")]
     [QueryProperty("DoingTasks", "doingTasks")]
     [QueryProperty("TodoTasks", "todoTasks")]
+    [QueryProperty("DoneTasks", "doneTasks")]
 
 
     public partial class TasksViewModel : ObservableObject
@@ -39,10 +40,26 @@ namespace HonorsApplication_II.ViewModels
         [ObservableProperty]
         ObservableRangeCollection<TaskClass> todoTasks;
 
+        [ObservableProperty]
+        ObservableRangeCollection<TaskClass> doneTasks;
+
+        [ObservableProperty]
+        bool doneHidden = true;
+
+        [ObservableProperty]
+        bool doingHidden = true;
+
+        [ObservableProperty]
+        bool to_DoHidden = true;
+
+        [ObservableProperty]
+        bool deleteHidden = true;
+
         public ProjectFunctions functions;
 
         [ObservableProperty]
         bool isRefreshing = false;
+
         //Page Constructor
         public TasksViewModel(DatabaseContext context, ProjectFunctions functionsContext)
         {
@@ -61,6 +78,30 @@ namespace HonorsApplication_II.ViewModels
         private string catagory;
 
         [RelayCommand]
+        Task DoneTasksHide()
+        {
+            if (DoneHidden) { DoneHidden = false; } else { DoneHidden = true; }
+
+            return System.Threading.Tasks.Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        Task DoingTasksHide()
+        {
+            if (DoingHidden) { DoingHidden = false; } else { DoingHidden = true; }
+
+            return System.Threading.Tasks.Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        Task To_DoTasksHide()
+        {
+            if (To_DoHidden) { To_DoHidden = false; } else { To_DoHidden = true; }
+
+            return System.Threading.Tasks.Task.CompletedTask;
+        }
+
+        [RelayCommand]
         async Task TaskPressed (TaskClass task)
         {
             await MopupService.Instance.PushAsync(new PopupPages.TaskDetailsPopup(task), true );
@@ -71,12 +112,15 @@ namespace HonorsApplication_II.ViewModels
         {
 
             taskDragged = task;
+            DeleteHidden = true;
 
         }
 
         [RelayCommand]
         async Task TaskDraggedOver(TaskClass task)
         {
+            DeleteHidden = false;
+
             try
             {
                 var taskToMove = taskDragged;
@@ -130,6 +174,8 @@ namespace HonorsApplication_II.ViewModels
             try
             {
 
+                DeleteHidden = false;
+
                 var task = taskDragged;
 
                 Catagory = catagory;
@@ -138,10 +184,24 @@ namespace HonorsApplication_II.ViewModels
                 if (Catagory != null)
                 {
 
-                    if ((Catagory.Equals("Doing") && task.taskCatagory.Equals("Doing")) || (Catagory.Equals("To-Do") && task.taskCatagory.Equals("To-Do")))
+                    if (Catagory.Equals("Done") && !task.taskCatagory.Equals("Done"))
+                    {
+                        bool confrim = await App.Current.MainPage.DisplayAlert("Completing Task", "Are you use you want to mark this task as done?", "Yes", "No");
+
+                        if (confrim)
+                        {
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+
+                    if ((Catagory.Equals("Doing") && task.taskCatagory.Equals("Doing")) || (Catagory.Equals("To-Do") && task.taskCatagory.Equals("To-Do")) || (Catagory.Equals("Done") && task.taskCatagory.Equals("Done")))
                     {
 
-                        await App.Current.MainPage.DisplayAlert("Error", "Something went wrong", "OK");
+                        return;
 
                     }
                     else
@@ -153,15 +213,18 @@ namespace HonorsApplication_II.ViewModels
 
                                 if(DoingTasks.Count >= 3)
                                 {
-                                    bool confrim = await App.Current.MainPage.DisplayAlert("Too Many Doing Tasks", "You have " + DoingTasks.Count + " Doing tasks already! You can add another but try focus on the tasks you have already started!", "Add", "Cancel");
+                                    bool confrim2 = await App.Current.MainPage.DisplayAlert("Too Many Doing Tasks", "You have " + DoingTasks.Count + " Doing tasks already! You can add another but try focus on the tasks you have already started!", "Add", "Cancel");
 
-                                    if (confrim)
+                                    if (confrim2)
                                     {
                                         task.taskCatagory = "Doing";
+                                        task.taskComplete = false;
+                                        task.taskCompleteDate = DateTime.MinValue;
 
                                         await dbcontext.UpdateTaskAsync(task);
 
                                         TodoTasks.Remove(task);
+                                        DoneTasks.Remove(task);
                                         DoingTasks.Add(task);
                                     }
                                     else { return; }
@@ -169,10 +232,13 @@ namespace HonorsApplication_II.ViewModels
                                 else 
                                 {
                                     task.taskCatagory = "Doing";
+                                    task.taskComplete = false;
+                                    task.taskCompleteDate = DateTime.MinValue;
 
                                     await dbcontext.UpdateTaskAsync(task);
-
+                                   
                                     TodoTasks.Remove(task);
+                                    DoneTasks.Remove(task);
                                     DoingTasks.Add(task);
                                 }
   
@@ -181,11 +247,47 @@ namespace HonorsApplication_II.ViewModels
                             case "To-Do":
 
                                 task.taskCatagory = "To-Do";
+                                task.taskComplete = false;
+                                task.taskCompleteDate = DateTime.MinValue;
+
+                                await dbcontext.UpdateTaskAsync(task);
+
+                                DoneTasks.Remove(task);
+                                DoingTasks.Remove(task);
+                                TodoTasks.Add(task);
+
+                                break;
+
+                            case "Done":
+
+                                task.taskCatagory = "Done";
+                                task.taskComplete = true;
+                                task.taskCompleteDate = DateTime.Now;
 
                                 await dbcontext.UpdateTaskAsync(task);
 
                                 DoingTasks.Remove(task);
-                                TodoTasks.Add(task);
+                                TodoTasks.Remove(task);
+                                DoneTasks.Add(task);
+
+                                break;
+
+                            case "Delete":
+
+                                bool confrim = await App.Current.MainPage.DisplayAlert("Delete Task", "Are you sure you want to delete this task?", "Yes", "No");
+
+                                if (confrim)
+                                {
+                                    DoingTasks.Remove(task);
+                                    TodoTasks.Remove(task);
+                                    DoneTasks.Remove(task);
+
+                                    await dbcontext.DeleteTaskAsync(task.taskID);
+                                }
+                                else
+                                {
+                                    return;
+                                }
 
                                 break;
                         }
@@ -219,6 +321,9 @@ namespace HonorsApplication_II.ViewModels
         {
             await functions.PopInfo("To-Do");
         }
+
+        [RelayCommand]
+        async Task DoneInfo() { await functions.PopInfo("Done"); }
 
         [RelayCommand]
         async Task Return()
@@ -288,10 +393,13 @@ namespace HonorsApplication_II.ViewModels
 
             DoingTasks.Clear();
             TodoTasks.Clear();
+            DoneTasks.Clear();
 
             var getDoing = await functions.GetDoingTasks(CurrentProject.projectID);
 
             var getTodo = await functions.GetToDoTasks(CurrentProject.projectID);
+
+            var getDone = await functions.GetDoneTasks(CurrentProject.projectID);
 
             foreach (var task in getDoing) { await functions.UpdateTaskColour(task); }
 
@@ -300,8 +408,11 @@ namespace HonorsApplication_II.ViewModels
                 await functions.UpdateTaskColour(item);
             }
 
+            
+
             DoingTasks.AddRange(getDoing);
             TodoTasks.AddRange(getTodo);
+            DoneTasks.AddRange(getDone);
 
             IsRefreshing = false;
 

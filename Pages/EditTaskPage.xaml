@@ -74,7 +74,7 @@
 
                             <!--DataTrigger that triggers according to if the Checkbox is checked or not-->
                             <DataTrigger TargetType="DatePicker" Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked }" Value="false">
-                                
+
                                 <!--Sets the DatePickers Property to to or false when fired-->
                                 <Setter Property="IsEnabled" Value="false"/>
 
@@ -83,41 +83,10 @@
                         </DatePicker.Triggers>
 
                     </DatePicker>
-                    
+
                     <!--CheckBox that is set to the above data trigger-->
-                    
+
                     <Button ImageSource="ic_fluent_info_24_filled.svg" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DeadlineInfoCommand}" MaximumHeightRequest="30" Grid.Column="1" Grid.Row="1"/>
-
-                </Grid>
-
-            </Frame>
-
-            <!--Frame that holds the Task Comeplete/Delete Buttons-->
-            <Frame BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" Grid.Row="3">
-
-                <Grid
-                    ColumnDefinitions="*,*"
-                    ColumnSpacing="10">
-
-                    <Frame BackgroundColor="DodgerBlue" BorderColor="LightGrey" CornerRadius="10">
-
-                        <Label Text="Complete Task" HorizontalOptions="Center" VerticalOptions="Center"/>
-
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CompleteCommand}"/>
-                        </Frame.GestureRecognizers>
-
-                    </Frame>
-
-                    <Frame BackgroundColor="Red" BorderColor="LightGrey" CornerRadius="10" Grid.Column="1">
-
-                        <Label Text="Delete Task" HorizontalOptions="Center" VerticalOptions="Center"/>
-
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding DeleteCommand}"/>
-                        </Frame.GestureRecognizers>
-
-                    </Frame>
 
                 </Grid>
 
