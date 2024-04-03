@@ -330,6 +330,15 @@ namespace HonorsApplication_II.Functions
 
             switch (choice)
             {
+                case "Done":
+
+                    text = "The Done catagry shows all the tasks that are marked as complete or done.\n\n" +
+                        "To Mark a task as done, drag the task over the done catagory.\n\n" +
+                        "If you want to unmark something drag the task into the respective task catagory";
+
+                    await MopupService.Instance.PushAsync(new PopupPages.ExtraInfoPopup(text), true);
+                    break;
+
                 case "Doing":
 
                     text = "The 'Doing' column shows the tasks that are activly being worked on!\n\n" +

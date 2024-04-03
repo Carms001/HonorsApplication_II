@@ -44,7 +44,7 @@ namespace HonorsApplication_II.ViewModels
         ObservableRangeCollection<TaskClass> doneTasks;
 
         [ObservableProperty]
-        bool doneHidden = true;
+        bool doneHidden = false;
 
         [ObservableProperty]
         bool doingHidden = true;
@@ -53,7 +53,7 @@ namespace HonorsApplication_II.ViewModels
         bool to_DoHidden = true;
 
         [ObservableProperty]
-        bool deleteHidden = true;
+        bool deleteHidden = false;
 
         public ProjectFunctions functions;
 
@@ -127,7 +127,7 @@ namespace HonorsApplication_II.ViewModels
                 var taskToInsertBefore = task;
                 string catagory = task.taskCatagory;
 
-                if (taskToMove == taskToInsertBefore || taskToMove == null || taskToInsertBefore == null || taskToMove.taskCatagory != taskToInsertBefore.taskCatagory) { return; }
+                if (taskToMove == null || taskToInsertBefore == null || taskToMove.taskCatagory != taskToInsertBefore.taskCatagory) { return; }
 
                 int insertAtIndex;
 
@@ -148,7 +148,7 @@ namespace HonorsApplication_II.ViewModels
                     case "To-Do":
                         insertAtIndex = TodoTasks.IndexOf(taskToInsertBefore);
 
-                        if (insertAtIndex >= 0 && insertAtIndex < DoingTasks.Count)
+                        if (insertAtIndex >= 0 && insertAtIndex < TodoTasks.Count)
                         {
                             TodoTasks.Remove(taskToMove);
                             TodoTasks.Insert(insertAtIndex, taskToMove);
@@ -211,7 +211,7 @@ namespace HonorsApplication_II.ViewModels
                         {
                             case "Doing":
 
-                                if(DoingTasks.Count >= 3)
+                                if(DoingTasks.Count >= 1)
                                 {
                                     bool confrim2 = await App.Current.MainPage.DisplayAlert("Too Many Doing Tasks", "You have " + DoingTasks.Count + " Doing tasks already! You can add another but try focus on the tasks you have already started!", "Add", "Cancel");
 
