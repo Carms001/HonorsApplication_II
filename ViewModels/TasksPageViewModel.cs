@@ -47,13 +47,7 @@ namespace HonorsApplication_II.ViewModels
         bool doneHidden = true;
 
         [ObservableProperty]
-        bool doingHidden = true;
-
-        [ObservableProperty]
-        bool to_DoHidden = true;
-
-        [ObservableProperty]
-        bool deleteHidden = true;
+        bool deleteHidden = false;
 
         public ProjectFunctions functions;
 
@@ -81,22 +75,6 @@ namespace HonorsApplication_II.ViewModels
         Task DoneTasksHide()
         {
             if (DoneHidden) { DoneHidden = false; } else { DoneHidden = true; }
-
-            return System.Threading.Tasks.Task.CompletedTask;
-        }
-
-        [RelayCommand]
-        Task DoingTasksHide()
-        {
-            if (DoingHidden) { DoingHidden = false; } else { DoingHidden = true; }
-
-            return System.Threading.Tasks.Task.CompletedTask;
-        }
-
-        [RelayCommand]
-        Task To_DoTasksHide()
-        {
-            if (To_DoHidden) { To_DoHidden = false; } else { To_DoHidden = true; }
 
             return System.Threading.Tasks.Task.CompletedTask;
         }

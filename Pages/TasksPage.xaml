@@ -24,18 +24,18 @@
             ColumnSpacing="10">
 
 
-                <Frame Grid.Column="1" Grid.Row="0" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70" Margin="1">
+                <Frame Grid.Column="1" Grid.Row="0" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70" >
 
                     <Grid
                         ColumnDefinitions=".1*,.8*,.1*"
-                        Padding="1"
+                        Padding="5"
                         ColumnSpacing="5">
 
-                        <Label Text="{Binding DoneTasks.Count}" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
+                        <Label Text="{Binding DoneTasks.Count}"  BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
 
-                        <Label Text="Done" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold" FontSize="Micro"/>
+                        <Label Text="Done"  HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold" FontSize="Micro"/>
 
-                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoneInfoCommand}" MaximumHeightRequest="25"/>
+                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2"  HorizontalOptions="Center" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoneInfoCommand}" MaximumHeightRequest="25"/>
 
                     </Grid>
 
@@ -49,7 +49,7 @@
                 </Frame>
 
                 <!--CollectionView that displays all the "Doing"-->
-                <CollectionView ItemsSource="{Binding DoneTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True" IsVisible="{Binding DoneHidden}">
+                <CollectionView ItemsSource="{Binding DoneTasks}" Grid.Column="1" Grid.Row="1" CanReorderItems="True" IsVisible="{Binding DoneHidden}" Margin="3" HorizontalOptions="Center">
 
                     <!--Outlines the template used to display the tasks-->
                     <CollectionView.ItemTemplate>
@@ -97,11 +97,11 @@
                 </CollectionView>
 
                 <!--Frame that holds the "Doing" Header-->
-                <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70" Margin="1">
+                <Frame Grid.Column="1" Grid.Row="2" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70">
 
                     <Grid
                     ColumnDefinitions=".1*,.8*,.1*"
-                    Padding="1"
+                    Padding="5"
                     ColumnSpacing="5">
 
                         <Label Text="{Binding DoingTasks.Count}" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
@@ -121,7 +121,7 @@
                 </Frame>
 
                 <!--CollectionView that displays all the "Doing"-->
-                <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True" IsVisible="{Binding DoingHidden}">
+                <CollectionView ItemsSource="{Binding DoingTasks}" Grid.Column="1" Grid.Row="3" CanReorderItems="True" Margin="3" HorizontalOptions="Center">
 
                     <!--Outlines the template used to display the tasks-->
                     <CollectionView.ItemTemplate>
@@ -172,7 +172,7 @@
                                 <Grid 
                                     RowDefinitions="Auto"
                                     ColumnDefinitions=".4*,.45*,.15*"
-                                    Padding="1"
+                                    Padding="5"
                                     RowSpacing="1"
                                     ColumnSpacing="5">
 
@@ -194,11 +194,11 @@
                 </CollectionView>
 
                 <!--Frame that holds the "To-Do" Header-->
-                <Frame Grid.Column="1" Grid.Row="4" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70" Margin="1">
+                <Frame Grid.Column="1" Grid.Row="4" BackgroundColor="Transparent" BorderColor="LightGrey" CornerRadius="10" HeightRequest="70">
 
                     <Grid
                     ColumnDefinitions=".1*,.8*,.1*"
-                    Padding="1"
+                    Padding="5"
                     ColumnSpacing="5">
 
                         <Label Text="{Binding TodoTasks.Count}" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
@@ -217,7 +217,7 @@
                 </Frame>
 
                 <!--GestserReconizer that tells when something was dropped over it-->
-                <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="5" CanReorderItems="True" IsVisible="{Binding To_DoHidden}" >
+                <CollectionView ItemsSource="{Binding TodoTasks}" Grid.Column="1" Grid.Row="5" CanReorderItems="True"  Margin="5" HorizontalOptions="Center">
 
 
                     <CollectionView.ItemTemplate>
