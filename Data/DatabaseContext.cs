@@ -36,10 +36,10 @@ namespace HonorsApplication_II.Data
                 db = new SQLiteAsyncConnection(databasePath);
 
                 //Create Tables
-                await db.CreateTableAsync<LocalUser>();
+
                 await db.CreateTableAsync<Project>();
                 await db.CreateTableAsync<TaskClass>();
-                await db.CreateTableAsync<subTask>();
+
 
             }
 
@@ -55,10 +55,10 @@ namespace HonorsApplication_II.Data
             if(db != null)
             {
                 //Drops tables
-                await db.DropTableAsync<subTask>();
+
                 await db.DropTableAsync<TaskClass>();
                 await db.DropTableAsync<Project>();
-                await db.DropTableAsync<LocalUser>();
+
 
                 //Removes the Database Connection
                 db = null;
@@ -68,47 +68,7 @@ namespace HonorsApplication_II.Data
         }
 
         //=================================================================================
-        //LocalUser
-
-        // Method to add a new user
-        public async Task AddUserAsync(LocalUser user)
-        {
-            //Checks the database is initalised
-            await Init();
-
-            //Adds new user to the database
-            await db.InsertAsync(user);
-
-            
-        }
-
-        // Retrieve a user by ID asynchronously
-        public async Task<LocalUser> GetUserAsync(int userId)
-        {
-            await Init();
-
-            return await db.Table<LocalUser>().FirstOrDefaultAsync(u => u.userID == userId);
-        }
-
-        // Update a user asynchronously
-        public  async Task UpdateUserAsync(LocalUser user)
-        {
-            await Init();
-
-            await db.UpdateAsync(user);
-        }
-
-        // Delete a user by ID asynchronously
-        public  async Task DeleteUserAsync(int userId)
-        {
-            await Init();
-
-            var user = await GetUserAsync(userId);
-            if (user != null)
-                await db.DeleteAsync(user);
-        }
-
-        //=================================================================================
+       
         //Projects
 
         // Create a new project asynchronously
@@ -236,60 +196,6 @@ namespace HonorsApplication_II.Data
             int count = tasks.Count();
             return count;
         }
-
-        //=================================================================================
-        //SubTask
-
-        // Create a new subTask asynchronously
-        public async Task AddSubTaskAsync(subTask subTask)
-        {
-            await Init();
-
-            await db.InsertAsync(subTask);
-        }
-
-        // Retrieve a subTask by ID asynchronously
-        public  async Task<subTask> GetSubTaskAsync(int subTaskId)
-        {
-            await Init();
-
-            return await db.Table<subTask>().FirstOrDefaultAsync(st => st.subTaskID == subTaskId);
-        }
-
-        // Retrieve all subTasks for a specific task asynchronously
-        public async Task<List<subTask>> GetSubTasksByTaskIdAsync(int taskId)
-        {
-            await Init();
-
-            return await db.Table<subTask>().Where(st => st.taskID == taskId).ToListAsync();
-        }
-
-        // Retrieve all subTasks asynchronously
-        public async Task<List<subTask>> GetAllSubTasksAsync()
-        {
-            await Init();
-
-            return await db.Table<subTask>().ToListAsync();
-        }
-
-        // Update a subTask asynchronously
-        public async Task UpdateSubTaskAsync(subTask subTask)
-        {
-            await Init();
-
-            await db.UpdateAsync(subTask);
-        }
-
-        // Delete a subTask by ID asynchronously
-        public async Task DeleteSubTaskAsync(int subTaskId)
-        {
-            await Init();
-
-            var subTask = await GetSubTaskAsync(subTaskId);
-            if (subTask != null)
-                await db.DeleteAsync(subTask);
-        }
-
 
     }
 }

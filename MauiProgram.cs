@@ -32,9 +32,6 @@ namespace HonorsApplication_II
             builder.Services.AddTransient<ProjectsPage>();
             builder.Services.AddTransient<ProjectsPageViewModel>();
 
-            builder.Services.AddTransient<UserSetupPage>();
-            builder.Services.AddTransient<UserSetupViewModel>();
-
             builder.Services.AddTransient<Tasks>();
             builder.Services.AddTransient<TasksViewModel>();
 

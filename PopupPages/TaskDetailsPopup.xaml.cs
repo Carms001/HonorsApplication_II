@@ -28,7 +28,6 @@ public partial class TaskDetailsPopup
 
         Catagory.Text = "Catagory: " + task.taskCatagory;
 
-        Decription.Text = "Description: " + task.taskDescription;
 
 
 

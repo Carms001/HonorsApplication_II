@@ -22,14 +22,8 @@ namespace HonorsApplication_II.ProgramClasses
         //Very Brief description of the Task
         public string taskGoal { get; set; }
 
-        //Optional** More in depth description of the task
-        public string taskDescription { get; set; }
-
         //True or False if task is complete to not
         public bool taskComplete { get; set; }
-
-        //the "Story Point" Value of the Task
-        public int taskPoints { get; set; }
 
         //The prioritisation level of the Task
         public string taskCatagory { get; set; }
