@@ -69,7 +69,7 @@ namespace HonorsApplication_II.ViewModels
 
             }catch(Exception ex) { await App.Current.MainPage.DisplayAlert("Error", ex.ToString(), "OK"); }
 
-            if(Projects == null || needReset)
+            if(Projects.Count == 0 || needReset)
             {
                 await dbContext.ResetDB();
 
@@ -126,13 +126,13 @@ namespace HonorsApplication_II.ViewModels
             string name = await App.Current.MainPage.DisplayPromptAsync("New Project", "Whats the name of your new Project?\n\nTry keep is short and sweet.", "Next", "Cancel");
             
             //Checks if name is Null
-            if (name != null)
+            if (name != null && name != string.Empty)
             {
                 //Ask the user for the project goal though a prompt
                 string goal = await App.Current.MainPage.DisplayPromptAsync("Project Goal", "Without too much detail. What is the goal of the Project?", "Create", "Cancel");
 
                 //checks if goal is null
-                if (goal != null)
+                if (goal != null )
                 {
                     //creates a new project and assinges it basic data
                     Project newProject = new Project()
@@ -166,6 +166,11 @@ namespace HonorsApplication_II.ViewModels
 
                 //adds all the projects to the Projects collection
                 Projects.AddRange(listOfProjects);
+            }
+            else
+            {
+                //If either value is null a error will aprear the user
+                await App.Current.MainPage.DisplayAlert("Error", "Please try again!", "OK");
             }
 
         }

@@ -211,7 +211,7 @@ namespace HonorsApplication_II.ViewModels
                         {
                             case "Doing":
 
-                                if(DoingTasks.Count >= 1)
+                                if(DoingTasks.Count >= 3)
                                 {
                                     bool confrim2 = await App.Current.MainPage.DisplayAlert("Too Many Doing Tasks", "You have " + DoingTasks.Count + " Doing tasks already! You can add another but try focus on the tasks you have already started!", "Add", "Cancel");
 

@@ -104,11 +104,11 @@
                     Padding="5"
                     ColumnSpacing="5">
 
-                        <Label Text="{Binding DoingTasks.Count}" VerticalOptions="Center" BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
+                        <Label Text="{Binding DoingTasks.Count}"  BackgroundColor="Transparent" Grid.Column="0" FontAttributes="Bold" FontSize="Micro"/>
                         
-                        <Label Text="Doing" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold" FontSize="Micro"/>
+                        <Label Text="Doing" HorizontalOptions="Center" BackgroundColor="Transparent" Grid.Column="1" FontAttributes="Bold" FontSize="Micro"/>
 
-                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoingInfoCommand}" MaximumHeightRequest="25"/>
+                        <Button ImageSource="ic_fluent_info_24_filled.svg" Grid.Column="2" HorizontalOptions="Center" BackgroundColor="{AppThemeBinding Dark=White, Light=White}" Command="{Binding DoingInfoCommand}" MaximumHeightRequest="25"/>
 
                     </Grid>
 
@@ -178,7 +178,7 @@
 
                                     <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
-                                    <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent"/>
+                                    <Label Text="{Binding taskDaysLeft}" Grid.Column="1"  HorizontalOptions="Center" BackgroundColor="Transparent"/>
 
                                     <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}" HeightRequest="30"/>
@@ -274,7 +274,7 @@
 
                                     <Label Text="{Binding taskName}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
-                                    <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                    <Label Text="{Binding taskDaysLeft}" Grid.Column="1" BackgroundColor="Transparent"  HorizontalOptions="Center"/>
 
                                     <Button ImageSource="ic_fluent_options_24_filled.svg" Grid.Column="2" HorizontalOptions="End" BackgroundColor="{AppThemeBinding Dark=White, Light=White}"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:TasksViewModel}}, Path=TaskOptionsCommand}" CommandParameter="{Binding .}" HeightRequest="30"/>

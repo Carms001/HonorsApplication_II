@@ -109,7 +109,7 @@ namespace HonorsApplication_II.ViewModels
         [RelayCommand]
         async Task Complete()
         {
-            bool confrim = await App.Current.MainPage.DisplayAlert("Back", "Are you sure you want to Delete this Complete?", "Yes", "Cancel");
+            bool confrim = await App.Current.MainPage.DisplayAlert("Back", "Are you sure you want to Complete this Project?", "Yes", "Cancel");
 
 
             if (confrim)
